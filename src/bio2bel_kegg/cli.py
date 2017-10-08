@@ -7,6 +7,7 @@ import logging
 import click
 
 from src.bio2bel_kegg.run import deploy_to_arty
+from src.bio2bel_kegg.manager import Manager
 
 log = logging.getLogger('pykegg')
 
@@ -32,6 +33,11 @@ def main():
 @click.option('-v', '--debug', count=True, help="Turn on debugging.")
 def build(debug):
     """Build the local version of the full Kegg."""
+    set_debug_param(debug)
+
+    m = Manager()
+    click.echo("populate tables")
+    m.populate()
 
 
 @main.command()
