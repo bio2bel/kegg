@@ -8,11 +8,11 @@ import configparser
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.bio2bel_kegg.constants import *
-from src.bio2bel_kegg.parsers.pathways import parser_pathways
-from src.bio2bel_kegg.parsers.entities import parser_entity
-from src.bio2bel_kegg.models import Base, Pathway, UniProt
-from src.bio2bel_kegg.run import get_data
+from bio2bel_kegg.constants import *
+from bio2bel_kegg.parsers.pathways import parser_pathways
+from bio2bel_kegg.parsers.entities import parser_entity
+from bio2bel_kegg.models import Base, Pathway, UniProt
+from bio2bel_kegg.run import get_data
 
 import logging
 

@@ -6,8 +6,8 @@ import logging
 
 import click
 
-from src.bio2bel_kegg.run import deploy_to_arty
-from src.bio2bel_kegg.manager import Manager
+from bio2bel_kegg.run import deploy_to_arty
+from bio2bel_kegg.manager import Manager
 
 log = logging.getLogger('pykegg')
 
