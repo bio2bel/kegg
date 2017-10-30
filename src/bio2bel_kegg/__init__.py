@@ -9,5 +9,5 @@ __url__ = 'https://github.com/bio2bel/kegg'
 __author__ = 'Charles Tapley Hoyt'
 __email__ = 'charles.hoyt@scai.fraunhofer.de'
 
-__license__ = 'Apache 2.0 License'
+__license__ = 'MIT License'
 __copyright__ = 'Copyright (c) 2017 Charles Tapley Hoyt'
