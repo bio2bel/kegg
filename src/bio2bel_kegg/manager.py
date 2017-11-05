@@ -5,16 +5,16 @@ This module populates the tables of bio2bel_kegg
 """
 
 import configparser
+import logging
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from bio2bel_kegg.constants import *
-from bio2bel_kegg.parsers.pathways import parser_pathways
+from bio2bel_kegg.models import Base, Pathway, Protein
 from bio2bel_kegg.parsers.entities import parser_entity
-from bio2bel_kegg.models import Base, Pathway, UniProt
-from bio2bel_kegg.run import get_data
-
-import logging
+from bio2bel_kegg.parsers.pathways import parser_pathways
+from bio2bel_kegg.run import get_uniprot_kegg_df
 
 log = logging.getLogger(__name__)
 
@@ -23,9 +23,8 @@ class Manager(object):
     def __init__(self, connection=None):
         self.connection = self.get_connection(connection)
         self.engine = create_engine(self.connection)
-        self.sessionmake = sessionmaker(bind=self.engine, autoflush=False, expire_on_commit=False)
-        self.session = self.sessionmake()
-        self.drop_tables()  # TODO: delete?
+        self.session_maker = sessionmaker(bind=self.engine, autoflush=False, expire_on_commit=False)
+        self.session = self.session_maker()
         self.make_tables()
 
     @staticmethod
@@ -87,7 +86,7 @@ class Manager(object):
         if source is None:
             source = KEGG_PATHWAYS_URL
 
-        df = get_data(source)
+        df = get_uniprot_kegg_df(source)
 
         pathways_dict = parser_pathways(df)
 
@@ -101,21 +100,15 @@ class Manager(object):
 
         self.session.commit()
 
-    def _pathway_entity(self, uniprot_url=None):
+    def _pathway_entity(self, uniprot_kegg_url=None):
         """ Populates UniProt Tables"""
+        uniprot_df = get_uniprot_kegg_df(uniprot_kegg_url or UNIPROT_KEGG_MAPPING_URL)
 
-        if uniprot_url is None:
-            uniprot_url = KEGG_GENE_MAPPING_URL
+        for uniprot_id, kegg_id, evidence in parser_entity(uniprot_df):
+            pathway = self.session.query(Pathway).get(kegg_id)
 
-        uniprot_df = get_data(uniprot_url)
-
-        uniprots = parser_entity(uniprot_df)
-
-        for uniprot_id, reactome_id, evidence in uniprots:
-            pathway = self.session.query(Pathway).get(reactome_id)
-
-            uniprot = UniProt(
-                id=uniprot_id,
+            uniprot = Protein(
+                uniprot_id=uniprot_id,
                 pathways=pathway
             )
 

@@ -14,7 +14,7 @@ log = logging.getLogger(__name__)
 MODULE_NAME = 'kegg'
 
 
-def get_data(url):
+def get_uniprot_kegg_df(url):
     """ Converts tab separated txt files to pandas Dataframe
 
     :param url: url from kegg tab separated file
@@ -31,7 +31,7 @@ def get_values(df=None):
     :rtype: set[str]
     """
     if df is None:
-        df = get_data('FIXME') #TODO: add url
+        df = get_uniprot_kegg_df('FIXME') #TODO: add url
 
     values = set(df[1])
 
@@ -46,14 +46,14 @@ def write_belns(file=None):
     values = get_values()
 
     write_namespace(
-        namespace_name="Kegg Pathway Names",
-        namespace_keyword="Kegg",
+        namespace_name="KEGG Pathway Names",
+        namespace_keyword="KEGG",
         namespace_domain=NAMESPACE_DOMAIN_BIOPROCESS,
         author_name='Charles Tapley Hoyt',
         citation_name='FIXME',
         values=values,
         namespace_species='9606',
-        namespace_description="Reactome Pathways",
+        namespace_description="KEGG Pathways",
         author_copyright='Creative Commons by 4.0',
         functions="B",
         author_contact="charles.hoyt@scai.fraunhofer.de",

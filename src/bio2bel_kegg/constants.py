@@ -16,5 +16,5 @@ KEGG_CONFIG_FILE_PATH = os.path.join(KEGG_DATA_DIR, 'config.ini')
 
 # KEGG_PATHWAYS_URL = 'http://rest.kegg.jp/list/pathway/hsa'
 KEGG_PATHWAYS_URL = '/Users/danieldomingo/PycharmProjects/kegg/tmp_resources/hsa.txt'
-KEGG_GENE_MAPPING_URL = 'http://rest.kegg.jp/link/pathway/hsa'
+UNIPROT_KEGG_MAPPING_URL = 'http://rest.kegg.jp/link/pathway/hsa'
 KEGG_STATISTICS_URL = 'http://rest.kegg.jp/info/kegg'
