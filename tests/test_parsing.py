@@ -16,14 +16,23 @@ class TestParse(DatabaseMixin):
         protein_number = self.manager.session.query(Protein).count()
         self.assertEqual(29, protein_number)
 
-    def test_protein_pathway_1(self):
+    def test_pathway_protein_1(self):
         pathway = self.manager.get_pathway_by_id('path:hsa00030')
         self.assertIsNotNone(pathway)
         self.assertEqual(14, len(pathway.proteins))
 
-    def test_protein_pathway_2(self):
+    def test_pathway_protein_2(self):
         pathway = self.manager.get_pathway_by_id('path:hsa00010')
         self.assertIsNotNone(pathway)
-        self.assertEqual(15, len(pathway.proteins))
+        self.assertEqual(16, len(pathway.proteins))
 
-
+    def test_protein_pathway_1(self):
+        protein = self.manager.session.query(Protein).filter(Protein.protein_id == 'hsa:5214').one_or_none()
+        self.assertIsNotNone(protein)
+        self.assertEqual(2, len(protein.pathways))
+        self.assertEqual(
+            {'path:hsa00030', 'path:hsa00010', }, {
+                pathway.kegg_id
+                for pathway in protein.pathways
+            }
+        )

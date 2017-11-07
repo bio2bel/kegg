@@ -9,6 +9,7 @@ hsa:130589	path:hsa00010
 hsa:131	path:hsa00010
 hsa:160287	path:hsa00010
 hsa:1737	path:hsa00010
+hsa:5214	path:hsa00010
 hsa:1738	path:hsa00010
 hsa:2023	path:hsa00010
 hsa:2026	path:hsa00010

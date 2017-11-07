@@ -61,7 +61,7 @@ class Protein(Base):
 
     id = Column(Integer, primary_key=True)
 
-    uniprot_id = Column(String(255))
+    protein_id = Column(String(255))
 
     def __repr__(self):
         return self.id
@@ -73,5 +73,5 @@ class Protein(Base):
         return {
             FUNCTION: PROTEIN,
             NAMESPACE: 'UNIPROT',
-            IDENTIFIER: self.uniprot_id
+            IDENTIFIER: self.protein_id
         }

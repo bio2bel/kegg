@@ -109,16 +109,19 @@ class Manager(object):
         """
         protein_df = get_entity_pathway_df(url=url)
 
-        for uniprot_id, kegg_id in tqdm(parse_entity_pathway(protein_df), desc='Loading proteins'):
+        pid_protein = {}
+
+        for protein_id, kegg_id in tqdm(parse_entity_pathway(protein_df), desc='Loading proteins'):
+
+            if protein_id in pid_protein:
+                protein = pid_protein[protein_id]
+            else:
+                protein = Protein(protein_id=protein_id)
+                pid_protein[protein_id] = protein
+                self.session.add(protein)
+
             pathway = self.get_pathway_by_id(kegg_id)
-
-            uniprot = Protein(
-                uniprot_id=uniprot_id,
-            )
-
-            uniprot.pathways.append(pathway)
-
-            self.session.add(uniprot)
+            protein.pathways.append(pathway)
 
         self.session.commit()
 

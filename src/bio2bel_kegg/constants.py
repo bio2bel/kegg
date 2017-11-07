@@ -14,6 +14,11 @@ KEGG_SQLITE_PATH = 'sqlite:///' + os.path.join(KEGG_DATA_DIR, KEGG_DATABASE_NAME
 
 KEGG_CONFIG_FILE_PATH = os.path.join(KEGG_DATA_DIR, 'config.ini')
 
+# returns the list of human pathways
 KEGG_PATHWAYS_URL = 'http://rest.kegg.jp/list/pathway/hsa'
+
+#  human genes linked from each of the KEGG pathways
 PROTEIN_PATHWAY_URL = 'http://rest.kegg.jp/link/pathway/hsa'
+
+# KEGG stats
 KEGG_STATISTICS_URL = 'http://rest.kegg.jp/info/kegg'
