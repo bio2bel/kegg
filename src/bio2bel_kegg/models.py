@@ -33,7 +33,7 @@ class Pathway(Base):
     kegg_id = Column(String(255))
     name = Column(String(255))
 
-    genes = relationship(
+    proteins = relationship(
         'Protein',
         secondary=protein_pathway,
         backref='pathways'
