@@ -28,7 +28,7 @@ class Pathway(Base):
 
     __tablename__ = PATHWAY_TABLE_NAME
 
-    id = Column(String(255), primary_key=True)
+    id = Column(Integer, primary_key=True)
 
     kegg_id = Column(String(255))
     name = Column(String(255))
@@ -59,7 +59,7 @@ class Protein(Base):
 
     __tablename__ = PROTEIN_TABLE_NAME
 
-    id = Column(String(255), primary_key=True)
+    id = Column(Integer, primary_key=True)
 
     uniprot_id = Column(String(255))
 

@@ -18,4 +18,5 @@ admin.add_view(ModelView(Pathway, manager.session))
 admin.add_view(ModelView(Protein, manager.session))
 
 if __name__ == '__main__':
+    # http://localhost:5000/admin/
     app.run(debug=True, host='0.0.0.0', port=5000)
