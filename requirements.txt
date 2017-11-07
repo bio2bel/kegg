@@ -1,3 +1,7 @@
 pybel
+pybel-tools
 sqlalchemy
 pandas
+tqdm
+flask
+flask_admin

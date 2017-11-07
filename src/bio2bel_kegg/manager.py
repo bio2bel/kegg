@@ -12,9 +12,7 @@ from sqlalchemy.orm import sessionmaker
 
 from bio2bel_kegg.constants import *
 from bio2bel_kegg.models import Base, Pathway, Protein
-from bio2bel_kegg.parsers.entities import parser_entity
-from bio2bel_kegg.parsers.pathways import parser_pathways
-from bio2bel_kegg.run import get_uniprot_kegg_df
+from bio2bel_kegg.parsers import *
 
 log = logging.getLogger(__name__)
 
@@ -77,18 +75,21 @@ class Manager(object):
 
     """Custom Methods to Populate the DB"""
 
-    def _populate_pathways(self, source=None):
+    def get_pathway_by_id(self, kegg_id):
+        """Gets a pathway by its reactome id
+        :param kegg_id: kegg identifier
+        :rtype: Optional[Pathway]
+        """
+        return self.session.query(Pathway).filter(Pathway.kegg_id == kegg_id).one_or_none()
+
+    def _populate_pathways(self, url=None):
         """ Populate pathway table
 
-        :param source: path or link to data source needed for get_data()
+        :param Optional[str] url: url from pathway table file
         """
+        df = get_pathway_names_df(url=url)
 
-        if source is None:
-            source = KEGG_PATHWAYS_URL
-
-        df = get_uniprot_kegg_df(source)
-
-        pathways_dict = parser_pathways(df)
+        pathways_dict = parse_pathways(df)
 
         for id, name in pathways_dict.items():
             new_pathway = Pathway(
@@ -100,11 +101,14 @@ class Manager(object):
 
         self.session.commit()
 
-    def _pathway_entity(self, uniprot_kegg_url=None):
-        """ Populates UniProt Tables"""
-        uniprot_df = get_uniprot_kegg_df(uniprot_kegg_url or UNIPROT_KEGG_MAPPING_URL)
+    def _pathway_entity(self, url=None):
+        """ Populates Protein Tables
 
-        for uniprot_id, kegg_id, evidence in parser_entity(uniprot_df):
+        :param Optional[str] url: url from protein to pathway file
+        """
+        protein_df = get_entity_pathway_df(url=url)
+
+        for uniprot_id, kegg_id, evidence in parse_entity_pathway(protein_df):
             pathway = self.session.query(Pathway).get(kegg_id)
 
             uniprot = Protein(
@@ -114,6 +118,9 @@ class Manager(object):
 
             self.session.add(uniprot)
 
-    def populate(self):
+        self.session.commit()
+
+    def populate(self, pathways_url=None, protein_pathway_url=None):
         """ Populates all tables"""
-        self._populate_pathways()
+        self._populate_pathways(url=pathways_url)
+        self._pathway_entity(url=protein_pathway_url)

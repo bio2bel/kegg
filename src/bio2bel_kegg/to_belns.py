@@ -4,34 +4,24 @@ from __future__ import print_function
 
 import logging
 
-import pandas as pd
 from pybel.constants import NAMESPACE_DOMAIN_BIOPROCESS
 from pybel_tools.definition_utils import write_namespace
 from pybel_tools.resources import get_today_arty_namespace, deploy_namespace
+
+from bio2bel_kegg.parsers.pathways import get_pathway_names_df
 
 log = logging.getLogger(__name__)
 
 MODULE_NAME = 'kegg'
 
 
-def get_uniprot_kegg_df(url):
-    """ Converts tab separated txt files to pandas Dataframe
+def get_values(url=None):
+    """Gets the unique names from Kegg pathway names table.
 
-    :param url: url from kegg tab separated file
-    :return: dataframe of the file
-    :rtype: pandas.DataFrame
-    """
-    df = pd.read_csv(url, sep='\t', header=None)
-    return df
-
-
-def get_values(df=None):
-    """Gets the unique names from Kegg pathway names table. Combines all species.
-
+    :param Optional[str] url: A non-default URL for the KEGG table file
     :rtype: set[str]
     """
-    if df is None:
-        df = get_uniprot_kegg_df('FIXME') #TODO: add url
+    df = get_pathway_names_df(url=url)
 
     values = set(df[1])
 
