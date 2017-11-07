@@ -28,7 +28,9 @@ class Pathway(Base):
 
     __tablename__ = PATHWAY_TABLE_NAME
 
-    kegg_id = Column(String(255), primary_key=True)
+    id = Column(String(255), primary_key=True)
+
+    kegg_id = Column(String(255))
     name = Column(String(255))
 
     genes = relationship(

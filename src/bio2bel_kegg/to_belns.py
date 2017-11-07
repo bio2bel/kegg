@@ -5,8 +5,9 @@ from __future__ import print_function
 import logging
 
 from pybel.constants import NAMESPACE_DOMAIN_BIOPROCESS
-from pybel_tools.definition_utils import write_namespace
-from pybel_tools.resources import get_today_arty_namespace, deploy_namespace
+from pybel.resources.arty import get_today_arty_namespace
+from pybel.resources.definitions import write_namespace
+from pybel.resources.deploy import deploy_namespace
 
 from bio2bel_kegg.parsers.pathways import get_pathway_names_df
 

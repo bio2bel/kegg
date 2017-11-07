@@ -9,6 +9,7 @@ import logging
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from tqdm import tqdm
 
 from bio2bel_kegg.constants import *
 from bio2bel_kegg.models import Base, Pathway, Protein
@@ -91,7 +92,7 @@ class Manager(object):
 
         pathways_dict = parse_pathways(df)
 
-        for id, name in pathways_dict.items():
+        for id, name in tqdm(pathways_dict.items(), desc='Loading pathways'):
             new_pathway = Pathway(
                 kegg_id=id,
                 name=name,
@@ -108,7 +109,7 @@ class Manager(object):
         """
         protein_df = get_entity_pathway_df(url=url)
 
-        for uniprot_id, kegg_id, evidence in parse_entity_pathway(protein_df):
+        for uniprot_id, kegg_id, evidence in tqdm(parse_entity_pathway(protein_df), desc='Loading proteins'):
             pathway = self.session.query(Pathway).get(kegg_id)
 
             uniprot = Protein(
