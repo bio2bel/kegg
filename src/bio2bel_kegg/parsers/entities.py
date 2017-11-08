@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-This module parsers the Kegg pathway entities file
+This module parsers the KEGG pathway entities file
 
 """
 import pandas as pd

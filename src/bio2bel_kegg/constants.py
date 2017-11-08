@@ -22,3 +22,6 @@ PROTEIN_PATHWAY_URL = 'http://rest.kegg.jp/link/pathway/hsa'
 
 # KEGG stats
 KEGG_STATISTICS_URL = 'http://rest.kegg.jp/info/kegg'
+
+# Description KEGG endpoint
+API_KEGG_GET = 'http://rest.kegg.jp/get/{}'

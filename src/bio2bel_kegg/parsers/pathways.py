@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """
-This module parsers the Kegg pathway names file
+This module parsers the KEGG pathway names file
 
-The "Complete list of pathways" file maps the Kegg identifiers to their corresponding pathway name .
+The "Complete list of pathways" file maps the KEGG identifiers to their corresponding pathway name .
 
 """
 import pandas as pd
