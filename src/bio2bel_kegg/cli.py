@@ -9,7 +9,7 @@ import click
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.to_belns import deploy_to_arty
 
-log = logging.getLogger('pykegg')
+log = logging.getLogger(__name__)
 
 
 def set_debug(level):
@@ -31,7 +31,7 @@ def main():
 
 @main.command()
 @click.option('-v', '--debug', count=True, help="Turn on debugging.")
-def build(debug):
+def populate(debug):
     """Build the local version of the full KEGG."""
     set_debug_param(debug)
 

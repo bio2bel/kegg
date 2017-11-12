@@ -10,6 +10,7 @@ BIO2BEL_MODULE = 'kegg'
 PACKAGES = setuptools.find_packages(where='src')
 META_PATH = os.path.join('src', 'bio2bel_{}'.format(BIO2BEL_MODULE), '__init__.py')
 INSTALL_REQUIRES = [
+    'click',
     'pybel_tools',
     'pandas',
 ]
