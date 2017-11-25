@@ -4,16 +4,13 @@
 
 import os
 
+from bio2bel.utils import get_connection, get_data_dir
+
 MODULE_NAME = 'kegg'
-BIO2BEL_DIR = os.environ.get('BIO2BEL_DIRECTORY', os.path.join(os.path.expanduser('~'), '.pybel', 'bio2bel'))
-DATA_DIR = os.path.join(BIO2BEL_DIR, MODULE_NAME)
-os.makedirs(DATA_DIR, exist_ok=True)
+DATA_DIR = get_data_dir(MODULE_NAME)
+DEFAULT_CACHE_CONNECTION = get_connection(MODULE_NAME)
 
-DEFAULT_CACHE_NAME = '{}.db'.format(MODULE_NAME)
-DEFAULT_CACHE_PATH = os.path.join(DATA_DIR, DEFAULT_CACHE_NAME)
-DEFAULT_CACHE_CONNECTION = os.environ.get('BIO2BEL_CONNECTION', 'sqlite:///' + DEFAULT_CACHE_PATH)
-
-KEGG_CONFIG_FILE_PATH = os.path.join(DATA_DIR, 'config.ini')
+CONFIG_FILE_PATH = os.path.join(DATA_DIR, 'config.ini')
 
 # returns the list of human pathways
 KEGG_PATHWAYS_URL = 'http://rest.kegg.jp/list/pathway/hsa'

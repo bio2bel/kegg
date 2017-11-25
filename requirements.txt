@@ -1,4 +1,5 @@
 click
+bio2bel
 pybel
 pybel-tools
 sqlalchemy

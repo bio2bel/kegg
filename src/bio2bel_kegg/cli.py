@@ -8,6 +8,7 @@ import click
 
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.to_belns import deploy_to_arty
+from .constants import DEFAULT_CACHE_CONNECTION
 
 log = logging.getLogger(__name__)
 
@@ -49,7 +50,7 @@ def drop(debug):
 
     m = Manager()
     click.echo("drop db")
-    m.drop_tables()
+    m.drop_all()
 
 
 @main.command()
@@ -60,10 +61,12 @@ def deploy(force):
 
 
 @main.command()
-def web():
+@click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
+def web(connection):
     """Run web"""
-    from bio2bel_kegg.web import app
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    from bio2bel_kegg.web import create_app
+    app = create_app(connection=connection)
+    app.run(host='0.0.0.0', port=5000)
 
 
 if __name__ == '__main__':

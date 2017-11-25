@@ -4,14 +4,14 @@
 This module populates the tables of bio2bel_kegg
 """
 
-import configparser
 import logging
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
-from bio2bel_kegg.constants import *
+from bio2bel.utils import get_connection
+from bio2bel_kegg.constants import MODULE_NAME
 from bio2bel_kegg.models import Base, Pathway, Protein
 from bio2bel_kegg.parsers import *
 
@@ -20,45 +20,18 @@ log = logging.getLogger(__name__)
 
 class Manager(object):
     def __init__(self, connection=None):
-        self.connection = self.get_connection(connection)
+        self.connection = get_connection(MODULE_NAME, connection)
         self.engine = create_engine(self.connection)
         self.session_maker = sessionmaker(bind=self.engine, autoflush=False, expire_on_commit=False)
         self.session = self.session_maker()
-        self.make_tables()
+        self.create_all()
 
-    @staticmethod
-    def get_connection(connection=None):
-        """Return the SQLAlchemy connection string if it is set
-        :param connection: get the SQLAlchemy connection string
-        :rtype: str
-        """
-        if connection:
-            return connection
-
-        config = configparser.ConfigParser()
-
-        cfp = KEGG_CONFIG_FILE_PATH
-
-        if os.path.exists(cfp):
-            log.info('fetch database configuration from {}'.format(cfp))
-            config.read(cfp)
-            connection = config['database']['sqlalchemy_connection_string']
-            log.info('load connection string from {}: {}'.format(cfp, connection))
-            return connection
-
-        with open(cfp, 'w') as config_file:
-            config['database'] = {'sqlalchemy_connection_string': DEFAULT_CACHE_CONNECTION}
-            config.write(config_file)
-            log.info('create configuration file {}'.format(cfp))
-
-        return DEFAULT_CACHE_CONNECTION
-
-    def make_tables(self, check_first=True):
+    def create_all(self, check_first=True):
         """Create tables"""
         log.info('create table in {}'.format(self.engine.url))
         Base.metadata.create_all(self.engine, checkfirst=check_first)
 
-    def drop_tables(self):
+    def drop_all(self):
         """drops all tables in the database"""
         log.info('drop tables in {}'.format(self.engine.url))
         Base.metadata.drop_all(self.engine)
