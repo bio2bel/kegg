@@ -7,11 +7,13 @@ This module populates the tables of bio2bel_kegg
 import logging
 
 from bio2bel.utils import get_connection
+from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
+from pybel.struct.graph import BELGraph
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
-from bio2bel_kegg.constants import MODULE_NAME, DBLINKS, PROTEIN_RESOURCES
+from bio2bel_kegg.constants import MODULE_NAME, DBLINKS, PROTEIN_RESOURCES, KEGG
 from bio2bel_kegg.models import Base, Pathway, Protein
 from bio2bel_kegg.parsers import *
 
@@ -127,3 +129,69 @@ class Manager(object):
         """ Populates all tables"""
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url)
+
+
+    def get_protein_by_hgnc(self, hgnc_symbol):
+
+        NotImplemented
+
+    def get_pathway_graph(self, kegg_id):
+        """Returns a new graph corresponding to the pathway"""
+
+        pathway = self.get_pathway_by_id(kegg_id)
+
+        graph = BELGraph(
+            name='{} graph'.format(pathway.name),
+        )
+
+        pathway_node = pathway.serialize_to_pathway_node()
+
+        for protein in pathway.proteins:
+            graph.add_qualified_edge(
+                pathway_node,
+                protein.serialize_to_protein_node(),
+                relation=PART_OF,
+                citation='27899662',
+                evidence='http://www.genome.jp/kegg/'
+            )
+
+        return graph
+
+    # TODO: Add mutator decorator?
+    def enrich_kegg_pathway(self, graph):
+        """Enrich all proteins belonging to kegg pathway nodes in the graph
+
+        :param graph: A BEL Graph
+        :type graph: pybel.BELGraph
+        :type graph: pybel.BELGraph
+        :return graph: A BEL Graph
+        """
+
+        for node, data in graph.nodes(data=True):
+
+            if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == KEGG:
+                pathway = self.get_pathway_by_id(data[NAME])
+
+                for protein in pathway.proteins:
+                    graph.add_node_from_data(protein.serialize_to_protein_node())
+
+        return graph
+
+    def enrich_kegg_protein(self, graph):
+        """Enrich all kegg pathways associated with proteins in the graph
+
+        :param graph: A BEL Graph
+        :type graph: pybel.BELGraph
+        :type graph: pybel.BELGraph
+        :return graph: A BEL Graph
+        """
+
+        for node, data in graph.nodes(data=True):
+
+            if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
+                protein = self.get_protein_by_hgnc()
+
+                for pathway in protein.pathways:
+                    graph.add_node_from_data(pathway.serialize_to_pathway_node())
+
+        return graph
