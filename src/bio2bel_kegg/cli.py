@@ -32,25 +32,35 @@ def main():
 
 @main.command()
 @click.option('-v', '--debug', count=True, help="Turn on debugging.")
-def populate(debug):
+@click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
+@click.option('-d', '--delete_first', is_flag=True)
+def populate(debug, connection, delete_first):
     """Build the local version of the full KEGG."""
     set_debug_param(debug)
 
-    m = Manager()
+    m = Manager(connection=connection)
+
+    if delete_first or click.confirm('Drop first the database?'):
+        m.drop_all()
+        m.create_all()
+
     click.echo("populate tables")
     m.populate()
 
 
 @main.command()
 @click.option('-v', '--debug', count=True, help="Turn on debugging.")
-def drop(debug):
-    """Drop the Reactome database."""
+@click.option('-y', '--yes', is_flag=True)
+@click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
+def drop(debug, yes, connection):
+    """Drop the KEGG database."""
 
     set_debug_param(debug)
 
-    m = Manager()
-    click.echo("drop db")
-    m.drop_all()
+    if yes or click.confirm('Do you really want to delete the database?'):
+        m = Manager(connection=connection)
+        click.echo("drop db")
+        m.drop_all()
 
 
 @main.command()
