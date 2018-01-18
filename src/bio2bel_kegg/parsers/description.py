@@ -19,6 +19,7 @@ __all__ = [
     'parse_link_line',
     'parse_description',
     'get_description_properties',
+    'kegg_properties_to_models',
 ]
 
 
@@ -146,6 +147,15 @@ def get_description_properties(description, description_property, columns):
     }
 
 
-if __name__ == '__main__':
-    description = get_description_properties(parse_description('hsa:5214'), 'DBLINKS', ['HGNC', 'UniProt'])
-    print(description)
+def kegg_properties_to_models(kegg_attributes):
+    """Modifies the kegg attribute dictionary to match the db '{}_id' formatting
+
+    :param dict kegg_attributes: kegg description dictionary
+    :rtype: dict
+    :return: dictionary with bio2bel_kegg adapted keys
+    """
+
+    return {
+        '{}_id'.format(key.lower()): value
+        for key, value in kegg_attributes.items()
+    }

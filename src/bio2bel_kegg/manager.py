@@ -102,15 +102,19 @@ class Manager(object):
                 protein = pid_protein[kegg_protein_id]
             else:
 
+                # Get protein description from KEGG API
                 description = parse_description(kegg_protein_id)
+                # Filters out db link columns
                 protein_columns = get_description_properties(
                     description=description,
                     description_property=DBLINKS,
                     columns=PROTEIN_RESOURCES
                 )
-                print(protein_columns)
+
+                # Adapt the dict keys to match protein model columns
+                protein_columns = kegg_properties_to_models(protein_columns)
+
                 protein_columns['kegg_id'] = kegg_protein_id
-                print(protein_columns)
                 protein = Protein(**protein_columns)
                 pid_protein[kegg_protein_id] = protein
                 self.session.add(protein)
