@@ -3,8 +3,9 @@
 
 from unittest import TestCase
 
+from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 from bio2bel_kegg.models import Pathway, Protein
-from bio2bel_kegg.parsers.description import parse_description
+from bio2bel_kegg.parsers.description import parse_description, get_description_properties
 from tests.constants import DatabaseMixin
 
 
@@ -30,7 +31,7 @@ class TestParse(DatabaseMixin):
         self.assertEqual(16, len(pathway.proteins))
 
     def test_protein_pathway_1(self):
-        protein = self.manager.session.query(Protein).filter(Protein.protein_id == 'hsa:5214').one_or_none()
+        protein = self.manager.session.query(Protein).filter(Protein.kegg_id == 'hsa:5214').one_or_none()
         self.assertIsNotNone(protein)
         self.assertEqual(2, len(protein.pathways))
         self.assertEqual(
@@ -51,7 +52,7 @@ class TestDescriptionParse(TestCase):
 
         self.assertEqual(
             [('hsa00010', 'Glycolysis / Gluconeogenesis'),
-             ('hsa00030 ', 'Pentose phosphate pathway'),
+             ('hsa00030', 'Pentose phosphate pathway'),
              ('hsa00051', 'Fructose and mannose metabolism'),
              ('hsa00052', 'Galactose metabolism'),
              ('hsa01100', 'Metabolic pathways'),
@@ -63,4 +64,24 @@ class TestDescriptionParse(TestCase):
              ('hsa05230', 'Central carbon metabolism in cancer')
              ],
             PFKP_protein['PATHWAY']
+        )
+
+        self.assertEqual(
+            [('NCBI-GeneID', '5214'),
+             ('NCBI-ProteinID', 'NP_002618'),
+             ('OMIM', '171840'),
+             ('HGNC', '8878'),
+             ('Ensembl', 'ENSG00000067057'),
+             ('Vega', 'OTTHUMG00000017556'),
+             ('Pharos', 'Q01813(Tbio)'),
+             ('UniProt', 'Q01813'),
+             ],
+            PFKP_protein[DBLINKS]
+        )
+
+        description_links = get_description_properties(PFKP_protein, DBLINKS, PROTEIN_RESOURCES)
+
+        self.assertDictEqual(
+            {'HGNC': '8878', 'UniProt': 'Q01813'},
+            description_links
         )
