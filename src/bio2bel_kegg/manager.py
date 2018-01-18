@@ -7,7 +7,6 @@ This module populates the tables of bio2bel_kegg
 import logging
 
 from bio2bel.utils import get_connection
-
 from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
 from pybel.struct.graph import BELGraph
 from sqlalchemy import create_engine
@@ -15,6 +14,7 @@ from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
 from bio2bel_kegg.constants import MODULE_NAME, DBLINKS, PROTEIN_RESOURCES, KEGG
+from bio2bel_kegg.hgnc_connection import symbol_to_hgnc_id
 from bio2bel_kegg.models import Base, Pathway, Protein
 from bio2bel_kegg.parsers import *
 
@@ -50,14 +50,21 @@ class Manager(object):
 
         raise TypeError
 
-    """Custom Methods to Populate the DB"""
+    """Custom query methods"""
 
     def get_pathway_by_id(self, kegg_id):
-        """Gets a pathway by its reactome id
+        """Gets a pathway by its kegg id
         :param kegg_id: kegg identifier
         :rtype: Optional[Pathway]
         """
         return self.session.query(Pathway).filter(Pathway.kegg_id == kegg_id).one_or_none()
+
+    def get_pathway_by_name(self, pathway_name):
+        """Gets a pathway by its kegg id
+        :param pathway_name: kegg name
+        :rtype: Optional[Pathway]
+        """
+        return self.session.query(Pathway).filter(Pathway.name == pathway_name).one_or_none()
 
     def get_or_create_pathway(self, kegg_id, name=None):
         """Gets an pathway from the database or creates it
@@ -75,6 +82,31 @@ class Manager(object):
             self.session.add(pathway)
 
         return pathway
+
+    def get_protein_by_kegg_id(self, kegg_id):
+        """Gets a protein by its kegg id
+        :param kegg_id: kegg identifier
+        :rtype: Optional[Protein]
+        """
+        return self.session.query(Protein).filter(Protein.kegg_id == kegg_id).one_or_none()
+
+    def get_protein_by_hgnc_id(self, hgnc_id):
+        """Gets a protein by its hgnc id
+        :param hgnc_id: hgnc identifier
+        :rtype: Optional[Protein]
+        """
+        return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
+
+    def get_protein_by_hgnc_symbol(self, hgnc_symbol):
+        """Gets a protein by its hgnc symbol
+        :param hgnc_id: hgnc identifier
+        :rtype: Optional[Protein]
+        """
+        hgnc_id = symbol_to_hgnc_id[hgnc_symbol]
+
+        return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
+
+    """Methods to populate the DB"""
 
     def _populate_pathways(self, url=None):
         """ Populate pathway table
@@ -131,7 +163,6 @@ class Manager(object):
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url)
 
-
     def get_pathway_graph(self, kegg_id):
         """Returns a new graph corresponding to the pathway"""
 
@@ -154,7 +185,6 @@ class Manager(object):
 
         return graph
 
-    # TODO: Add mutator decorator?
     def enrich_kegg_pathway(self, graph):
         """Enrich all proteins belonging to kegg pathway nodes in the graph
 
@@ -167,10 +197,17 @@ class Manager(object):
         for node, data in graph.nodes(data=True):
 
             if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == KEGG:
-                pathway = self.get_pathway_by_id(data[NAME])
+
+                pathway = self.get_pathway_by_name(data[NAME])
 
                 for protein in pathway.proteins:
-                    graph.add_node_from_data(protein.serialize_to_protein_node())
+                    graph.add_qualified_edge(
+                        protein.serialize_to_protein_node(),
+                        node,
+                        relation=PART_OF,
+                        citation='27899662',
+                        evidence='http://www.genome.jp/kegg/'
+                    )
 
         return graph
 
@@ -186,9 +223,16 @@ class Manager(object):
         for node, data in graph.nodes(data=True):
 
             if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
-                protein = self.get_protein_by_hgnc_symbol(data[NAME])
+
+                protein = self.get_protein_by_hgnc_id(symbol_to_hgnc_id[data[NAME]])
 
                 for pathway in protein.pathways:
-                    graph.add_node_from_data(pathway.serialize_to_pathway_node())
+                    graph.add_qualified_edge(
+                        node,
+                        pathway.serialize_to_pathway_node(),
+                        relation=PART_OF,
+                        citation='27899662',
+                        evidence='http://www.genome.jp/kegg/'
+                    )
 
         return graph

@@ -14,6 +14,7 @@ resources_path = os.path.join(dir_path, 'resources')
 pathways = os.path.join(resources_path, 'hsa.txt')
 protein_pathway_url = os.path.join(resources_path, 'pathway_gene.txt')
 
+from pybel.dsl import protein, gene, bioprocess
 from pybel.struct.graph import BELGraph
 from pybel.constants import *
 
@@ -43,34 +44,34 @@ class DatabaseMixin(unittest.TestCase):
         os.remove(cls.path)
 
 
-protein_a = PROTEIN, HGNC, 'GPI'
-protein_b = PROTEIN, HGNC, 'PFKP'
-gene_c = GENE, HGNC, 'PGLS'
-pathway_a = BIOPROCESS, KEGG, 'Pentose phosphate pathway - Homo sapiens (human)'
+protein_a = protein(namespace=HGNC, name='GPI')
+protein_b = protein(namespace=HGNC, name='PFKP')
+gene_c = gene(namespace=HGNC, name='PGLS')
+pathway_a = bioprocess(namespace=KEGG, name='Pentose phosphate pathway - Homo sapiens (human)')
 
 
 def enrichment_graph():
     """Simple test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC"""
 
-    graph = BELGraph(**{
-        GRAPH_METADATA: {
-            METADATA_VERSION: '1.0.0',
-            METADATA_NAME: 'network_test',
-            METADATA_DESCRIPTION: 'network for kegg enrichment test',
-            METADATA_AUTHORS: 'Fraunhofer SCAI',
-            METADATA_CONTACT: 'test@scai.fraunhofer.de',
-        }
-    })
+    graph = BELGraph(
+        name='My test graph for enrichment',
+        version='0.0.1'
+    )
 
-    graph.add_edge(protein_a, protein_b, attr_dict={
+    protein_a_tuple = graph.add_node_from_data(protein_a)
+    protein_b_tuple = graph.add_node_from_data(protein_b)
+    gene_c_tuple = graph.add_node_from_data(gene_c)
+    pathway_a_tuple = graph.add_node_from_data(pathway_a)
+
+    graph.add_edge(protein_a_tuple, protein_b_tuple, attr_dict={
         RELATION: INCREASES,
     })
 
-    graph.add_edge(protein_b, gene_c, attr_dict={
+    graph.add_edge(protein_b_tuple, gene_c_tuple, attr_dict={
         RELATION: DECREASES,
     })
 
-    graph.add_edge(gene_c, pathway_a, attr_dict={
+    graph.add_edge(gene_c_tuple, pathway_a_tuple, attr_dict={
         RELATION: PART_OF,
     })
 

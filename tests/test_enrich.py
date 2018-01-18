@@ -18,8 +18,9 @@ class TestEnrich(DatabaseMixin):
 
         enriched_graph = self.manager.enrich_kegg_pathway(graph_example)
 
-        self.assertEqual(16, enriched_graph.number_of_nodes())  # 14 proteins in the pathway + gene of one of the proteins + pathway node
-        self.assertEqual(15, len(enriched_graph.number_of_edges()))  # 14 edges protein -- pathway + gene -- pathway
+        self.assertEqual(16,
+                         enriched_graph.number_of_nodes())  # 14 proteins in the pathway + gene of one of the proteins + pathway node
+        self.assertEqual(17, enriched_graph.number_of_edges())  # 14 edges protein -- pathway + 3 other relationships
 
     def test_enrich_kegg_protein(self):
         graph_example = enrichment_graph()
@@ -27,4 +28,4 @@ class TestEnrich(DatabaseMixin):
         enriched_graph = self.manager.enrich_kegg_protein(graph_example)
 
         self.assertEqual(5, enriched_graph.number_of_nodes())  # 2 proteins + gene + pathway + new pathway
-        self.assertEqual(4, enriched_graph.number_of_edges())  # 3 edges + new one
+        self.assertEqual(6, enriched_graph.number_of_edges())  # 3 edges + new one
