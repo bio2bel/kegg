@@ -196,12 +196,12 @@ class Manager(object):
 
         for node, data in graph.nodes(data=True):
 
-            if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == KEGG:
+            if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == KEGG and NAME in data:
 
                 pathway = self.get_pathway_by_name(data[NAME])
 
                 for protein in pathway.proteins:
-                    graph.add_qualified_edge(
+                    graph.add_unqualified_edge(
                         protein.serialize_to_protein_node(),
                         node,
                         relation=PART_OF,
