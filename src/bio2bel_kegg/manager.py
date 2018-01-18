@@ -7,6 +7,7 @@ This module populates the tables of bio2bel_kegg
 import logging
 
 from bio2bel.utils import get_connection
+
 from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
 from pybel.struct.graph import BELGraph
 from sqlalchemy import create_engine
@@ -131,10 +132,6 @@ class Manager(object):
         self._pathway_entity(url=protein_pathway_url)
 
 
-    def get_protein_by_hgnc(self, hgnc_symbol):
-
-        NotImplemented
-
     def get_pathway_graph(self, kegg_id):
         """Returns a new graph corresponding to the pathway"""
 
@@ -189,7 +186,7 @@ class Manager(object):
         for node, data in graph.nodes(data=True):
 
             if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
-                protein = self.get_protein_by_hgnc()
+                protein = self.get_protein_by_hgnc_symbol(data[NAME])
 
                 for pathway in protein.pathways:
                     graph.add_node_from_data(pathway.serialize_to_pathway_node())

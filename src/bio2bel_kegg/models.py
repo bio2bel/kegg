@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 from bio2bel_kegg.constants import KEGG
+from bio2bel_kegg.hgnc_connection import hgnc_id_to_symbol
 
 Base = declarative_base()
 
@@ -76,8 +77,8 @@ class Protein(Base):
         """
         return protein(
             namespace='HGNC',
-            name=str(self.get_hgnc_symbol),
-            identifier=str(self.kegg_id)
+            name=str(self.get_hgnc_symbol(self.hgnc_id)),
+            identifier=str(self.hgnc_id)
         )
 
     def get_uniprot_ids(self):
@@ -94,8 +95,9 @@ class Protein(Base):
             for id in self.uniprot_id.split(" ")
         ]
 
-    def get_hgnc_symbol(self):
-        NotImplemented
+    def get_hgnc_symbol(self, hgnc_id):
+        """Returns hgnc symbol using bio2bel_hgnc"""
+        return hgnc_id_to_symbol[hgnc_id]
 
 
 class PathwayView(ModelView):

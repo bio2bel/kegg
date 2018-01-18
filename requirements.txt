@@ -1,5 +1,6 @@
 click
 bio2bel
+bio2bel_hgnc
 pybel
 pybel-tools
 sqlalchemy
