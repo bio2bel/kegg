@@ -23,3 +23,12 @@ KEGG_STATISTICS_URL = 'http://rest.kegg.jp/info/kegg'
 
 # Description KEGG endpoint
 API_KEGG_GET = 'http://rest.kegg.jp/get/{}'
+
+# Description properties
+DBLINKS = 'DBLINKS'
+PATHWAYS = 'PATHWAYS'
+
+PROTEIN_RESOURCES = [
+    'HGNC',
+    'UniProt',
+]

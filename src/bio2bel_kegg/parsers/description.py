@@ -11,6 +11,16 @@ import requests
 
 from bio2bel_kegg.constants import API_KEGG_GET
 
+__all__ = [
+    'parse_entry_line',
+    'remove_first_word',
+    'get_first_word',
+    'parse_pathway_line',
+    'parse_link_line',
+    'parse_description',
+    'get_description_properties',
+]
+
 
 def parse_entry_line(line):
     """ Parse entry line to tuple
@@ -57,9 +67,8 @@ def parse_pathway_line(line):
     line = remove_first_word(line)
 
     return tuple(
-        [line.strip(' ')
-         for line in re.split(r'\s{2,}', line)
-         ]
+        line.strip(' ')
+        for line in re.split(r'\s{2,}', line)
     )
 
 
@@ -73,15 +82,17 @@ def parse_link_line(line):
 
     line = remove_first_word(line)
 
-    return tuple(
-        [line.strip(' ')
-         for line in re.split(r'\s{2,}', line)
-         ]
-    )
+    column, link_id = line.split(":")
+
+    return (column.strip(), link_id.strip())
 
 
 def parse_description(identifier):
-    """ Parse the description file of the identifier using the KEGG API
+    """ Parse the several properties in the description file given an KEGG identifier using the KEGG API
+    Properties parsed:
+    - ENTRY
+    - PATHWAY
+    - DBLINKS
 
     :param str identifier: id for the query
     :rtype: dict
@@ -118,6 +129,23 @@ def parse_description(identifier):
     return description
 
 
+def get_description_properties(description, description_property, columns):
+    """Gets specific description properties
+
+    :param dict protein_description: id for the query
+    :param str description_property: main property in the description
+    :param list columns: columns to be filtered
+    :rtype: dict
+    :return: description dictionary
+
+    """
+    return {
+        pair[0]: pair[1]
+        for pair in description[description_property]
+        if pair[0] in columns
+    }
+
+
 if __name__ == '__main__':
-    description = parse_description('hsa:5214')
+    description = get_description_properties(parse_description('hsa:5214'), 'DBLINKS', ['HGNC', 'UniProt'])
     print(description)
