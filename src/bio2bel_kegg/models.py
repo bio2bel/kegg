@@ -3,10 +3,12 @@
 """Kegg database model"""
 
 from flask_admin.contrib.sqla import ModelView
-from pybel.constants import BIOPROCESS, FUNCTION, IDENTIFIER, NAME, NAMESPACE, PROTEIN
+from pybel.dsl import bioprocess, protein
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+
+from bio2bel_kegg.constants import KEGG
 
 Base = declarative_base()
 
@@ -45,14 +47,13 @@ class Pathway(Base):
 
     def serialize_to_pathway_node(self):
         """Function to serialize to PyBEL node data dictionary.
-        :rtype: dict
+        :rtype: pybel.dsl.bioprocess
         """
-        return {
-            FUNCTION: BIOPROCESS,
-            NAMESPACE: 'KEGG',
-            NAME: self.name,
-            IDENTIFIER: self.kegg_id
-        }
+        return bioprocess(
+            namespace=KEGG,
+            name=str(self.name),
+            identifier=str(self.kegg_id)
+        )
 
 
 class Protein(Base):
@@ -69,15 +70,32 @@ class Protein(Base):
     def __repr__(self):
         return self.id
 
-    def as_pybel_dict(self):
+    def serialize_to_protein_node(self):
         """Function to serialize to PyBEL node data dictionary.
-        :rtype: dict
+        :rtype: pybel.dsl.protein
         """
-        return {
-            FUNCTION: PROTEIN,
-            NAMESPACE: 'UNIPROT',
-            IDENTIFIER: self.kegg_id
-        }
+        return protein(
+            namespace='HGNC',
+            name=str(self.get_hgnc_symbol),
+            identifier=str(self.kegg_id)
+        )
+
+    def get_uniprot_ids(self):
+        """Returns a list of uniprot ids
+
+        :rtype: list
+        :return:
+        """
+        if not self.uniprot_id:
+            return None
+
+        return [
+            id
+            for id in self.uniprot_id.split(" ")
+        ]
+
+    def get_hgnc_symbol(self):
+        NotImplemented
 
 
 class PathwayView(ModelView):
