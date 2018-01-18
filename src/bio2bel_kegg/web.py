@@ -4,7 +4,6 @@
 
 import flask_admin
 from flask import Flask
-from flask_admin.contrib.sqla import ModelView
 
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.models import *
@@ -12,8 +11,8 @@ from bio2bel_kegg.models import *
 
 def add_admin(app, session, **kwargs):
     admin = flask_admin.Admin(app, **kwargs)
-    admin.add_view(ModelView(Pathway, session))
-    admin.add_view(ModelView(Protein, session))
+    admin.add_view(PathwayView(Pathway, session))
+    admin.add_view(ProteinView(Protein, session))
     return admin
 
 
