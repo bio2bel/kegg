@@ -104,7 +104,7 @@ class Manager(object):
         """
         hgnc_id = symbol_to_hgnc_id[hgnc_symbol]
 
-        return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
+        return self.get_protein_by_hgnc_symbol(hgnc_id)
 
     """Methods to populate the DB"""
 
