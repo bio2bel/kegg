@@ -7,8 +7,6 @@ import os
 from bio2bel.utils import get_connection, get_data_dir
 
 MODULE_NAME = 'kegg'
-KEGG = 'KEGG'
-HGNC = 'HGNC'
 DATA_DIR = get_data_dir(MODULE_NAME)
 DEFAULT_CACHE_CONNECTION = get_connection(MODULE_NAME)
 
@@ -30,6 +28,10 @@ API_KEGG_GET = 'http://rest.kegg.jp/get/{}'
 DBLINKS = 'DBLINKS'
 PATHWAYS = 'PATHWAYS'
 
+# Namespace constants
+
+KEGG = 'KEGG'
+HGNC = 'HGNC'
 PROTEIN_RESOURCES = [
     'HGNC',
     'UniProt',

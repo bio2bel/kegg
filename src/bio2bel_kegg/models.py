@@ -8,7 +8,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from bio2bel_kegg.constants import KEGG
+from bio2bel_kegg.constants import KEGG, HGNC
 from bio2bel_kegg.hgnc_connection import hgnc_id_to_symbol
 
 Base = declarative_base()
@@ -76,7 +76,7 @@ class Protein(Base):
         :rtype: pybel.dsl.protein
         """
         return protein(
-            namespace='HGNC',
+            namespace=HGNC,
             name=str(self.get_hgnc_symbol(self.hgnc_id)),
             identifier=str(self.hgnc_id)
         )
