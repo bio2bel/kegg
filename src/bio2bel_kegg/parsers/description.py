@@ -6,7 +6,7 @@ This module parsers the description files -> http://rest.kegg.jp/get/ in KEGG RE
 """
 
 import re
-
+import logging
 import requests
 
 from bio2bel_kegg.constants import API_KEGG_GET
@@ -21,6 +21,8 @@ __all__ = [
     'get_description_properties',
     'kegg_properties_to_models',
 ]
+
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 def parse_entry_line(line):
