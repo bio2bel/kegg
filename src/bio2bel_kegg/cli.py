@@ -77,7 +77,7 @@ def export_genesets(connection, info="Export all pathway - gene info to a excel 
     """Exports all """
     m = Manager(connection=connection)
 
-    genesets = pd.Dataframe.from_dict(m.export_genesets())
+    genesets = pd.DataFrame.from_dict(m.export_genesets())
 
     genesets.to_csv('genesets.csv')
 
