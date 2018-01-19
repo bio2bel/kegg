@@ -8,7 +8,8 @@ import click
 
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.to_belns import deploy_to_arty
-from .constants import DEFAULT_CACHE_CONNECTION
+from bio2bel_kegg.constants import DEFAULT_CACHE_CONNECTION
+import pandas as pd
 
 log = logging.getLogger(__name__)
 
@@ -68,6 +69,17 @@ def drop(debug, yes, connection):
 def deploy(force):
     """Deploy to Artifactory"""
     deploy_to_arty(not force)
+
+
+@main.command()
+@click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
+def export_genesets(connection, info="Export all pathway - gene info to a excel file"):
+    """Exports all """
+    m = Manager(connection=connection)
+
+    genesets = pd.Dataframe.from_dict(m.export_genesets())
+
+    genesets.to_csv('genesets.csv')
 
 
 @main.command()

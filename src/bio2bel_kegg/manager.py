@@ -106,6 +106,17 @@ class Manager(object):
 
         return self.get_protein_by_hgnc_symbol(hgnc_id)
 
+    def export_genesets(self):
+        """Returns pathway - genesets mapping"""
+        return {
+            pathway.name: {
+                protein.get_hgnc_symbol()
+                for protein in pathway.proteins
+            }
+            for pathway in
+            self.session.query(Pathway).all()
+        }
+
     """Methods to populate the DB"""
 
     def _populate_pathways(self, url=None):
