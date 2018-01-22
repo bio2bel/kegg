@@ -1,6 +1,6 @@
 Bio2BEL KEGG |build| |coverage| |docs|
 ======================================
-This package converts KEGG to BEL. So far, exporting the pathway namespace has been implemented.
+This package converts KEGG to BEL. So far, importing gene protein relationships into the database and exporting the pathway namespace has been implemented.
 
 Installation
 ------------
