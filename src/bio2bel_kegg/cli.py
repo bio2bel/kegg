@@ -3,13 +3,14 @@
 from __future__ import print_function
 
 import logging
+import os
 
 import click
+from pandas import DataFrame, Series
 
+from bio2bel_kegg.constants import DEFAULT_CACHE_CONNECTION
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.to_belns import deploy_to_arty
-from bio2bel_kegg.constants import DEFAULT_CACHE_CONNECTION
-import pandas as pd
 
 log = logging.getLogger(__name__)
 
@@ -73,13 +74,23 @@ def deploy(force):
 
 @main.command()
 @click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
-def export_genesets(connection, info="Export all pathway - gene info to a excel file"):
-    """Exports all """
+def export(connection):
+    """Export all pathway - gene info to a excel file"""
     m = Manager(connection=connection)
 
-    genesets = pd.DataFrame.from_dict(m.export_genesets())
+    log.info("Querying the database")
 
-    genesets.to_csv('genesets.csv')
+    # https://stackoverflow.com/questions/19736080/creating-dataframe-from-a-dictionary-where-entries-have-different-lengths
+    genesets = DataFrame(
+        dict([
+            (k, Series(list(v)))
+            for k, v in m.export_genesets().items()
+        ])
+    )
+
+    log.info("Geneset exported to '{}/genesets.csv'".format(os.getcwd()))
+
+    genesets.to_csv('genesets.csv', index=False)
 
 
 @main.command()

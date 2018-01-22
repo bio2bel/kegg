@@ -97,7 +97,7 @@ class Protein(Base):
 
     def get_hgnc_symbol(self, hgnc_id):
         """Returns hgnc symbol using bio2bel_hgnc"""
-        return hgnc_id_to_symbol[hgnc_id]
+        return hgnc_id_to_symbol.get(hgnc_id, None)
 
 
 class PathwayView(ModelView):

@@ -110,11 +110,10 @@ class Manager(object):
         """Returns pathway - genesets mapping"""
         return {
             pathway.name: {
-                protein.get_hgnc_symbol()
+                protein.get_hgnc_symbol(protein.hgnc_id)
                 for protein in pathway.proteins
             }
-            for pathway in
-            self.session.query(Pathway).all()
+            for pathway in self.session.query(Pathway).all()
         }
 
     """Methods to populate the DB"""
@@ -167,7 +166,7 @@ class Manager(object):
 
             pathway = self.get_or_create_pathway(kegg_pathway_id)
             protein.pathways.append(pathway)
-        self.session.commit()
+            self.session.commit()
 
     def populate(self, pathways_url=None, protein_pathway_url=None):
         """ Populates all tables"""
