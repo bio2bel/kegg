@@ -64,7 +64,7 @@ class Protein(Base):
 
     id = Column(Integer, primary_key=True)
 
-    kegg_id = Column(String(255), unique=True, nullable=False, index=True, doc='KEGG id of the protein')
+    kegg_id = Column(String(255), nullable=False, index=True, doc='KEGG id of the protein')
     uniprot_id = Column(String(255), doc='uniprot id of the protein')
     hgnc_id = Column(String(255), doc='hgnc id of the protein')
 

@@ -5,7 +5,9 @@ This module populates the tables of bio2bel_kegg
 """
 
 import logging
+from multiprocessing.pool import ThreadPool
 
+import requests
 from bio2bel.utils import get_connection
 from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
 from pybel.struct.graph import BELGraph
@@ -13,12 +15,13 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
-from bio2bel_kegg.constants import MODULE_NAME, DBLINKS, PROTEIN_RESOURCES, KEGG
+from bio2bel_kegg.constants import MODULE_NAME, KEGG, API_KEGG_GET
 from bio2bel_kegg.hgnc_connection import symbol_to_hgnc_id
 from bio2bel_kegg.models import Base, Pathway, Protein
 from bio2bel_kegg.parsers import *
 
 log = logging.getLogger(__name__)
+logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 class Manager(object):
@@ -139,7 +142,24 @@ class Manager(object):
         """
         protein_df = get_entity_pathway_df(url=url)
 
+        protein_description_urls = create_entity_description_url(protein_df, API_KEGG_GET)
+
+        # KEGG protein ID to Protein model attributes dictionary
+        pid_attributes = {}
+
+        log.info('Fetching all protein meta-information (needs around 7300 iterations)')
+
+        # Multi-thread processing of protein description requests
+        results = ThreadPool(200).imap_unordered(requests.get, protein_description_urls)
+        for result in tqdm(results, desc='Fetching meta information'):
+            kegg_protein_id = result.url.rsplit('/', 1)[-1]
+
+            pid_attributes[kegg_protein_id] = process_protein_info_to_model(result, kegg_protein_id)
+
+        # KEGG protein ID to Protein object already created
         pid_protein = {}
+
+        log.info('Done fetching')
 
         for kegg_protein_id, kegg_pathway_id in tqdm(parse_entity_pathway(protein_df), desc='Loading proteins'):
 
@@ -147,26 +167,13 @@ class Manager(object):
                 protein = pid_protein[kegg_protein_id]
             else:
 
-                # Get protein description from KEGG API
-                description = parse_description(kegg_protein_id)
-                # Filters out db link columns
-                protein_columns = get_description_properties(
-                    description=description,
-                    description_property=DBLINKS,
-                    columns=PROTEIN_RESOURCES
-                )
-
-                # Adapt the dict keys to match protein model columns
-                protein_columns = kegg_properties_to_models(protein_columns)
-
-                protein_columns['kegg_id'] = kegg_protein_id
-                protein = Protein(**protein_columns)
+                protein = Protein(**pid_attributes[kegg_protein_id])
                 pid_protein[kegg_protein_id] = protein
                 self.session.add(protein)
 
-            pathway = self.get_or_create_pathway(kegg_pathway_id)
+            pathway = self.get_pathway_by_id(kegg_pathway_id)
             protein.pathways.append(pathway)
-            self.session.commit()
+        self.session.commit()
 
     def populate(self, pathways_url=None, protein_pathway_url=None):
         """ Populates all tables"""

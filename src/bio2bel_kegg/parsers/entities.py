@@ -11,6 +11,7 @@ from bio2bel_kegg.constants import PROTEIN_PATHWAY_URL
 __all__ = [
     'get_entity_pathway_df',
     'parse_entity_pathway',
+    'create_entity_description_url'
 ]
 
 
@@ -43,3 +44,18 @@ def parse_entity_pathway(pathway_dataframe):
     ]
 
     return pathways
+
+
+def create_entity_description_url(pathway_dataframe, baseurl):
+    """ Returns all entities in entity pathway dataframe
+
+    :param pandas.DataFrame pathway_dataframe: Pathway hierarchy as dataframe
+    :param str baseurl: base url
+    :rtype: set
+    :return all entities
+    """
+
+    return {
+        baseurl.format(entity)
+        for line, (entity, pathway) in pathway_dataframe.iterrows()
+    }

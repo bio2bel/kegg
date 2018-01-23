@@ -6,10 +6,8 @@ This module parsers the description files -> http://rest.kegg.jp/get/ in KEGG RE
 """
 
 import re
-import logging
-import requests
 
-from bio2bel_kegg.constants import API_KEGG_GET
+from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 
 __all__ = [
     'parse_entry_line',
@@ -20,9 +18,8 @@ __all__ = [
     'parse_description',
     'get_description_properties',
     'kegg_properties_to_models',
+    'process_protein_info_to_model'
 ]
-
-logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 def parse_entry_line(line):
@@ -90,7 +87,7 @@ def parse_link_line(line):
     return (column.strip(), link_id.strip())
 
 
-def parse_description(identifier):
+def parse_description(response):
     """ Parse the several properties in the description file given an KEGG identifier using the KEGG API
     Properties parsed:
     - ENTRY
@@ -102,11 +99,9 @@ def parse_description(identifier):
     :return: description dictionary
     """
 
-    r = requests.get(API_KEGG_GET.format(identifier), stream=True)
-
     description = {}
 
-    for line in r.iter_lines():
+    for line in response.iter_lines():
         line = line.decode('utf-8')
 
         if not line.startswith(' '):
@@ -161,3 +156,27 @@ def kegg_properties_to_models(kegg_attributes):
         '{}_id'.format(key.lower()): value
         for key, value in kegg_attributes.items()
     }
+
+
+def process_protein_info_to_model(response, kegg_protein_id):
+    """Process description
+
+    :param kegg_protein_id: kegg_protein_id
+    :param requests.Response response: response from KEGG API
+    :type: dict
+    :return: protein model attributes
+    """
+
+    # Get protein description from KEGG API
+    description = parse_description(response)
+    # Filters out db link columns
+    protein_as_dict = get_description_properties(
+        description=description,
+        description_property=DBLINKS,
+        columns=PROTEIN_RESOURCES
+    )
+    # Adapt the dict keys to match protein model columns
+    protein_as_dict = kegg_properties_to_models(protein_as_dict)
+    protein_as_dict['kegg_id'] = kegg_protein_id
+
+    return protein_as_dict
