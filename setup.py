@@ -14,15 +14,13 @@ INSTALL_REQUIRES = [
     'bio2bel',
     'bio2bel_hgnc',
     'pybel>=0.10.1',
-    'pybel-tools',
-    'pybel>=0.10.1',
     'sqlalchemy==1.1.15',
     'pandas',
     'tqdm',
-    'flask',
-    'flask_admin',
 ]
-
+EXTRAS_REQUIRE = {
+    'web': ['flask', 'flask_admin'],
+}
 ENTRY_POINTS = {
     'bio2bel': [
         '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE),
@@ -77,5 +75,6 @@ if __name__ == '__main__':
         packages=PACKAGES,
         package_dir={'': 'src'},
         install_requires=INSTALL_REQUIRES,
+        extras_require=EXTRAS_REQUIRE,
         entry_points=ENTRY_POINTS,
     )

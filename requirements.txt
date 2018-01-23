@@ -1,10 +1,9 @@
 click
 bio2bel
 bio2bel_hgnc
-pybel-tools
 pybel>=0.10.1
 sqlalchemy==1.1.15
 pandas
 tqdm
-flask
-flask_admin
+flask[web]
+flask_admin[web]
