@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Bio2BEL KEGG is a package for handling KEGG in the BEL universe."""
+
 from .manager import Manager
 
 __version__ = '0.0.1-dev'
