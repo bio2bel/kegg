@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Kegg database model"""
+"""KEGG database models"""
 
 from flask_admin.contrib.sqla import ModelView
 from pybel.dsl import bioprocess, protein

@@ -20,6 +20,10 @@ from bio2bel_kegg.hgnc_connection import symbol_to_hgnc_id
 from bio2bel_kegg.models import Base, Pathway, Protein
 from bio2bel_kegg.parsers import *
 
+__all__ = [
+    'Manager'
+]
+
 log = logging.getLogger(__name__)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
