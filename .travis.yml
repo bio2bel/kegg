@@ -25,4 +25,4 @@ after_success:
   - codecov
 
 notifications:
-slack: pybel:n2KbWKBum3musnBg3L76gGwq
+  slack: pybel:n2KbWKBum3musnBg3L76gGwq
