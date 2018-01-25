@@ -55,6 +55,20 @@ class Manager(object):
 
     """Custom query methods"""
 
+    def query_gene_set(self, gene_set):
+
+        gene_set_ids = {
+            symbol_to_hgnc_id.get(hgnc_symbol, None)
+            for hgnc_symbol in gene_set
+        }
+
+        proteins = self.session.query(Protein).filter(Protein.hgnc_id.in_(gene_set_ids)).all()
+
+        return proteins
+
+    def calculate_enrichment(self, pathway_counter):
+        pass
+
     def get_pathway_by_id(self, kegg_id):
         """Gets a pathway by its kegg id
         :param kegg_id: kegg identifier

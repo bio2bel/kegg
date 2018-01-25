@@ -69,7 +69,7 @@ class Protein(Base):
     hgnc_id = Column(String(255), doc='hgnc id of the protein')
 
     def __repr__(self):
-        return self.id
+        return self.hgnc_id
 
     def serialize_to_protein_node(self):
         """Function to serialize to PyBEL node data dictionary.
