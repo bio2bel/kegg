@@ -1,0 +1,387 @@
+{
+  "responseHeader": {
+    "status": 0,
+    "QTime": 17
+  },
+  "response": {
+    "numFound": 7,
+    "docs": [
+      {
+        "gene_family": [
+          "Immunoglobulin like domain containing"
+        ],
+        "date_approved_reserved": "1989-06-30",
+        "vega_id": "OTTHUMG00000183507",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1577129174679683072,
+        "uuid": "fe3e34f6-c539-4337-82c1-1b4e8c115992",
+        "merops": "I43.950",
+        "refseq_accession": [
+          "NM_130786"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          594
+        ],
+        "cosmic": "A1BG",
+        "hgnc_id": "HGNC:5",
+        "rgd_id": [
+          "RGD:69417"
+        ],
+        "ensembl_gene_id": "ENSG00000121410",
+        "entrez_id": "1",
+        "omim_id": [
+          "138670"
+        ],
+        "symbol": "A1BG",
+        "location": "19q13.43",
+        "name": "alpha-1-B glycoprotein",
+        "date_modified": "2015-07-13",
+        "mgd_id": [
+          "MGI:2152878"
+        ],
+        "ucsc_id": "uc002qsd.5",
+        "uniprot_ids": [
+          "P04217"
+        ],
+        "ccds_id": [
+          "CCDS12976"
+        ],
+        "pubmed_id": [
+          2591067
+        ],
+        "location_sortable": "19q13.43"
+      },
+      {
+        "gene_family": [
+          "Zinc fingers SWIM-type"
+        ],
+        "date_approved_reserved": "2001-07-17",
+        "vega_id": "OTTHUMG00000074023",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "dJ337O18.5"
+        ],
+        "_version_": 1577673023950946311,
+        "uuid": "b4cfefce-d664-458c-808e-5dd2422690f7",
+        "prev_name": [
+          "chromosome 20 open reading frame 162"
+        ],
+        "refseq_accession": [
+          "NM_080603"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          90
+        ],
+        "cosmic": "ZSWIM1",
+        "hgnc_id": "HGNC:16155",
+        "rgd_id": [
+          "RGD:1305715"
+        ],
+        "ensembl_gene_id": "ENSG00000168612",
+        "entrez_id": "90204",
+        "symbol": "ZSWIM1",
+        "date_name_changed": "2016-02-15",
+        "location": "20q13.12",
+        "name": "zinc finger SWIM-type containing 1",
+        "date_modified": "2016-02-15",
+        "mgd_id": [
+          "MGI:1919221"
+        ],
+        "ucsc_id": "uc010ghi.4",
+        "prev_symbol": [
+          "C20orf162"
+        ],
+        "uniprot_ids": [
+          "Q9BR11"
+        ],
+        "ccds_id": [
+          "CCDS13382"
+        ],
+        "ena": [
+          "AL008726"
+        ],
+        "date_symbol_changed": "2003-12-19",
+        "pubmed_id": [
+          24508175
+        ],
+        "location_sortable": "20q13.12"
+      },
+      {
+        "gene_family": [
+          "RNA binding motif containing"
+        ],
+        "date_approved_reserved": "2007-11-23",
+        "vega_id": "OTTHUMG00000018240",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "ACF",
+          "ASP",
+          "ACF64",
+          "ACF65",
+          "APOBEC1CF"
+        ],
+        "_version_": 1577129174683877376,
+        "uuid": "a4c5c522-7338-4421-858c-06860c6e7da8",
+        "refseq_accession": [
+          "NM_014576"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          725
+        ],
+        "cosmic": "A1CF",
+        "hgnc_id": "HGNC:24086",
+        "rgd_id": [
+          "RGD:619834"
+        ],
+        "ensembl_gene_id": "ENSG00000148584",
+        "entrez_id": "29974",
+        "symbol": "A1CF",
+        "location": "10q11.23",
+        "name": "APOBEC1 complementation factor",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:1917115"
+        ],
+        "ucsc_id": "uc057tgv.1",
+        "uniprot_ids": [
+          "Q9NQ94"
+        ],
+        "ccds_id": [
+          "CCDS7241",
+          "CCDS7242",
+          "CCDS7243",
+          "CCDS73133"
+        ],
+        "ena": [
+          "AF271790"
+        ],
+        "pubmed_id": [
+          11815617,
+          11072063
+        ],
+        "location_sortable": "10q11.23"
+      },
+      {
+        "gene_family": [
+          "CD molecules",
+          "V-set domain containing",
+          "Sialic acid binding Ig like lectins"
+        ],
+        "date_approved_reserved": "1986-01-01",
+        "alias_name": [
+          "sialic acid binding Ig-like lectin 3"
+        ],
+        "vega_id": "OTTHUMG00000182891",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "SIGLEC3",
+          "SIGLEC-3",
+          "p67",
+          "FLJ00391"
+        ],
+        "_version_": 1583018082719236096,
+        "uuid": "3925564d-73a5-46c8-896b-aa19ce0e6416",
+        "prev_name": [
+          "CD33 antigen (gp67)"
+        ],
+        "refseq_accession": [
+          "NM_001772"
+        ],
+        "locus_type": "gene with protein product",
+        "iuphar": "objectId:2601",
+        "gene_family_id": [
+          471,
+          590,
+          745
+        ],
+        "cosmic": "CD33",
+        "hgnc_id": "HGNC:1659",
+        "rgd_id": [
+          "RGD:1596020"
+        ],
+        "ensembl_gene_id": "ENSG00000105383",
+        "entrez_id": "945",
+        "omim_id": [
+          "159590"
+        ],
+        "symbol": "CD33",
+        "date_name_changed": "2006-03-28",
+        "cd": "CD33",
+        "location": "19q13.41",
+        "name": "CD33 molecule",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:99440"
+        ],
+        "ucsc_id": "uc002pwa.3",
+        "uniprot_ids": [
+          "P20138"
+        ],
+        "ccds_id": [
+          "CCDS33084",
+          "CCDS46157",
+          "CCDS54299"
+        ],
+        "ena": [
+          "M23197"
+        ],
+        "pubmed_id": [
+          3139766,
+          9465907
+        ],
+        "location_sortable": "19q13.41"
+      },
+      {
+        "gene_family": [
+          "CD molecules"
+        ],
+        "date_approved_reserved": "1990-09-10",
+        "vega_id": "OTTHUMG00000036565",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1583018082719236097,
+        "uuid": "e28a70d9-26df-4630-b7b6-cfe90ad81ea7",
+        "prev_name": [
+          "CD34 antigen"
+        ],
+        "refseq_accession": [
+          "NM_001773"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          471
+        ],
+        "cosmic": "CD34",
+        "hgnc_id": "HGNC:1662",
+        "rgd_id": [
+          "RGD:1306863"
+        ],
+        "ensembl_gene_id": "ENSG00000174059",
+        "entrez_id": "947",
+        "omim_id": [
+          "142230"
+        ],
+        "symbol": "CD34",
+        "date_name_changed": "2006-03-28",
+        "cd": "CD34",
+        "location": "1q32.2",
+        "name": "CD34 molecule",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:88329"
+        ],
+        "ucsc_id": "uc001hgw.2",
+        "uniprot_ids": [
+          "P28906"
+        ],
+        "ccds_id": [
+          "CCDS31011",
+          "CCDS31012"
+        ],
+        "ena": [
+          "M81104"
+        ],
+        "pubmed_id": [
+          1370171,
+          1374051
+        ],
+        "location_sortable": "01q32.2"
+      },
+      {
+        "gene_family": [
+          "MicroRNAs"
+        ],
+        "date_approved_reserved": "2005-07-15",
+        "locus_group": "non-coding RNA",
+        "status": "Approved",
+        "alias_symbol": [
+          "hsa-mir-489"
+        ],
+        "_version_": 1583018084512301064,
+        "uuid": "51e970b9-30fc-4976-9ddb-414edb516443",
+        "refseq_accession": [
+          "NR_030164"
+        ],
+        "mirbase": "MI0003124",
+        "locus_type": "RNA, micro",
+        "gene_family_id": [
+          476
+        ],
+        "hgnc_id": "HGNC:32074",
+        "rna_central_ids": [
+          "URS000075EA26"
+        ],
+        "rgd_id": [
+          "RGD:2314886"
+        ],
+        "ensembl_gene_id": "ENSG00000207656",
+        "entrez_id": "574442",
+        "omim_id": [
+          "614523"
+        ],
+        "symbol": "MIR489",
+        "location": "7q21.3",
+        "name": "microRNA 489",
+        "date_modified": "2014-11-19",
+        "ucsc_id": "uc022ahk.1",
+        "prev_symbol": [
+          "MIRN489"
+        ],
+        "date_symbol_changed": "2008-12-18",
+        "location_sortable": "07q21.3"
+      },
+      {
+        "gene_family": [
+          "Long non-coding RNAs (published)"
+        ],
+        "date_approved_reserved": "2013-05-17",
+        "alias_name": [
+          "H19 X-linked co-expressed lncRNA"
+        ],
+        "vega_id": "OTTHUMG00000022455",
+        "locus_group": "non-coding RNA",
+        "status": "Approved",
+        "alias_symbol": [
+          "MGC16121",
+          "H19X"
+        ],
+        "_version_": 1583018084514398217,
+        "uuid": "ac9528f9-f205-4367-8a17-db88402ad92d",
+        "prev_name": [
+          "MIR503 host gene (non-protein coding)"
+        ],
+        "refseq_accession": [
+          "NR_024607"
+        ],
+        "locus_type": "RNA, long non-coding",
+        "gene_family_id": [
+          788
+        ],
+        "hgnc_id": "HGNC:28258",
+        "rna_central_ids": [
+          "URS000075CE3A"
+        ],
+        "ensembl_gene_id": "ENSG00000223749",
+        "entrez_id": "84848",
+        "symbol": "MIR503HG",
+        "date_name_changed": "2015-02-20",
+        "location": "Xq26.3",
+        "lncipedia": "MIR503HG",
+        "name": "MIR503 host gene",
+        "date_modified": "2017-07-05",
+        "pubmed_id": [
+          24463510,
+          27023770
+        ],
+        "location_sortable": "Xq26.3"
+      }
+    ]
+  }
+}
