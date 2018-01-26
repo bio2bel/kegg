@@ -51,8 +51,6 @@ class DatabaseMixin(unittest.TestCase):
             hcop_file_path=hcop_test_path,
         )
 
-        cls.pyhgnc_manager = HgncManager(connection=cls.connection)
-
     @classmethod
     def tearDownClass(cls):
         """Closes the connection in the manager and deletes the temporary database"""
