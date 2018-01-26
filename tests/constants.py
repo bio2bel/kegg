@@ -56,7 +56,10 @@ class DatabaseMixin(unittest.TestCase):
     @classmethod
     def tearDownClass(cls):
         """Closes the connection in the manager and deletes the temporary database"""
+        cls.manager.drop_all()
+        cls.hgnc_manager.drop_all()
         cls.manager.session.close()
+        cls.hgnc_manager.session.close()
         os.close(cls.fd)
         os.remove(cls.path)
 

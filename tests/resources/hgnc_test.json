@@ -381,6 +381,966 @@
           27023770
         ],
         "location_sortable": "Xq26.3"
+      },
+      {
+        "gene_family": [
+          "Aldehyde dehydrogenases"
+        ],
+        "date_approved_reserved": "1996-10-02",
+        "vega_id": "OTTHUMG00000018815",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "P5CS"
+        ],
+        "_version_": 1590631909611798530,
+        "uuid": "561f36bb-3108-4170-b10c-1461aa5b6175",
+        "prev_name": [
+          "pyrroline-5-carboxylate synthetase (glutamate gamma-semialdehyde synthetase)",
+          "aldehyde dehydrogenase 18 family, member A1",
+          "spastic paraplegia 9 (autosomal dominant)"
+        ],
+        "refseq_accession": [
+          "NM_002860"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          398
+        ],
+        "cosmic": "ALDH18A1",
+        "hgnc_id": "HGNC:9722",
+        "rgd_id": [
+          "RGD:1311431"
+        ],
+        "ensembl_gene_id": "ENSG00000059573",
+        "entrez_id": "5832",
+        "omim_id": [
+          "138250"
+        ],
+        "symbol": "ALDH18A1",
+        "date_name_changed": "2015-11-18",
+        "location": "10q24.1",
+        "name": "aldehyde dehydrogenase 18 family member A1",
+        "date_modified": "2016-10-13",
+        "mgd_id": [
+          "MGI:1888908"
+        ],
+        "ucsc_id": "uc001kkz.4",
+        "prev_symbol": [
+          "GSAS",
+          "PYCS",
+          "SPG9"
+        ],
+        "uniprot_ids": [
+          "P54886"
+        ],
+        "orphanet": 119578,
+        "ccds_id": [
+          "CCDS7443",
+          "CCDS31257"
+        ],
+        "ena": [
+          "X94453"
+        ],
+        "date_symbol_changed": "2004-08-12",
+        "pubmed_id": [
+          8921385,
+          26297558
+        ],
+        "location_sortable": "10q24.1"
+      },
+      {
+        "date_approved_reserved": "1986-01-01",
+        "vega_id": "OTTHUMG00000132107",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631909611798531,
+        "uuid": "e76484ef-2309-4909-9f01-6a41aab392a0",
+        "prev_name": [
+          "aldolase A, fructose-bisphosphate"
+        ],
+        "refseq_accession": [
+          "NM_000034"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "ALDOA",
+        "hgnc_id": "HGNC:414",
+        "rgd_id": [
+          "RGD:2089"
+        ],
+        "ensembl_gene_id": "ENSG00000149925",
+        "entrez_id": "226",
+        "omim_id": [
+          "103850"
+        ],
+        "symbol": "ALDOA",
+        "date_name_changed": "2015-12-04",
+        "location": "16p11.2",
+        "name": "aldolase, fructose-bisphosphate A",
+        "date_modified": "2015-12-04",
+        "mgd_id": [
+          "MGI:87994"
+        ],
+        "ucsc_id": "uc002dvx.4",
+        "enzyme_id": [
+          "4.1.2.13"
+        ],
+        "uniprot_ids": [
+          "P04075"
+        ],
+        "orphanet": 119599,
+        "ccds_id": [
+          "CCDS10668",
+          "CCDS58450"
+        ],
+        "ena": [
+          "X05236"
+        ],
+        "pubmed_id": [
+          3570299
+        ],
+        "location_sortable": "16p11.2"
+      },
+      {
+        "date_approved_reserved": "2001-06-22",
+        "vega_id": "OTTHUMG00000024237",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "G6PD1"
+        ],
+        "_version_": 1590631910872186880,
+        "uuid": "95aa029e-ef35-4e7a-b28d-486059b27392",
+        "lsdb": [
+          "G6PD Mutations|http://www.bioinf.org.uk/g6pd/",
+          "Mental Retardation database|http://grenada.lumc.nl/LOVD2/MR/home.php?select_db=G6PD",
+          "LRG_148|http://www.lrg-sequence.org/LRG/LRG_148"
+        ],
+        "refseq_accession": [
+          "NM_000402"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "G6PD",
+        "hgnc_id": "HGNC:4057",
+        "rgd_id": [
+          "RGD:2645"
+        ],
+        "ensembl_gene_id": "ENSG00000160211",
+        "entrez_id": "2539",
+        "omim_id": [
+          "305900"
+        ],
+        "symbol": "G6PD",
+        "location": "Xq28",
+        "name": "glucose-6-phosphate dehydrogenase",
+        "date_modified": "2017-03-24",
+        "mgd_id": [
+          "MGI:105979"
+        ],
+        "ucsc_id": "uc004flx.3",
+        "enzyme_id": [
+          "1.1.1.49"
+        ],
+        "uniprot_ids": [
+          "P11413"
+        ],
+        "orphanet": 121984,
+        "ccds_id": [
+          "CCDS14756",
+          "CCDS44023"
+        ],
+        "ena": [
+          "X03674"
+        ],
+        "pubmed_id": [
+          3012556,
+          2428611
+        ],
+        "location_sortable": "Xq28"
+      },
+      {
+        "date_approved_reserved": "2000-01-20",
+        "vega_id": "OTTHUMG00000182879",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "6PGL"
+        ],
+        "_version_": 1590631912714534917,
+        "uuid": "c8892b8f-a4c3-426f-a150-a7b4259ef32b",
+        "refseq_accession": [
+          "NM_012088"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "PGLS",
+        "hgnc_id": "HGNC:8903",
+        "rgd_id": [
+          "RGD:1307001"
+        ],
+        "ensembl_gene_id": "ENSG00000130313",
+        "entrez_id": "25796",
+        "omim_id": [
+          "604951"
+        ],
+        "symbol": "PGLS",
+        "location": "19p13.2",
+        "name": "6-phosphogluconolactonase",
+        "date_modified": "2015-08-25",
+        "mgd_id": [
+          "MGI:1913421"
+        ],
+        "ucsc_id": "uc002ngw.4",
+        "enzyme_id": [
+          "3.1.1.31"
+        ],
+        "uniprot_ids": [
+          "O95336"
+        ],
+        "ccds_id": [
+          "CCDS12361"
+        ],
+        "ena": [
+          "AJ243972"
+        ],
+        "pubmed_id": [
+          10518023
+        ],
+        "location_sortable": "19p13.2"
+      },
+      {
+        "date_approved_reserved": "1999-09-09",
+        "alias_name": [
+          "glucosamine-6-phosphate deaminase",
+          "oscillin"
+        ],
+        "vega_id": "OTTHUMG00000129657",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "GNPDA",
+          "HLN",
+          "GPI",
+          "KIAA0060"
+        ],
+        "_version_": 1590631910967607296,
+        "uuid": "82047e6e-dd5e-4f06-aba8-191164e37090",
+        "prev_name": [
+          "glucosamine-6-phosphate isomerase"
+        ],
+        "refseq_accession": [
+          "NM_005471"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "GNPDA1",
+        "hgnc_id": "HGNC:4417",
+        "rgd_id": [
+          "RGD:1585624"
+        ],
+        "ensembl_gene_id": "ENSG00000113552",
+        "entrez_id": "10007",
+        "omim_id": [
+          "601798"
+        ],
+        "symbol": "GNPDA1",
+        "date_name_changed": "2003-10-17",
+        "location": "5q31.3",
+        "name": "glucosamine-6-phosphate deaminase 1",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:1347054"
+        ],
+        "ucsc_id": "uc010jgh.4",
+        "prev_symbol": [
+          "GNPI"
+        ],
+        "enzyme_id": [
+          "3.5.99.6"
+        ],
+        "uniprot_ids": [
+          "P46926"
+        ],
+        "ccds_id": [
+          "CCDS4272"
+        ],
+        "ena": [
+          "AF048826"
+        ],
+        "date_symbol_changed": "2003-10-22",
+        "pubmed_id": [
+          9714720,
+          9438414
+        ],
+        "location_sortable": "05q31.3"
+      },
+      {
+        "date_approved_reserved": "2004-06-02",
+        "vega_id": "OTTHUMG00000020105",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "bA522I20.2",
+          "hGntK"
+        ],
+        "_version_": 1590631911208779779,
+        "uuid": "8d260f2e-d936-46e0-8b4e-36b70cbddfe4",
+        "prev_name": [
+          "chromosome 9 open reading frame 103",
+          "idnK, gluconokinase homolog (E. coli)"
+        ],
+        "refseq_accession": [
+          "NM_001001551"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "IDNK",
+        "hgnc_id": "HGNC:31367",
+        "rgd_id": [
+          "RGD:1564546"
+        ],
+        "ensembl_gene_id": "ENSG00000148057",
+        "entrez_id": "414328",
+        "omim_id": [
+          "611343"
+        ],
+        "symbol": "IDNK",
+        "date_name_changed": "2016-06-09",
+        "location": "9q21.32",
+        "name": "IDNK, gluconokinase",
+        "date_modified": "2016-07-21",
+        "mgd_id": [
+          "MGI:1922981"
+        ],
+        "ucsc_id": "uc004amu.4",
+        "prev_symbol": [
+          "C9orf103"
+        ],
+        "enzyme_id": [
+          "2.7.1.12"
+        ],
+        "uniprot_ids": [
+          "Q5T6J7"
+        ],
+        "ccds_id": [
+          "CCDS35048",
+          "CCDS59134"
+        ],
+        "ena": [
+          "BC036421"
+        ],
+        "date_symbol_changed": "2012-03-30",
+        "pubmed_id": [
+          23067238,
+          24896608,
+          26505675
+        ],
+        "location_sortable": "09q21.32"
+      },
+      {
+        "date_approved_reserved": "2004-12-07",
+        "vega_id": "OTTHUMG00000165537",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "CGI-26",
+          "DEOC"
+        ],
+        "_version_": 1590631910424444930,
+        "uuid": "2338f508-4238-4e2c-927c-d2e5e4024d47",
+        "prev_name": [
+          "2-deoxyribose-5-phosphate aldolase homolog (C. elegans)"
+        ],
+        "refseq_accession": [
+          "NM_015954"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "DERA",
+        "hgnc_id": "HGNC:24269",
+        "rgd_id": [
+          "RGD:1589836"
+        ],
+        "ensembl_gene_id": "ENSG00000023697",
+        "entrez_id": "51071",
+        "symbol": "DERA",
+        "date_name_changed": "2016-03-08",
+        "location": "12p12.3",
+        "name": "deoxyribose-phosphate aldolase",
+        "date_modified": "2016-03-08",
+        "mgd_id": [
+          "MGI:1913762"
+        ],
+        "ucsc_id": "uc001rde.4",
+        "enzyme_id": [
+          "4.1.2.4"
+        ],
+        "uniprot_ids": [
+          "Q9Y315"
+        ],
+        "ccds_id": [
+          "CCDS44838",
+          "CCDS73451"
+        ],
+        "ena": [
+          "AF132960"
+        ],
+        "pubmed_id": [
+          12546782,
+          25229427
+        ],
+        "location_sortable": "12p12.3"
+      },
+      {
+        "date_approved_reserved": "2001-06-22",
+        "vega_id": "OTTHUMG00000008968",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631912715583489,
+        "uuid": "b0db235f-828a-4760-b8d4-7b47e8309f8c",
+        "refseq_accession": [
+          "NM_002633"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "PGM1",
+        "hgnc_id": "HGNC:8905",
+        "rgd_id": [
+          "RGD:3316"
+        ],
+        "ensembl_gene_id": "ENSG00000079739",
+        "entrez_id": "5236",
+        "omim_id": [
+          "171900"
+        ],
+        "symbol": "PGM1",
+        "location": "1p31.3",
+        "name": "phosphoglucomutase 1",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:97565"
+        ],
+        "ucsc_id": "uc001dbh.5",
+        "enzyme_id": [
+          "5.4.2.2"
+        ],
+        "uniprot_ids": [
+          "P36871"
+        ],
+        "orphanet": 124229,
+        "ccds_id": [
+          "CCDS625",
+          "CCDS53323",
+          "CCDS53324"
+        ],
+        "ena": [
+          "BC019920"
+        ],
+        "pubmed_id": [
+          4517931,
+          1530890
+        ],
+        "location_sortable": "01p31.3"
+      },
+      {
+        "date_approved_reserved": "2011-01-31",
+        "vega_id": "OTTHUMG00000011171",
+        "locus_group": "pseudogene",
+        "status": "Approved",
+        "_version_": 1590631912713486336,
+        "pseudogene.org": "PGOHUM00000244143",
+        "uuid": "c5ec3483-a5cc-47be-89c6-32f1dc3b70f3",
+        "prev_name": [
+          "progastricsin (pepsinogen C) pseudogene 1"
+        ],
+        "refseq_accession": [
+          "NR_029429"
+        ],
+        "locus_type": "pseudogene",
+        "hgnc_id": "HGNC:39503",
+        "ensembl_gene_id": "ENSG00000227179",
+        "entrez_id": "441897",
+        "symbol": "PGCP1",
+        "date_name_changed": "2016-06-27",
+        "location": "1p13.2",
+        "name": "progastricsin pseudogene 1",
+        "date_modified": "2016-06-27",
+        "location_sortable": "01p13.2"
+      },
+      {
+        "date_approved_reserved": "2001-06-22",
+        "vega_id": "OTTHUMG00000001905",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631912713486337,
+        "uuid": "559c31bf-b846-4e36-b960-6679fa2098c8",
+        "refseq_accession": [
+          "NM_002631"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "PGD",
+        "hgnc_id": "HGNC:8891",
+        "rgd_id": [
+          "RGD:1583832"
+        ],
+        "ensembl_gene_id": "ENSG00000142657",
+        "entrez_id": "5226",
+        "omim_id": [
+          "172200"
+        ],
+        "symbol": "PGD",
+        "location": "1p36.22",
+        "name": "phosphogluconate dehydrogenase",
+        "date_modified": "2014-11-18",
+        "mgd_id": [
+          "MGI:97553"
+        ],
+        "ucsc_id": "uc001arc.4",
+        "enzyme_id": [
+          "1.1.1.43"
+        ],
+        "uniprot_ids": [
+          "P52209"
+        ],
+        "orphanet": 470868,
+        "ccds_id": [
+          "CCDS113"
+        ],
+        "ena": [
+          "BC000368"
+        ],
+        "location_sortable": "01p36.22"
+      },
+      {
+        "date_approved_reserved": "1989-05-25",
+        "vega_id": "OTTHUMG00000179618",
+        "locus_group": "pseudogene",
+        "status": "Approved",
+        "_version_": 1590631912713486338,
+        "pseudogene.org": "PGOHUM00000294762",
+        "uuid": "eef39b70-9761-4527-aa13-078e29bddcbe",
+        "prev_name": [
+          "phosphogluconate dehydrogenase-like 1"
+        ],
+        "refseq_accession": [
+          "NG_022489"
+        ],
+        "locus_type": "pseudogene",
+        "hgnc_id": "HGNC:8892",
+        "ensembl_gene_id": "ENSG00000265273",
+        "entrez_id": "342705",
+        "symbol": "PGDP1",
+        "date_name_changed": "2010-10-21",
+        "location": "18q12.1",
+        "name": "phosphogluconate dehydrogenase pseudogene 1",
+        "date_modified": "2017-10-30",
+        "prev_symbol": [
+          "PGDL1"
+        ],
+        "date_symbol_changed": "2010-10-21",
+        "location_sortable": "18q12.1"
+      },
+      {
+        "date_approved_reserved": "1986-01-01",
+        "alias_name": [
+          "Phosphofructokinase, platelet type"
+        ],
+        "vega_id": "OTTHUMG00000017556",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "PFK-C",
+          "PFKF"
+        ],
+        "_version_": 1590631912706146307,
+        "uuid": "9d072054-ea1d-46d1-adf9-4344feaac231",
+        "refseq_accession": [
+          "NM_002627"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "PFKP",
+        "hgnc_id": "HGNC:8878",
+        "rgd_id": [
+          "RGD:61893"
+        ],
+        "ensembl_gene_id": "ENSG00000067057",
+        "entrez_id": "5214",
+        "omim_id": [
+          "171840"
+        ],
+        "symbol": "PFKP",
+        "location": "10p15.2",
+        "name": "phosphofructokinase, platelet",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:1891833"
+        ],
+        "ucsc_id": "uc001igp.4",
+        "enzyme_id": [
+          "2.7.1.11"
+        ],
+        "uniprot_ids": [
+          "Q01813"
+        ],
+        "ccds_id": [
+          "CCDS7059",
+          "CCDS55698"
+        ],
+        "ena": [
+          "AK092597"
+        ],
+        "location_sortable": "10p15.2"
+      },
+      {
+        "gene_family": [
+          "Protein phosphatase 1 regulatory subunits"
+        ],
+        "date_approved_reserved": "1986-01-01",
+        "alias_name": [
+          "protein phosphatase 1, regulatory subunit 122"
+        ],
+        "vega_id": "OTTHUMG00000169898",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "PFK-1",
+          "PPP1R122"
+        ],
+        "_version_": 1590631912706146306,
+        "uuid": "a05b155c-5a5b-4a47-80ff-3d01705521b6",
+        "prev_name": [
+          "phosphofructokinase, polypeptide X"
+        ],
+        "refseq_accession": [
+          "NM_000289"
+        ],
+        "locus_type": "gene with protein product",
+        "gene_family_id": [
+          694
+        ],
+        "cosmic": "PFKM",
+        "hgnc_id": "HGNC:8877",
+        "rgd_id": [
+          "RGD:68419"
+        ],
+        "ensembl_gene_id": "ENSG00000152556",
+        "entrez_id": "5213",
+        "omim_id": [
+          "610681"
+        ],
+        "symbol": "PFKM",
+        "location": "12q13.11",
+        "name": "phosphofructokinase, muscle",
+        "date_modified": "2014-11-19",
+        "mgd_id": [
+          "MGI:97548"
+        ],
+        "ucsc_id": "uc001rrc.4",
+        "prev_symbol": [
+          "PFKX"
+        ],
+        "enzyme_id": [
+          "2.7.1.11"
+        ],
+        "uniprot_ids": [
+          "P08237"
+        ],
+        "orphanet": 124223,
+        "ccds_id": [
+          "CCDS8760",
+          "CCDS53786"
+        ],
+        "ena": [
+          "M26066"
+        ],
+        "location_sortable": "12q13.11"
+      },
+      {
+        "date_approved_reserved": "1986-01-01",
+        "vega_id": "OTTHUMG00000086910",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631912706146305,
+        "uuid": "6f738f37-7a31-40ab-80f8-6fcb68497523",
+        "refseq_accession": [
+          "NM_001002021"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "PFKL",
+        "hgnc_id": "HGNC:8876",
+        "rgd_id": [
+          "RGD:3311"
+        ],
+        "ensembl_gene_id": "ENSG00000141959",
+        "entrez_id": "5211",
+        "omim_id": [
+          "171860"
+        ],
+        "symbol": "PFKL",
+        "date_name_changed": "2016-02-10",
+        "location": "21q22.3",
+        "name": "phosphofructokinase, liver type",
+        "date_modified": "2016-02-10",
+        "mgd_id": [
+          "MGI:97547"
+        ],
+        "ucsc_id": "uc002zel.4",
+        "enzyme_id": [
+          "2.7.1.11"
+        ],
+        "uniprot_ids": [
+          "P17858"
+        ],
+        "ccds_id": [
+          "CCDS33582"
+        ],
+        "location_sortable": "21q22.3"
+      },
+      {
+        "date_approved_reserved": "2001-06-22",
+        "vega_id": "OTTHUMG00000182087",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "AMF",
+          "NLK"
+        ],
+        "_version_": 1590631910985433088,
+        "uuid": "3879c70a-c01b-4385-bdec-1e8725f3ebe4",
+        "prev_name": [
+          "glucose phosphate isomerase"
+        ],
+        "refseq_accession": [
+          "NM_000175"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "GPI",
+        "hgnc_id": "HGNC:4458",
+        "rgd_id": [
+          "RGD:2727"
+        ],
+        "ensembl_gene_id": "ENSG00000105220",
+        "entrez_id": "2821",
+        "omim_id": [
+          "172400"
+        ],
+        "symbol": "GPI",
+        "date_name_changed": "2010-05-11",
+        "location": "19q13.11",
+        "name": "glucose-6-phosphate isomerase",
+        "date_modified": "2016-10-06",
+        "mgd_id": [
+          "MGI:95797"
+        ],
+        "ucsc_id": "uc002nvg.3",
+        "enzyme_id": [
+          "5.3.1.9"
+        ],
+        "uniprot_ids": [
+          "P06744"
+        ],
+        "orphanet": 122259,
+        "ccds_id": [
+          "CCDS12437",
+          "CCDS54246"
+        ],
+        "ena": [
+          "M61214"
+        ],
+        "pubmed_id": [
+          2387591,
+          8575767
+        ],
+        "location_sortable": "19q13.11"
+      },
+      {
+        "date_approved_reserved": "1986-01-01",
+        "vega_id": "OTTHUMG00000020378",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631909611798534,
+        "uuid": "f98c60ed-85fe-4008-9e61-7ea9359f3813",
+        "prev_name": [
+          "aldolase B, fructose-bisphosphate"
+        ],
+        "lsdb": [
+          "Hereditary Fructose Intolerance/Aldolase|http://www.bu.edu/aldolase/"
+        ],
+        "refseq_accession": [
+          "NM_000035"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "ALDOB",
+        "hgnc_id": "HGNC:417",
+        "rgd_id": [
+          "RGD:2090"
+        ],
+        "ensembl_gene_id": "ENSG00000136872",
+        "entrez_id": "229",
+        "omim_id": [
+          "612724"
+        ],
+        "symbol": "ALDOB",
+        "date_name_changed": "2015-12-04",
+        "location": "9q31.1",
+        "name": "aldolase, fructose-bisphosphate B",
+        "date_modified": "2016-10-05",
+        "mgd_id": [
+          "MGI:87995"
+        ],
+        "ucsc_id": "uc004bbk.3",
+        "enzyme_id": [
+          "4.1.2.13"
+        ],
+        "uniprot_ids": [
+          "P05062"
+        ],
+        "orphanet": 119601,
+        "ccds_id": [
+          "CCDS6756"
+        ],
+        "ena": [
+          "X01098"
+        ],
+        "location_sortable": "09q31.1"
+      },
+      {
+        "date_approved_reserved": "1986-01-01",
+        "vega_id": "OTTHUMG00000132605",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631909611798535,
+        "uuid": "c78bfef5-07d9-48f2-8e7a-f7abab2d6885",
+        "prev_name": [
+          "aldolase C, fructose-bisphosphate"
+        ],
+        "refseq_accession": [
+          "NM_005165"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "ALDOC",
+        "hgnc_id": "HGNC:418",
+        "rgd_id": [
+          "RGD:2091"
+        ],
+        "ensembl_gene_id": "ENSG00000109107",
+        "entrez_id": "230",
+        "omim_id": [
+          "103870"
+        ],
+        "symbol": "ALDOC",
+        "date_name_changed": "2015-12-04",
+        "location": "17q11.2",
+        "name": "aldolase, fructose-bisphosphate C",
+        "date_modified": "2015-12-04",
+        "mgd_id": [
+          "MGI:101863"
+        ],
+        "ucsc_id": "uc002hbp.4",
+        "enzyme_id": [
+          "4.1.2.13"
+        ],
+        "uniprot_ids": [
+          "P09972"
+        ],
+        "ccds_id": [
+          "CCDS11236"
+        ],
+        "ena": [
+          "AF054987"
+        ],
+        "location_sortable": "17q11.2"
+      },
+      {
+        "date_approved_reserved": "1999-04-14",
+        "vega_id": "OTTHUMG00000090273",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "alias_symbol": [
+          "Noc2"
+        ],
+        "_version_": 1590631913499918340,
+        "uuid": "4c17bc7b-c6ee-4140-9a78-6907fb22599a",
+        "refseq_accession": [
+          "NM_006987"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "RPH3AL",
+        "hgnc_id": "HGNC:10296",
+        "rgd_id": [
+          "RGD:620342"
+        ],
+        "ensembl_gene_id": "ENSG00000181031",
+        "entrez_id": "9501",
+        "omim_id": [
+          "604881"
+        ],
+        "symbol": "RPH3AL",
+        "date_name_changed": "2017-02-21",
+        "location": "17p13.3",
+        "name": "rabphilin 3A like (without C2 domains)",
+        "date_modified": "2017-02-21",
+        "mgd_id": [
+          "MGI:1923492"
+        ],
+        "ucsc_id": "uc021tmx.1",
+        "uniprot_ids": [
+          "Q9UNE2"
+        ],
+        "ccds_id": [
+          "CCDS10994",
+          "CCDS54059"
+        ],
+        "pubmed_id": [
+          10395805
+        ],
+        "location_sortable": "17p13.3"
+      },
+      {
+        "date_approved_reserved": "1999-09-30",
+        "alias_name": [
+          "ribose 5-phosphate epimerase"
+        ],
+        "vega_id": "OTTHUMG00000130333",
+        "locus_group": "protein-coding gene",
+        "status": "Approved",
+        "_version_": 1590631913500966912,
+        "uuid": "39b0942c-dc8d-44c7-ba0d-6ca22ca148e0",
+        "refseq_accession": [
+          "NM_144563"
+        ],
+        "locus_type": "gene with protein product",
+        "cosmic": "RPIA",
+        "hgnc_id": "HGNC:10297",
+        "rgd_id": [
+          "RGD:1311377"
+        ],
+        "ensembl_gene_id": "ENSG00000153574",
+        "entrez_id": "22934",
+        "omim_id": [
+          "180430"
+        ],
+        "symbol": "RPIA",
+        "date_name_changed": "2008-07-31",
+        "location": "2p11.2",
+        "name": "ribose 5-phosphate isomerase A",
+        "date_modified": "2015-08-25",
+        "mgd_id": [
+          "MGI:103254"
+        ],
+        "ucsc_id": "uc002ste.4",
+        "enzyme_id": [
+          "5.3.1.6"
+        ],
+        "uniprot_ids": [
+          "P49247"
+        ],
+        "orphanet": 444921,
+        "ccds_id": [
+          "CCDS2004"
+        ],
+        "ena": [
+          "L35035"
+        ],
+        "pubmed_id": [
+          7758956
+        ],
+        "location_sortable": "02p11.2"
       }
     ]
   }

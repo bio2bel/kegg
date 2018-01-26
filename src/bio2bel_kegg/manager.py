@@ -9,16 +9,16 @@ from multiprocessing.pool import ThreadPool
 
 import requests
 from bio2bel.utils import get_connection
+from bio2bel_hgnc.manager import Manager as HgncManager
 from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
 from pybel.struct.graph import BELGraph
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
-from bio2bel_kegg.constants import MODULE_NAME, KEGG, API_KEGG_GET
-from bio2bel_kegg.hgnc_connection import symbol_to_hgnc_id
-from bio2bel_kegg.models import Base, Pathway, Protein
-from bio2bel_kegg.parsers import *
+from .constants import MODULE_NAME, KEGG, API_KEGG_GET
+from .models import Base, Pathway, Protein
+from .parsers import *
 
 __all__ = [
     'Manager'
@@ -60,21 +60,21 @@ class Manager(object):
     """Custom query methods"""
 
     def query_gene_set(self, gene_set):
+        """Returns Proteins within the gene set
 
-        gene_set_ids = {
-            symbol_to_hgnc_id.get(hgnc_symbol, None)
-            for hgnc_symbol in gene_set
-        }
+        :param gene_set: set of gene symbols
+        :rtype: list[models.Protein]
+        :return: list of proteins
+        """
 
-        proteins = self.session.query(Protein).filter(Protein.hgnc_id.in_(gene_set_ids)).all()
-
-        return proteins
+        return self.session.query(Protein).filter(Protein.hgnc_symbol.in_(gene_set)).all()
 
     def calculate_enrichment(self, pathway_counter):
         pass
 
     def get_pathway_by_id(self, kegg_id):
         """Gets a pathway by its kegg id
+
         :param kegg_id: kegg identifier
         :rtype: Optional[Pathway]
         """
@@ -82,6 +82,7 @@ class Manager(object):
 
     def get_pathway_by_name(self, pathway_name):
         """Gets a pathway by its kegg id
+
         :param pathway_name: kegg name
         :rtype: Optional[Pathway]
         """
@@ -89,6 +90,7 @@ class Manager(object):
 
     def get_or_create_pathway(self, kegg_id, name=None):
         """Gets an pathway from the database or creates it
+
         :param str kegg_id: kegg identifier
         :param Optional[str] name: name of the pathway
         :rtype: Pathway
@@ -106,26 +108,28 @@ class Manager(object):
 
     def get_protein_by_kegg_id(self, kegg_id):
         """Gets a protein by its kegg id
+
         :param kegg_id: kegg identifier
         :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.kegg_id == kegg_id).one_or_none()
 
     def get_protein_by_hgnc_id(self, hgnc_id):
-        """Gets a protein by its hgnc id
-        :param hgnc_id: hgnc identifier
+        """Gets a protein by its hgnc_id
+
+        :param hgnc_id: hgnc_id
         :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
 
     def get_protein_by_hgnc_symbol(self, hgnc_symbol):
         """Gets a protein by its hgnc symbol
+
         :param hgnc_id: hgnc identifier
         :rtype: Optional[Protein]
         """
-        hgnc_id = symbol_to_hgnc_id[hgnc_symbol]
+        return self.session.query(Protein).filter(Protein.hgnc_symbol == hgnc_symbol).one_or_none()
 
-        return self.get_protein_by_hgnc_symbol(hgnc_id)
 
     def export_genesets(self):
         """Returns pathway - genesets mapping"""
@@ -162,6 +166,10 @@ class Manager(object):
 
         protein_description_urls = create_entity_description_url(protein_df, API_KEGG_GET)
 
+        hgnc_manager = HgncManager(connection=self.connection)
+
+        hgnc_id_to_symbol = hgnc_manager.build_hgnc_id_symbol_mapping()
+
         # KEGG protein ID to Protein model attributes dictionary
         pid_attributes = {}
 
@@ -172,9 +180,15 @@ class Manager(object):
         for result in tqdm(results, desc='Fetching meta information'):
             kegg_protein_id = result.url.rsplit('/', 1)[-1]
 
-            pid_attributes[kegg_protein_id] = process_protein_info_to_model(result, kegg_protein_id)
+            protein_dict = process_protein_info_to_model(result, kegg_protein_id)
 
-        # KEGG protein ID to Protein object already created
+            # Add extra fields to the protein dictionary
+            protein_dict['kegg_id'] = kegg_protein_id
+            protein_dict['hgnc_symbol'] = hgnc_id_to_symbol.get(protein_dict['hgnc_id'])
+
+            # KEGG protein ID to Protein object already created
+            pid_attributes[kegg_protein_id] = protein_dict
+
         pid_protein = {}
 
         log.info('Done fetching')
@@ -236,6 +250,7 @@ class Manager(object):
                 pathway = self.get_pathway_by_name(data[NAME])
 
                 for protein in pathway.proteins:
+
                     graph.add_qualified_edge(
                         protein.serialize_to_protein_node(),
                         node,
@@ -259,7 +274,7 @@ class Manager(object):
 
             if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
 
-                protein = self.get_protein_by_hgnc_id(symbol_to_hgnc_id[data[NAME]])
+                protein = self.get_protein_by_hgnc_symbol(data[NAME])
 
                 for pathway in protein.pathways:
                     graph.add_qualified_edge(

@@ -176,7 +176,4 @@ def process_protein_info_to_model(response, kegg_protein_id):
         columns=PROTEIN_RESOURCES
     )
     # Adapt the dict keys to match protein model columns
-    protein_as_dict = kegg_properties_to_models(protein_as_dict)
-    protein_as_dict['kegg_id'] = kegg_protein_id
-
-    return protein_as_dict
+    return kegg_properties_to_models(protein_as_dict)

@@ -2,7 +2,7 @@
 """ This module contains tests for parsing KEGG files"""
 
 from unittest import TestCase
-
+import requests
 from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 from bio2bel_kegg.models import Pathway, Protein
 from bio2bel_kegg.parsers.description import parse_description, get_description_properties
@@ -48,7 +48,9 @@ class TestDescriptionParse(TestCase):
     def test_description_protein(self):
         # Dictionary of list of tuples
 
-        PFKP_protein = parse_description(identifier='hsa:5214')
+        response = requests.get('http://rest.kegg.jp/get/hsa:5214')
+
+        PFKP_protein = parse_description(response)
 
         self.assertEqual(
             [('hsa00010', 'Glycolysis / Gluconeogenesis'),
