@@ -2,7 +2,6 @@
 
 """KEGG database models"""
 
-from flask_admin.contrib.sqla import ModelView
 from pybel.dsl import bioprocess, protein
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
@@ -94,19 +93,3 @@ class Protein(Base):
             id
             for id in self.uniprot_id.split(" ")
         ]
-
-class PathwayView(ModelView):
-    """Pathway view in Flask-admin"""
-    column_searchable_list = (
-        Pathway.kegg_id,
-        Pathway.name
-    )
-
-
-class ProteinView(ModelView):
-    """Protein view in Flask-admin"""
-    column_searchable_list = (
-        Protein.kegg_id,
-        Protein.uniprot_id,
-        Protein.hgnc_id
-    )

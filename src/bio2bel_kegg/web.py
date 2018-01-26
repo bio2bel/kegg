@@ -4,9 +4,27 @@
 
 import flask_admin
 from flask import Flask
+from flask_admin.contrib.sqla import ModelView
 
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.models import *
+
+
+class PathwayView(ModelView):
+    """Pathway view in Flask-admin"""
+    column_searchable_list = (
+        Pathway.kegg_id,
+        Pathway.name
+    )
+
+
+class ProteinView(ModelView):
+    """Protein view in Flask-admin"""
+    column_searchable_list = (
+        Protein.kegg_id,
+        Protein.uniprot_id,
+        Protein.hgnc_id
+    )
 
 
 def add_admin(app, session, **kwargs):
