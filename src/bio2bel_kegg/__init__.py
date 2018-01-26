@@ -4,7 +4,7 @@
 
 from .manager import Manager
 
-__version__ = '0.0.1-dev'
+__version__ = '0.0.2'
 
 __title__ = 'bio2bel_kegg'
 __description__ = "A package for converting Kegg to BEL"
