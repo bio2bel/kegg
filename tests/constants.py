@@ -5,8 +5,6 @@ import os
 import tempfile
 import unittest
 
-import pyhgnc
-
 from bio2bel_hgnc.manager import Manager as HgncManager
 from bio2bel_kegg.constants import HGNC, KEGG
 from bio2bel_kegg.manager import Manager
@@ -37,23 +35,23 @@ class DatabaseMixin(unittest.TestCase):
 
         # create temporary database
         cls.manager = Manager(cls.connection)
+
+        """HGNC Manager"""
+
+        cls.hgnc_manager = HgncManager(connection=cls.connection)
+
+        cls.hgnc_manager.create_all()
+
+        cls.hgnc_manager.populate(
+            hgnc_file_path=hgnc_test_path,
+            hcop_file_path=hcop_test_path,
+        )
+
         # fill temporary database with test data
         cls.manager.populate(
             pathways_url=pathways,
             protein_pathway_url=protein_pathway_url
         )
-
-        print(cls.connection)
-
-        """HGNC Manager"""
-
-        pyhgnc.update(
-            connection=cls.connection,
-            hgnc_file_path=hgnc_test_path,
-            hcop_file_path=hcop_test_path,
-        )
-
-        print(cls.connection)
 
     @classmethod
     def tearDownClass(cls):
