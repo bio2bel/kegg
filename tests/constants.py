@@ -43,6 +43,8 @@ class DatabaseMixin(unittest.TestCase):
             protein_pathway_url=protein_pathway_url
         )
 
+        print(cls.connection)
+
         """HGNC Manager"""
 
         pyhgnc.update(
@@ -50,6 +52,8 @@ class DatabaseMixin(unittest.TestCase):
             hgnc_file_path=hgnc_test_path,
             hcop_file_path=hcop_test_path,
         )
+
+        print(cls.connection)
 
     @classmethod
     def tearDownClass(cls):
