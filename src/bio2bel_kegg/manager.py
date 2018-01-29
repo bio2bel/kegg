@@ -69,9 +69,6 @@ class Manager(object):
 
         return self.session.query(Protein).filter(Protein.hgnc_symbol.in_(gene_set)).all()
 
-    def calculate_enrichment(self, pathway_counter):
-        pass
-
     def get_pathway_by_id(self, kegg_id):
         """Gets a pathway by its kegg id
 
@@ -129,7 +126,6 @@ class Manager(object):
         :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.hgnc_symbol == hgnc_symbol).one_or_none()
-
 
     def export_genesets(self):
         """Returns pathway - genesets mapping"""
@@ -250,7 +246,6 @@ class Manager(object):
                 pathway = self.get_pathway_by_name(data[NAME])
 
                 for protein in pathway.proteins:
-
                     graph.add_qualified_edge(
                         protein.serialize_to_protein_node(),
                         node,
