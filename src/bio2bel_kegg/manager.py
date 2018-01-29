@@ -140,7 +140,7 @@ class Manager(object):
     """Methods to populate the DB"""
 
     def _populate_pathways(self, url=None):
-        """ Populate pathway table
+        """Populate pathway table
 
         :param Optional[str] url: url from pathway table file
         """
@@ -154,7 +154,7 @@ class Manager(object):
         self.session.commit()
 
     def _pathway_entity(self, url=None):
-        """ Populates Protein Tables
+        """Populates Protein Tables
 
         :param Optional[str] url: url from protein to pathway file
         """
@@ -204,12 +204,16 @@ class Manager(object):
         self.session.commit()
 
     def populate(self, pathways_url=None, protein_pathway_url=None):
-        """ Populates all tables"""
+        """Populates all tables"""
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url)
 
     def get_pathway_graph(self, kegg_id):
-        """Returns a new graph corresponding to the pathway"""
+        """Returns a new graph corresponding to the pathway
+        :param str kegg_id: kegg identifier
+        :rtype: pybel.BELGraph
+        :return
+        """
 
         pathway = self.get_pathway_by_id(kegg_id)
 
@@ -235,8 +239,8 @@ class Manager(object):
 
         :param graph: A BEL Graph
         :type graph: pybel.BELGraph
-        :type graph: pybel.BELGraph
-        :return graph: A BEL Graph
+        :rtype: pybel.BELGraph
+        :return A BEL Graph
         """
 
         for node, data in graph.nodes(data=True):
@@ -261,8 +265,8 @@ class Manager(object):
 
         :param graph: A BEL Graph
         :type graph: pybel.BELGraph
-        :type graph: pybel.BELGraph
-        :return graph: A BEL Graph
+        :rtype: pybel.BELGraph
+        :return A BEL Graph
         """
 
         for node, data in graph.nodes(data=True):
