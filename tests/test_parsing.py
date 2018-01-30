@@ -22,17 +22,17 @@ class TestParse(DatabaseMixin):
 
     def test_pathway_protein_1(self):
         pathway = self.manager.get_pathway_by_id('path:hsa00030')
-        self.assertIsNotNone(pathway)
+        self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(14, len(pathway.proteins))
 
     def test_pathway_protein_2(self):
         pathway = self.manager.get_pathway_by_id('path:hsa00010')
-        self.assertIsNotNone(pathway)
+        self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(16, len(pathway.proteins))
 
     def test_protein_pathway_1(self):
         protein = self.manager.session.query(Protein).filter(Protein.kegg_id == 'hsa:5214').one_or_none()
-        self.assertIsNotNone(protein)
+        self.assertIsNotNone(protein, msg='Unable to find pathway')
         self.assertEqual(2, len(protein.pathways))
         self.assertEqual(
             {'path:hsa00030', 'path:hsa00010'}, {
