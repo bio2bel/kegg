@@ -158,10 +158,9 @@ def kegg_properties_to_models(kegg_attributes):
     }
 
 
-def process_protein_info_to_model(response, kegg_protein_id):
+def process_protein_info_to_model(response):
     """Process description
 
-    :param kegg_protein_id: kegg_protein_id
     :param requests.Response response: response from KEGG API
     :type: dict
     :return: protein model attributes

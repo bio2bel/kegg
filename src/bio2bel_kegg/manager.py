@@ -176,7 +176,7 @@ class Manager(object):
         for result in tqdm(results, desc='Fetching meta information'):
             kegg_protein_id = result.url.rsplit('/', 1)[-1]
 
-            protein_dict = process_protein_info_to_model(result, kegg_protein_id)
+            protein_dict = process_protein_info_to_model(result)
 
             # Add extra fields to the protein dictionary
             protein_dict['kegg_id'] = kegg_protein_id
