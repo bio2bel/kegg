@@ -131,7 +131,7 @@ class Manager(object):
         """Returns pathway - genesets mapping"""
         return {
             pathway.name: {
-                protein.get_hgnc_symbol(protein.hgnc_id)
+                protein.hgnc_symbol
                 for protein in pathway.proteins
             }
             for pathway in self.session.query(Pathway).all()
@@ -178,9 +178,12 @@ class Manager(object):
 
             protein_dict = process_protein_info_to_model(result)
 
-            # Add extra fields to the protein dictionary
+            # Adds HGNC id information
+            if 'hgnc_id' in protein_dict:
+                # Add extra fields to the protein dictionary
+                protein_dict['hgnc_symbol'] = hgnc_id_to_symbol.get(protein_dict['hgnc_id'])
+
             protein_dict['kegg_id'] = kegg_protein_id
-            protein_dict['hgnc_symbol'] = hgnc_id_to_symbol.get(protein_dict['hgnc_id'])
 
             # KEGG protein ID to Protein object already created
             pid_attributes[kegg_protein_id] = protein_dict
