@@ -29,6 +29,7 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 class Manager(object):
+    """Database manager"""
     def __init__(self, connection=None):
         self.connection = get_connection(MODULE_NAME, connection)
         self.engine = create_engine(self.connection)
