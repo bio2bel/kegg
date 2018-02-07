@@ -257,16 +257,10 @@ class Manager(object):
     def enrich_kegg_pathway(self, graph):
         """Enrich all proteins belonging to kegg pathway nodes in the graph
 
-        :param graph: A BEL Graph
-        :type graph: pybel.BELGraph
-        :rtype: pybel.BELGraph
-        :return A BEL Graph
+        :param pybel.BELGraph graph: A BEL Graph
         """
-
         for node, data in graph.nodes(data=True):
-
             if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == KEGG and NAME in data:
-
                 pathway = self.get_pathway_by_name(data[NAME])
 
                 for protein in pathway.proteins:
@@ -278,21 +272,13 @@ class Manager(object):
                         evidence='http://www.genome.jp/kegg/'
                     )
 
-        return graph
-
     def enrich_kegg_protein(self, graph):
         """Enrich all kegg pathways associated with proteins in the graph
 
-        :param graph: A BEL Graph
-        :type graph: pybel.BELGraph
-        :rtype: pybel.BELGraph
-        :return A BEL Graph
+        :param pybel.BELGraph graph: A BEL Graph
         """
-
         for node, data in graph.nodes(data=True):
-
             if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
-
                 protein = self.get_protein_by_hgnc_symbol(data[NAME])
 
                 for pathway in protein.pathways:
@@ -303,5 +289,3 @@ class Manager(object):
                         citation='27899662',
                         evidence='http://www.genome.jp/kegg/'
                     )
-
-        return graph
