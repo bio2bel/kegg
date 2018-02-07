@@ -9,6 +9,7 @@ Bio2BEL KEGG
    manager
    models
    constants
+   web
 
 Indices and tables
 ==================

@@ -30,6 +30,7 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 class Manager(object):
     """Database manager"""
+
     def __init__(self, connection=None):
         self.connection = get_connection(MODULE_NAME, connection)
         self.engine = create_engine(self.connection)
@@ -85,6 +86,14 @@ class Manager(object):
         :rtype: Optional[Pathway]
         """
         return self.session.query(Pathway).filter(Pathway.name == pathway_name).one_or_none()
+
+    def query_pathway_by_name(self, query):
+        """Returns all pathways having the query in their names
+
+        :param query: query string
+        :rtype: list[Pathway]
+        """
+        return self.session.query(Pathway).filter(Pathway.name.contains(query)).all()
 
     def get_or_create_pathway(self, kegg_id, name=None):
         """Gets an pathway from the database or creates it
