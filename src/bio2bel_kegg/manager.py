@@ -97,17 +97,17 @@ class Manager(object):
     def get_pathway_size_distribution(self):
         """Returns pathway sizes
 
-        :rtype: list
+        :rtype: dict
         :return: pathway sizes
         """
 
         pathways = self.get_all_pathways()
 
-        return [
-            len(pathway.proteins)
+        return {
+            pathway.name: len(pathway.proteins)
             for pathway in pathways
             if pathway.proteins
-        ]
+        }
 
     def query_pathway_by_name(self, query, limit=None):
         """Returns all pathways having the query in their names
