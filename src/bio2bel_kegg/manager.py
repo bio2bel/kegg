@@ -87,6 +87,28 @@ class Manager(object):
         """
         return self.session.query(Pathway).filter(Pathway.name == pathway_name).one_or_none()
 
+    def get_all_pathways(self):
+        """Gets all pathways stored in the database
+
+        :rtype: list[Pathway]
+        """
+        return self.session.query(Pathway).all()
+
+    def get_pathway_size_distribution(self):
+        """Returns pathway sizes
+
+        :rtype: list
+        :return: pathway sizes
+        """
+
+        pathways = self.get_all_pathways()
+
+        return [
+            len(pathway.proteins)
+            for pathway in pathways
+            if pathway.proteins
+        ]
+
     def query_pathway_by_name(self, query, limit=None):
         """Returns all pathways having the query in their names
 
