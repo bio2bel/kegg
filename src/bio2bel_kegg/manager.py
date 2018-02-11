@@ -94,6 +94,18 @@ class Manager(object):
         """
         return self.session.query(Pathway).all()
 
+    def get_all_hgcn_symbols(self):
+        """Returns the set of genes present in all KEGG Pathways
+
+        :rtype: set
+        """
+        return {
+            gene.hgnc_symbol
+            for pathway in self.get_all_pathways()
+            for gene in pathway.proteins
+            if pathway.proteins
+        }
+
     def get_pathway_size_distribution(self):
         """Returns pathway sizes
 
