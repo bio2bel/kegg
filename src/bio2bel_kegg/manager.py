@@ -223,7 +223,7 @@ class Manager(object):
         log.info('Fetching all protein meta-information (needs around 7300 iterations)')
 
         # Multi-thread processing of protein description requests
-        results = ThreadPool(200).imap_unordered(requests.get, protein_description_urls)
+        results = ThreadPool(50).imap_unordered(requests.get, protein_description_urls)
         for result in tqdm(results, desc='Fetching meta information'):
             kegg_protein_id = result.url.rsplit('/', 1)[-1]
 
