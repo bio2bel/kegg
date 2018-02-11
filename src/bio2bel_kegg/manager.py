@@ -94,7 +94,7 @@ class Manager(object):
         """
         return self.session.query(Pathway).all()
 
-    def get_all_hgcn_symbols(self):
+    def get_all_hgnc_symbols(self):
         """Returns the set of genes present in all KEGG Pathways
 
         :rtype: set
