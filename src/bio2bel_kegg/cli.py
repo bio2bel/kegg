@@ -36,18 +36,17 @@ def main():
 @main.command()
 @click.option('-v', '--debug', count=True, help="Turn on debugging.")
 @click.option('-c', '--connection', help="Defaults to {}".format(DEFAULT_CACHE_CONNECTION))
-@click.option('-d', '--delete_first', is_flag=True)
+@click.option('-d', '--delete-first', is_flag=True)
 def populate(debug, connection, delete_first):
     """Build the local version of the full KEGG."""
     set_debug_param(debug)
 
     m = Manager(connection=connection)
 
-    if delete_first or click.confirm('Drop first the database?'):
+    if delete_first:
         m.drop_all()
         m.create_all()
 
-    click.echo("populate tables")
     m.populate()
 
 
