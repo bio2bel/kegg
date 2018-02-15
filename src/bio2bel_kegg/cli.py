@@ -28,9 +28,8 @@ def set_debug_param(debug):
         set_debug(10)
 
 
-@click.group()
+@click.group(help='Convert KEGG to BEL. Default connection at {}'.format(DEFAULT_CACHE_CONNECTION))
 def main():
-    """KEGG to BEL"""
     logging.basicConfig(level=10, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
