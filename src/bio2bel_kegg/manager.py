@@ -94,6 +94,18 @@ class Manager(object):
         """
         return self.session.query(Pathway).all()
 
+    def get_pathway_names_to_ids(self):
+        """Returns a dictionary of pathway names to ids
+
+        :rtype: dict[str,str]
+        """
+        human_pathways = self.get_all_pathways()
+
+        return {
+            pathway.name: pathway.kegg_id
+            for pathway in human_pathways
+        }
+
     def get_all_hgnc_symbols(self):
         """Returns the set of genes present in all KEGG Pathways
 
