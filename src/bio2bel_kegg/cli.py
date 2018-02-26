@@ -8,7 +8,7 @@ import os
 import click
 from pandas import DataFrame, Series
 
-from bio2bel_kegg.constants import DEFAULT_CACHE_CONNECTION
+from bio2bel_kegg.constants import DEFAULT_CACHE_CONNECTION, METADATA_FILE_PATH
 from bio2bel_kegg.manager import Manager
 from bio2bel_kegg.to_belns import deploy_to_arty
 
@@ -47,9 +47,7 @@ def populate(debug, connection, delete_first):
         m.drop_all()
         m.create_all()
 
-    # TODO: Check if json exists in DATA_DIR
-
-    m.populate()
+    m.populate(metadata_existing=os.path.isfile(METADATA_FILE_PATH))
 
 
 @main.command()

@@ -17,7 +17,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
-from .constants import MODULE_NAME, KEGG, API_KEGG_GET
+from .constants import MODULE_NAME, KEGG, API_KEGG_GET, METADATA_FILE_PATH
 from .models import Base, Pathway, Protein
 from .parsers import *
 
@@ -230,43 +230,52 @@ class Manager(object):
 
         hgnc_id_to_symbol = hgnc_manager.build_hgnc_id_symbol_mapping()
 
-        # KEGG protein ID to Protein model attributes dictionary
-        pid_attributes = {}
+        if not metadata_existing:
+            # KEGG protein ID to Protein model attributes dictionary
+            pid_attributes = {}
 
-        log.info('Fetching all protein meta-information (needs around 7300 iterations)')
+            log.info('Fetching all protein meta-information (needs around 7300 iterations)')
 
-        # Multi-thread processing of protein description requests
-        results = ThreadPool(1).imap_unordered(requests.get, protein_description_urls)
-        for result in tqdm(results, desc='Fetching meta information'):
-            kegg_protein_id = result.url.rsplit('/', 1)[-1]
+            # Multi-thread processing of protein description requests
+            results = ThreadPool(1).imap_unordered(requests.get, protein_description_urls)
+            for result in tqdm(results, desc='Fetching meta information'):
+                kegg_protein_id = result.url.rsplit('/', 1)[-1]
 
-            protein_dict = process_protein_info_to_model(result)
+                protein_dict = process_protein_info_to_model(result)
 
-            # Adds HGNC id information
-            if 'hgnc_id' in protein_dict:
-                # Add extra fields to the protein dictionary
-                protein_dict['hgnc_symbol'] = hgnc_id_to_symbol.get(protein_dict['hgnc_id'])
+                # Adds HGNC id information
+                if 'hgnc_id' in protein_dict:
+                    # Add extra fields to the protein dictionary
+                    protein_dict['hgnc_symbol'] = hgnc_id_to_symbol.get(protein_dict['hgnc_id'])
 
-            protein_dict['kegg_id'] = kegg_protein_id
+                protein_dict['kegg_id'] = kegg_protein_id
 
-            # KEGG protein ID to Protein object already created
-            pid_attributes[kegg_protein_id] = protein_dict
+                # KEGG protein ID to Protein object already created
+                pid_attributes[kegg_protein_id] = protein_dict
 
-        pid_protein = {}
-
-        if metadata_existing:
-            with open('kegg_metadata.json', 'w') as outfile:
+            with open(METADATA_FILE_PATH, 'w') as outfile:
                 json.dump(pid_attributes, outfile)
 
+        else:
+            log.info('Loading existing metadata file')
+            pid_attributes = json.load(open(METADATA_FILE_PATH))
+
         log.info('Done fetching')
+
+        pid_protein = {}
 
         for kegg_protein_id, kegg_pathway_id in tqdm(parse_entity_pathway(protein_df), desc='Loading proteins'):
 
             if kegg_protein_id in pid_protein:
                 protein = pid_protein[kegg_protein_id]
             else:
+                try:
+                    protein = Protein(**pid_attributes[kegg_protein_id])
+                except KeyError:
+                    log.error('Protein key not found. This might be due to an old cached metadata file. '
+                              'Please delete the file {} and try again.'.format(METADATA_FILE_PATH))
+                    raise
 
-                protein = Protein(**pid_attributes[kegg_protein_id])
                 pid_protein[kegg_protein_id] = protein
                 self.session.add(protein)
 
@@ -276,14 +285,15 @@ class Manager(object):
 
     def populate(self, pathways_url=None, protein_pathway_url=None, metadata_existing=False):
         """Populates all tables"""
+
         self._populate_pathways(url=pathways_url)
-        self._pathway_entity(url=protein_pathway_url)
+        self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
     def get_pathway_graph(self, kegg_id):
         """Returns a new graph corresponding to the pathway
         :param str kegg_id: kegg identifier
         :rtype: pybel.BELGraph
-        :return
+        :return: Graph
         """
 
         pathway = self.get_pathway_by_id(kegg_id)
