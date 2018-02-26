@@ -234,7 +234,9 @@ class Manager(object):
             # KEGG protein ID to Protein model attributes dictionary
             pid_attributes = {}
 
-            log.info('Fetching all protein meta-information (needs around 7300 iterations)')
+            log.info('Fetching all protein meta-information (needs around 7300 iterations).'
+                     'You can modify the numbers of request by modifying ThreadPool to make this faster. '
+                     'However, the KEGG RESTful API might reject a big amount of requests.')
 
             # Multi-thread processing of protein description requests
             results = ThreadPool(1).imap_unordered(requests.get, protein_description_urls)
