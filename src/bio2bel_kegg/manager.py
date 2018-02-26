@@ -4,6 +4,7 @@
 This module populates the tables of bio2bel_kegg
 """
 
+import json
 import logging
 from multiprocessing.pool import ThreadPool
 
@@ -216,7 +217,7 @@ class Manager(object):
 
         self.session.commit()
 
-    def _pathway_entity(self, url=None):
+    def _pathway_entity(self, url=None, metadata_existing=None):
         """Populates Protein Tables
 
         :param Optional[str] url: url from protein to pathway file
@@ -235,7 +236,7 @@ class Manager(object):
         log.info('Fetching all protein meta-information (needs around 7300 iterations)')
 
         # Multi-thread processing of protein description requests
-        results = ThreadPool(50).imap_unordered(requests.get, protein_description_urls)
+        results = ThreadPool(1).imap_unordered(requests.get, protein_description_urls)
         for result in tqdm(results, desc='Fetching meta information'):
             kegg_protein_id = result.url.rsplit('/', 1)[-1]
 
@@ -253,6 +254,10 @@ class Manager(object):
 
         pid_protein = {}
 
+        if metadata_existing:
+            with open('kegg_metadata.json', 'w') as outfile:
+                json.dump(pid_attributes, outfile)
+
         log.info('Done fetching')
 
         for kegg_protein_id, kegg_pathway_id in tqdm(parse_entity_pathway(protein_df), desc='Loading proteins'):
@@ -269,7 +274,7 @@ class Manager(object):
             protein.pathways.append(pathway)
         self.session.commit()
 
-    def populate(self, pathways_url=None, protein_pathway_url=None):
+    def populate(self, pathways_url=None, protein_pathway_url=None, metadata_existing=False):
         """Populates all tables"""
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url)

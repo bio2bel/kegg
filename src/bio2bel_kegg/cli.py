@@ -47,6 +47,8 @@ def populate(debug, connection, delete_first):
         m.drop_all()
         m.create_all()
 
+    # TODO: Check if json exists in DATA_DIR
+
     m.populate()
 
 
