@@ -88,9 +88,9 @@ def export(connection):
         ])
     )
 
-    log.info("Geneset exported to '{}/kegg_gene_sets.csv'".format(os.getcwd()))
+    log.info("Geneset exported to '{}/kegg_gene_sets.xlsx'".format(os.getcwd()))
 
-    genesets.to_csv('kegg_gene_sets.csv', index=False)
+    genesets.to_excel('kegg_gene_sets.xlsx', index=False)
 
 
 @main.command()
