@@ -25,6 +25,9 @@ ENTRY_POINTS = {
     'bio2bel': [
         '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE),
     ],
+    'compath': [
+        '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE)
+    ],
     'console_scripts': [
         'bio2bel_{mname} = bio2bel_{mname}.cli:main'.format(mname=BIO2BEL_MODULE),
     ]
