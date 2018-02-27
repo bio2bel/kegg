@@ -1,14 +1,19 @@
 Bio2BEL KEGG |build| |coverage| |docs|
 ======================================
-This package converts KEGG to BEL. So far, importing gene protein relationships into the database and exporting the pathway namespace has been implemented.
+This package allows the enrichment of BEL networks with KEGG information by wrapping its RESTful API.
+Furthermore, it is integrated in the `ComPath environment <https://github.com/ComPath>`_ for pathway database comparison.
 
 Installation
 ------------
 This code can be installed with :code:`pip3 install git+https://github.com/bio2bel/kegg.git`
 
-Creating a Local Copy of the Namespace
---------------------------------------
-A BEL namespace can be generated with :code:`python3 -m bio2bel_kegg write -o ~/Downloads/kegg.belns`
+Functionalities and Commands
+----------------------------
+Following, the main functionalities and commands to work with this package:
+
+1. Populate local database with KEGG info :code:`python3 -m bio2bel_kegg populate`
+2. Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_kegg web` (http://localhost:5000/admin/)
+3. Export gene sets for programmatic use :code:`python3 -m bio2bel_kegg export`
 
 Citation
 --------
