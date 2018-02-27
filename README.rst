@@ -11,9 +11,9 @@ Functionalities and Commands
 ----------------------------
 Following, the main functionalities and commands to work with this package:
 
-1. Populate local database with KEGG info :code:`python3 -m bio2bel_kegg populate`
-2. Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_kegg web` (http://localhost:5000/admin/)
-3. Export gene sets for programmatic use :code:`python3 -m bio2bel_kegg export`
+- Populate local database with KEGG info :code:`python3 -m bio2bel_kegg populate`
+- Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_kegg web` (http://localhost:5000/admin/)
+- Export gene sets for programmatic use :code:`python3 -m bio2bel_kegg export`
 
 Citation
 --------
