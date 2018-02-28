@@ -41,6 +41,46 @@ class TestParse(DatabaseMixin):
             }
         )
 
+    def test_gene_query_1(self):
+        """Single protein query. This protein is associated with 3 pathways"""
+        enriched_pathways = self.manager.query_gene_set(['PFKP'])
+        self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
+
+        self.assertEqual(
+            {
+                'path:hsa00010': [1, 16],
+                'path:hsa00030': [1, 14],
+            },
+            enriched_pathways
+        )
+
+    def test_gene_query_2(self):
+        """Multiple protein query"""
+        enriched_pathways = self.manager.query_gene_set(['PFKP', 'GPI'])  # hsa:5214 and hsa:2821
+        self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
+
+        self.assertEqual(
+            {
+                'path:hsa00010': [1, 16],
+                'path:hsa00030': [2, 14],
+            },
+            enriched_pathways
+        )
+
+    def test_gene_query_3(self):
+        """Multiple protein query"""
+        enriched_pathways = self.manager.query_gene_set(['PFKP', 'PGD'])  # hsa:5214 and hsa:5226
+        self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
+
+        self.assertEqual(
+            {
+                'path:hsa00010': [1, 16],
+                'path:hsa00030': [2, 14],
+            },
+            enriched_pathways
+        )
+
+
 
 class TestDescriptionParse(TestCase):
     """ Description parsing test"""
