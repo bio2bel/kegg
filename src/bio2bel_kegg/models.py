@@ -7,7 +7,7 @@ from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from bio2bel_kegg.constants import KEGG, HGNC
+from .constants import KEGG, HGNC
 
 Base = declarative_base()
 

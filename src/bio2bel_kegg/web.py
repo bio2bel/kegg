@@ -6,8 +6,8 @@ import flask_admin
 from flask import Flask
 from flask_admin.contrib.sqla import ModelView
 
-from bio2bel_kegg.manager import Manager
-from bio2bel_kegg.models import *
+from .manager import Manager
+from .models import *
 
 
 class PathwayView(ModelView):
