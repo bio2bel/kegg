@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""
-This module populates the tables of bio2bel_kegg
-"""
+"""This module populates the tables of bio2bel_kegg"""
 
 import itertools
 from collections import Counter
@@ -83,7 +81,7 @@ class Manager(object):
         pathway_counter = Counter(itertools.chain(*pathways_lists))
 
         return {
-            pathway_kegg_id: [proteins_mapped, len(self.get_pathway_by_id(pathway_kegg_id).get_gene_set())]
+            pathway_kegg_id: (proteins_mapped, len(self.get_pathway_by_id(pathway_kegg_id).get_gene_set()))
             for pathway_kegg_id, proteins_mapped in pathway_counter.items()
         }
 
