@@ -108,6 +108,6 @@ class Protein(Base):
     def get_pathways_ids(self):
         """Returns the pathways associated with the protein"""
         return {
-            pathway.reactome_id
+            pathway.kegg_id
             for pathway in self.pathways
         }
