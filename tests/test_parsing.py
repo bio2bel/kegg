@@ -48,8 +48,8 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                'path:hsa00010': [1, 16],
-                'path:hsa00030': [1, 14],
+                'path:hsa00010': (1, 16),
+                'path:hsa00030': (1, 14),
             },
             enriched_pathways
         )
@@ -61,8 +61,8 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                'path:hsa00010': [1, 16],
-                'path:hsa00030': [2, 14],
+                'path:hsa00010': (1, 16),
+                'path:hsa00030': (2, 14),
             },
             enriched_pathways
         )
@@ -74,8 +74,8 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                'path:hsa00010': [1, 16],
-                'path:hsa00030': [2, 14],
+                'path:hsa00010': (1, 16),
+                'path:hsa00030': (2, 14),
             },
             enriched_pathways
         )
