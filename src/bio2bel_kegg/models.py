@@ -54,6 +54,17 @@ class Pathway(Base):
             identifier=str(self.kegg_id)
         )
 
+    def get_gene_set(self):
+        """Returns the genes associated with the pathway (gene set). Note this function restricts to HGNC symbols genes
+
+        :rtype: set[bio2bel_kegg.models.Protein]
+        """
+        return {
+            protein
+            for protein in self.proteins
+            if protein.hgnc_symbol
+        }
+
 
 class Protein(Base):
     """Genes Table"""
@@ -93,3 +104,10 @@ class Protein(Base):
             id
             for id in self.uniprot_id.split(" ")
         ]
+
+    def get_pathways_ids(self):
+        """Returns the pathways associated with the protein"""
+        return {
+            pathway.reactome_id
+            for pathway in self.pathways
+        }

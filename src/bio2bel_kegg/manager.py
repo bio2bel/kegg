@@ -4,6 +4,8 @@
 This module populates the tables of bio2bel_kegg
 """
 
+import itertools
+from collections import Counter
 import json
 import logging
 from multiprocessing.pool import ThreadPool
@@ -63,13 +65,35 @@ class Manager(object):
     """Custom query methods"""
 
     def query_gene_set(self, gene_set):
-        """Returns Proteins within the gene set
+        """Returns pathway counter dictionary
 
-        :param gene_set: set of gene symbols
-        :rtype: list[models.Protein]
-        :return: list of proteins
+        :param list[str] gene_set: gene set to be queried
+        :rtype: dict[str,list[int,int]]
+        :return: Enriched pathways with mapped pathways/total
         """
 
+        proteins = self._query_proteins_in_hgnc_list(gene_set)
+
+        pathways_lists = [
+            protein.get_pathways_ids()
+            for protein in proteins
+        ]
+
+        # Flat the pathways lists and applies Counter to get the number matches in every mapped pathway
+        pathway_counter = Counter(itertools.chain(*pathways_lists))
+
+        return {
+            pathway_kegg_id: [proteins_mapped, len(self.get_pathway_by_id(pathway_kegg_id).get_gene_set())]
+            for pathway_kegg_id, proteins_mapped in pathway_counter.items()
+        }
+
+    def _query_proteins_in_hgnc_list(self, gene_set):
+        """Returns the proteins in the database within the gene set query
+
+        :param list[str] gene_set: hgnc symbol lists
+        :rtype: list[bio2bel_kegg.models.Protein]
+        :return: list of proteins
+        """
         return self.session.query(Protein).filter(Protein.hgnc_symbol.in_(gene_set)).all()
 
     def get_pathway_by_id(self, kegg_id):
