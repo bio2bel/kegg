@@ -13,7 +13,7 @@ INSTALL_REQUIRES = [
     'click',
     'bio2bel',
     'bio2bel_hgnc>=0.0.4',
-    'pybel>=0.10.1',
+    'pybel[deployment]>=0.11.1',
     'sqlalchemy==1.1.15',
     'pandas',
     'tqdm',
