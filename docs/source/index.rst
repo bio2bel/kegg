@@ -6,6 +6,7 @@ Bio2BEL KEGG
    :maxdepth: 2
    :caption: Contents:
 
+   cli
    manager
    models
    constants
