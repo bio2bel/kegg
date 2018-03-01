@@ -48,8 +48,18 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                'path:hsa00010': (1, 1),
-                'path:hsa00030': (1, 14),
+                {
+                    "pathway_id": "path:hsa00010",
+                    "pathway_name": "Glycolysis / Gluconeogenesis",
+                    "mapped_proteins": 1,
+                    "pathway_size": 1,
+                },
+                {
+                    "pathway_id": "path:hsa00030",
+                    "pathway_name": "Pentose phosphate pathway",
+                    "mapped_proteins": 1,
+                    "pathway_size": 14,
+                }
             },
             enriched_pathways
         )
@@ -61,8 +71,18 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                'path:hsa00010': (1, 1),
-                'path:hsa00030': (2, 14),
+                {
+                    "pathway_id": "path:hsa00010",
+                    "pathway_name": "Glycolysis / Gluconeogenesis",
+                    "mapped_proteins": 1,
+                    "pathway_size": 1,
+                },
+                {
+                    "pathway_id": "path:hsa00030",
+                    "pathway_name": "Pentose phosphate pathway",
+                    "mapped_proteins": 2,
+                    "pathway_size": 14,
+                }
             },
             enriched_pathways
         )
@@ -74,8 +94,18 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                'path:hsa00010': (1, 1),
-                'path:hsa00030': (2, 14),
+                {
+                    "pathway_id": "path:hsa00010",
+                    "pathway_name": "Glycolysis / Gluconeogenesis",
+                    "mapped_proteins": 1,
+                    "pathway_size": 1,
+                },
+                {
+                    "pathway_id": "path:hsa00030",
+                    "pathway_name": "Pentose phosphate pathway",
+                    "mapped_proteins": 2,
+                    "pathway_size": 14,
+                }
             },
             enriched_pathways
         )

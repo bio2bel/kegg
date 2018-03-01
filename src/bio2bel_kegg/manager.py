@@ -66,7 +66,7 @@ class Manager(object):
         """Returns pathway counter dictionary
 
         :param list[str] gene_set: gene set to be queried
-        :rtype: dict[str,list[int,int]]
+        :rtype: set[dict]
         :return: Enriched pathways with mapped pathways/total
         """
 
@@ -80,10 +80,17 @@ class Manager(object):
         # Flat the pathways lists and applies Counter to get the number matches in every mapped pathway
         pathway_counter = Counter(itertools.chain(*pathways_lists))
 
-        return {
-            pathway_kegg_id: (proteins_mapped, len(self.get_pathway_by_id(pathway_kegg_id).get_gene_set()))
-            for pathway_kegg_id, proteins_mapped in pathway_counter.items()
-        }
+        enrichment_results = set()
+
+        for pathway_kegg_id, proteins_mapped in pathway_counter.items():
+            pathway = self.get_pathway_by_id(pathway_kegg_id)
+
+            enrichment_results.add({
+                "pathway_id": pathway.kegg_id,
+                "pathway_name": pathway.name,
+                "mapped_proteins": proteins_mapped,
+                "pathway_size": len(pathway.get_gene_set())
+            })
 
     def _query_proteins_in_hgnc_list(self, gene_set):
         """Returns the proteins in the database within the gene set query
