@@ -92,6 +92,8 @@ class Manager(object):
                 "pathway_size": len(pathway.get_gene_set())
             })
 
+        return enrichment_results
+
     def _query_proteins_in_hgnc_list(self, gene_set):
         """Returns the proteins in the database within the gene set query
 
