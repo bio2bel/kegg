@@ -35,17 +35,15 @@ class TestParse(DatabaseMixin):
         self.assertIsNotNone(protein, msg='Unable to find pathway')
         self.assertEqual(2, len(protein.pathways))
         self.assertEqual(
-            {'path:hsa00030', 'path:hsa00010'}, {
+            {'path:hsa00030', 'path:hsa00010'},
+            {
                 pathway.kegg_id
                 for pathway in protein.pathways
             }
         )
 
         self.assertEqual(
-            {
-                'Pentose phosphate pathwa - Homo sapiens (human)',
-                'Glycolysis / Gluconeogenesis - Homo sapiens (human)'
-            },
+            {'Pentose phosphate pathway - Homo sapiens (human)', 'Glycolysis / Gluconeogenesis - Homo sapiens (human)'},
             {
                 pathway.name
                 for pathway in protein.pathways
@@ -60,7 +58,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00030",
-                "pathway_name": "Pentose phosphate pathwa - Homo sapiens (human)",
+                "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 14,
             },
