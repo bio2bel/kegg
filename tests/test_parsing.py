@@ -41,6 +41,17 @@ class TestParse(DatabaseMixin):
             }
         )
 
+        self.assertEqual(
+            {
+                'Pentose phosphate pathwa - Homo sapiens (human)',
+                'Glycolysis / Gluconeogenesis - Homo sapiens (human)'
+            },
+            {
+                pathway.name
+                for pathway in protein.pathways
+            }
+        )
+
     def test_gene_query_1(self):
         """Single protein query. This protein is associated with 3 pathways"""
         enriched_pathways = self.manager.query_gene_set(['PFKP'])
@@ -49,7 +60,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00030",
-                "pathway_name": "Pentose phosphate pathway",
+                "pathway_name": "Pentose phosphate pathwa - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 14,
             },
@@ -59,7 +70,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00010",
-                "pathway_name": "Glycolysis / Gluconeogenesis",
+                "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
             },
@@ -74,7 +85,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00010",
-                "pathway_name": "Glycolysis / Gluconeogenesis",
+                "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
             },
@@ -84,7 +95,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00030",
-                "pathway_name": "Pentose phosphate pathway",
+                "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 2,
                 "pathway_size": 14,
             },
@@ -99,7 +110,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00010",
-                "pathway_name": "Glycolysis / Gluconeogenesis",
+                "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
             },
@@ -109,7 +120,7 @@ class TestParse(DatabaseMixin):
         self.assertIn(
             {
                 "pathway_id": "path:hsa00030",
-                "pathway_name": "Pentose phosphate pathway",
+                "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 2,
                 "pathway_size": 14,
             },
