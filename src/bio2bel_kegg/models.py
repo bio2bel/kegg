@@ -65,6 +65,10 @@ class Pathway(Base):
             if protein.hgnc_symbol
         }
 
+    @property
+    def url(self):
+        return 'http://www.kegg.jp/dbget-bin/www_bget?pathway+map{}'.format(self.kegg_id.strip('path:hsa'))
+
 
 class Protein(Base):
     """Genes Table"""
