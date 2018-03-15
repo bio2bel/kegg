@@ -60,7 +60,7 @@ class Pathway(Base):
         :rtype: set[bio2bel_kegg.models.Protein]
         """
         return {
-            protein
+            protein.hgnc_symbol
             for protein in self.proteins
             if protein.hgnc_symbol
         }
