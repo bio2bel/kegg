@@ -65,6 +65,10 @@ class Pathway(Base):
             if protein.hgnc_symbol
         }
 
+    @property
+    def url(self):
+        return 'http://www.kegg.jp/kegg-bin/show_pathway?map=map{}&show_description=show'.format(self.kegg_id)
+
 
 class Protein(Base):
     """Genes Table"""
