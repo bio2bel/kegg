@@ -67,7 +67,7 @@ class Pathway(Base):
 
     @property
     def url(self):
-        return 'http://www.kegg.jp/kegg-bin/show_pathway?map=map{}&show_description=show'.format(self.kegg_id)
+        return 'http://www.kegg.jp/dbget-bin/www_bget?pathway+map{}'.format(self.kegg_id.strip('path:hsa'))
 
 
 class Protein(Base):
