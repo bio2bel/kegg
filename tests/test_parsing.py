@@ -2,7 +2,9 @@
 """ This module contains tests for parsing KEGG files"""
 
 from unittest import TestCase
+
 import requests
+
 from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 from bio2bel_kegg.models import Pathway, Protein
 from bio2bel_kegg.parsers.description import parse_description, get_description_properties
@@ -55,7 +57,7 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['PFKP'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "path:hsa00030",
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
@@ -65,7 +67,7 @@ class TestParse(DatabaseMixin):
             enriched_pathways["path:hsa00030"]
         )
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "path:hsa00010",
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
@@ -80,7 +82,7 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['PFKP', 'GPI'])  # hsa:5214 and hsa:2821
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "path:hsa00010",
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
@@ -90,7 +92,7 @@ class TestParse(DatabaseMixin):
             enriched_pathways["path:hsa00010"]
         )
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "path:hsa00030",
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
@@ -105,7 +107,7 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['PFKP', 'PGD'])  # hsa:5214 and hsa:5226
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "path:hsa00010",
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
@@ -115,7 +117,7 @@ class TestParse(DatabaseMixin):
             enriched_pathways["path:hsa00010"]
         )
 
-        self.assertIn(
+        self.assertEqual(
             {
                 "pathway_id": "path:hsa00030",
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
