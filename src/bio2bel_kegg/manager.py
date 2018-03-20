@@ -2,7 +2,7 @@
 
 """This module populates the tables of bio2bel_kegg"""
 
-import itertools
+import itertools as itt
 from collections import Counter
 import json
 import logging
@@ -78,19 +78,22 @@ class Manager(object):
         ]
 
         # Flat the pathways lists and applies Counter to get the number matches in every mapped pathway
-        pathway_counter = Counter(itertools.chain(*pathways_lists))
+        pathway_counter = Counter(itt.chain(*pathways_lists))
 
-        enrichment_results = list()
+        enrichment_results = dict()
 
         for pathway_kegg_id, proteins_mapped in pathway_counter.items():
             pathway = self.get_pathway_by_id(pathway_kegg_id)
 
-            enrichment_results.append({
+            pathway_gene_set = pathway.get_gene_set()  # Pathway gene set
+
+            enrichment_results[pathway.kegg_id] = {
                 "pathway_id": pathway.kegg_id,
                 "pathway_name": pathway.name,
                 "mapped_proteins": proteins_mapped,
-                "pathway_size": len(pathway.get_gene_set())
-            })
+                "pathway_size": len(pathway_gene_set),
+                "pathway_gene_set": pathway_gene_set,
+            }
 
         return enrichment_results
 
