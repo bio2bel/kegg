@@ -88,6 +88,7 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
+                "pathway_gene_set": {'PFKP'}
             },
             enriched_pathways["path:hsa00010"]
         )
@@ -98,6 +99,23 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 2,
                 "pathway_size": 14,
+                "pathway_gene_set": {
+                    'ALDOA',
+                    'ALDOB',
+                    'ALDOC',
+                    'DERA',
+                    'G6PD',
+                    'GPI',
+                    'IDNK',
+                    'PFKL',
+                    'PFKM',
+                    'PFKP',
+                    'PGD',
+                    'PGLS',
+                    'PGM1',
+                    'RPIA'
+                },
+
             },
             enriched_pathways["path:hsa00030"]
         )
@@ -113,6 +131,7 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
+                "pathway_gene_set": {'PFKP'}
             },
             enriched_pathways["path:hsa00010"]
         )
@@ -123,6 +142,22 @@ class TestParse(DatabaseMixin):
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 2,
                 "pathway_size": 14,
+                "pathway_gene_set": {
+                    'ALDOA',
+                    'ALDOB',
+                    'ALDOC',
+                    'DERA',
+                    'G6PD',
+                    'GPI',
+                    'IDNK',
+                    'PFKL',
+                    'PFKM',
+                    'PFKP',
+                    'PGD',
+                    'PGLS',
+                    'PGM1',
+                    'RPIA'
+                },
             },
             enriched_pathways["path:hsa00030"]
         )
