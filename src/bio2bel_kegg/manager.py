@@ -3,20 +3,20 @@
 """This module populates the tables of bio2bel_kegg"""
 
 import itertools as itt
-from collections import Counter
 import json
 import logging
+from collections import Counter
 from multiprocessing.pool import ThreadPool
 
 import requests
-from bio2bel.utils import get_connection
-from bio2bel_hgnc.manager import Manager as HgncManager
 from pybel.constants import PART_OF, FUNCTION, PROTEIN, BIOPROCESS, NAMESPACE, NAME
 from pybel.struct.graph import BELGraph
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tqdm import tqdm
 
+from bio2bel.utils import get_connection
+from bio2bel_hgnc.manager import Manager as HgncManager
 from .constants import MODULE_NAME, KEGG, API_KEGG_GET, METADATA_FILE_PATH
 from .models import Base, Pathway, Protein
 from .parsers import *
@@ -31,6 +31,8 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 class Manager(object):
     """Database manager"""
+
+    has_hierarchy = True # Indicates that this manager can handle hierarchies with the Pathway Model
 
     def __init__(self, connection=None):
         self.connection = get_connection(MODULE_NAME, connection)
@@ -201,6 +203,33 @@ class Manager(object):
 
         return pathway
 
+    def get_top_hiearchy_parent_by_id(self, kegg_id):
+        """Gets the oldest pathway at the top of the hierarchy a pathway by its reactome id
+
+        :param kegg_id: kegg identifier
+        :rtype: Optional[Pathway]
+        """
+
+        pathway = self.get_pathway_by_id(kegg_id)
+
+        if not pathway.parent:
+            return pathway
+
+        return self.get_top_hiearchy_parent_by_id(pathway.parent.reactome_id)
+
+    def get_all_top_hierarchy_pathways(self):
+        """Gets all pathways without a parent (top hierarchy)
+
+        :rtype: list[Pathways]
+        """
+        all_pathways = self.get_all_pathways()
+
+        return [
+            pathway
+            for pathway in all_pathways
+            if not pathway.parent_id
+        ]
+
     def get_protein_by_kegg_id(self, kegg_id):
         """Gets a protein by its kegg id
 
@@ -248,6 +277,31 @@ class Manager(object):
 
         for id, name in tqdm(pathways_dict.items(), desc='Loading pathways'):
             pathway = self.get_or_create_pathway(kegg_id=id, name=name)
+
+        self.session.commit()
+
+    def _pathway_hierarchy(self, url=None):
+        """Links pathway models through hierarchy
+
+        :param Optional[str] url: url from pathway hierarchy file
+        """
+        pathways_hierarchy = get_pathway_hierarchy(url=url)
+
+        log.info("populating pathway hierarchy")
+
+        for parent_id, child_id in tqdm(pathways_hierarchy, desc='Loading pathway hierarchy'):
+            if parent_id is None:
+                log.warning('parent id is None')
+                continue
+
+            if child_id is None:
+                log.warning('child id is None')
+                continue
+
+            parent = self.get_pathway_by_id(parent_id)
+            child = self.get_pathway_by_id(child_id)
+
+            parent.children.append(child)
 
         self.session.commit()
 
@@ -319,10 +373,11 @@ class Manager(object):
             protein.pathways.append(pathway)
         self.session.commit()
 
-    def populate(self, pathways_url=None, protein_pathway_url=None, metadata_existing=False):
+    def populate(self, pathways_url=None,hierarchy_url=None, protein_pathway_url=None, metadata_existing=False):
         """Populates all tables"""
 
         self._populate_pathways(url=pathways_url)
+        self._pathway_hierarchy(url=hierarchy_url)
         self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
     def get_pathway_graph(self, kegg_id):
