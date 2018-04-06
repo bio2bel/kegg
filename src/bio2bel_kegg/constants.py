@@ -11,7 +11,7 @@ DATA_DIR = get_data_dir(MODULE_NAME)
 DEFAULT_CACHE_CONNECTION = get_connection(MODULE_NAME)
 
 CONFIG_FILE_PATH = os.path.join(DATA_DIR, 'config.ini')
-METADATA_FILE_PATH = os.path.join(DATA_DIR, 'protein_metadata.json')  # Metadata file generated for the parser
+METADATA_FILE_PATH = os.path.join(DATA_DIR, 'protein_metadata.json') # Metadata file generated for the parser
 
 # returns the list of human pathways
 KEGG_PATHWAYS_URL = 'http://rest.kegg.jp/list/pathway/hsa'
@@ -21,10 +21,6 @@ PROTEIN_PATHWAY_URL = 'http://rest.kegg.jp/link/pathway/hsa'
 
 # KEGG stats
 KEGG_STATISTICS_URL = 'http://rest.kegg.jp/info/kegg'
-
-# KEGG hiearchies
-
-HIEARCHY_PATHWAYS_URL = 'http://www.kegg.jp/kegg-bin/download_htext?htext=br08901.keg&format=json'
 
 # Description KEGG endpoint
 API_KEGG_GET = 'http://rest.kegg.jp/get/{}'

@@ -5,7 +5,7 @@
 from pybel.dsl import bioprocess, protein
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import backref, relationship
+from sqlalchemy.orm import relationship
 
 from .constants import KEGG, HGNC
 
@@ -34,10 +34,6 @@ class Pathway(Base):
 
     kegg_id = Column(String(255), unique=True, nullable=False, index=True, doc='KEGG id of the pathway')
     name = Column(String(255), doc='pathway name')
-
-    parent_id = Column(Integer, ForeignKey('{}.id'.format(PATHWAY_TABLE_NAME)))
-
-    children = relationship('Pathway', backref=backref('parent', remote_side=[id]))
 
     proteins = relationship(
         'Protein',

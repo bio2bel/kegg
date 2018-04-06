@@ -7,15 +7,12 @@ The "Complete list of pathways" file maps the KEGG identifiers to their correspo
 
 """
 import pandas as pd
-import json
-from urllib import request
 
-from bio2bel_kegg.constants import KEGG_PATHWAYS_URL, HIEARCHY_PATHWAYS_URL
+from bio2bel_kegg.constants import KEGG_PATHWAYS_URL
 
 __all__ = [
     'get_pathway_names_df',
     'parse_pathways',
-    'get_pathway_hierarchy'
 ]
 
 
@@ -48,15 +45,3 @@ def parse_pathways(pathway_dataframe):
     }
 
     return pathways
-
-def get_pathway_hierarchy(url=None):
-    """ Converts tab separated txt files to pandas Dataframe
-
-    :param Optional[str] url: url from KEGG tab separated file
-    :return: dictionary
-    :rtype: dict
-    """
-    with request.urlopen(url or HIEARCHY_PATHWAYS_URL) as url:
-        data = json.loads(url.read().decode())
-
-    return data
