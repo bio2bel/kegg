@@ -66,6 +66,10 @@ class Pathway(Base):
         }
 
     @property
+    def resource_id(self):
+        return self.kegg_id
+
+    @property
     def url(self):
         return 'http://www.kegg.jp/dbget-bin/www_bget?pathway+map{}'.format(self.kegg_id.strip('path:hsa'))
 
