@@ -14,7 +14,7 @@ Citation
 
 from .manager import Manager
 
-__version__ = '0.0.5'
+__version__ = '0.0.6-dev'
 
 __title__ = 'bio2bel_kegg'
 __description__ = "A wraper around the KEGG RESTful API"
