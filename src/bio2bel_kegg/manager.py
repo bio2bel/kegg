@@ -7,12 +7,11 @@ import logging
 from multiprocessing.pool import ThreadPool
 
 import requests
+from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from tqdm import tqdm
 
-from bio2bel import bio2bel_populater
 from bio2bel_hgnc.manager import Manager as HgncManager
-from compath_utils import CompathManager
 from pybel.struct.graph import BELGraph
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME
 from .models import Base, Pathway, Protein
@@ -36,7 +35,7 @@ class Manager(CompathManager):
     pathway_model_identifier_column = Pathway.kegg_id
 
     @property
-    def base(self):
+    def _base(self):
         return Base
 
     def get_or_create_pathway(self, kegg_id, name=None):
@@ -165,10 +164,8 @@ class Manager(CompathManager):
             protein.pathways.append(pathway)
         self.session.commit()
 
-    @bio2bel_populater(MODULE_NAME)
     def populate(self, pathways_url=None, protein_pathway_url=None, metadata_existing=False):
-        """Populates all tables"""
-
+        """Populate all tables."""
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
@@ -178,7 +175,6 @@ class Manager(CompathManager):
         :rtype: pybel.BELGraph
         :return: Graph
         """
-
         pathway = self.get_pathway_by_id(kegg_id)
 
         graph = BELGraph(
@@ -237,6 +233,7 @@ class Manager(CompathManager):
     def _add_admin(self, app, **kwargs):
         from flask_admin import Admin
         from flask_admin.contrib.sqla import ModelView
+
         class PathwayView(ModelView):
             """Pathway view in Flask-admin"""
             column_searchable_list = (
