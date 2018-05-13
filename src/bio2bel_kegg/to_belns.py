@@ -17,7 +17,7 @@ MODULE_NAME = 'kegg'
 
 
 def get_values(url=None):
-    """Gets the unique names from Kegg pathway names table.
+    """Get the unique names from Kegg pathway names table.
 
     :param Optional[str] url: A non-default URL for the KEGG table file
     :rtype: set[str]
@@ -30,7 +30,7 @@ def get_values(url=None):
 
 
 def write_belns(file=None):
-    """Prints the Kegg Pathway names BEL namespace
+    """Print the Kegg Pathway names BEL namespace.
 
     :param file file: A writable file or file-like. Defaults to standard out
     """
@@ -53,7 +53,7 @@ def write_belns(file=None):
 
 
 def deploy_to_arty(quit_fail_redeploy=True):
-    """Gets the data, writes BEL namespace, and writes BEL knowledge to Artifactory"""
+    """Get the data, writes BEL namespace, and writes BEL knowledge to Artifactory."""
 
     file_name = get_today_arty_namespace(MODULE_NAME)
 

@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""
-This module parsers the KEGG pathway names file
-
+"""This module parsers the KEGG pathway names file.
 The "Complete list of pathways" file maps the KEGG identifiers to their corresponding pathway name .
 
 """
@@ -17,7 +15,7 @@ __all__ = [
 
 
 def get_pathway_names_df(url=None):
-    """ Converts tab separated txt files to pandas Dataframe
+    """Convert tab separated txt files to pandas Dataframe.
 
     :param Optional[str] url: url from KEGG tab separated file
     :return: dataframe of the file
@@ -32,7 +30,7 @@ def get_pathway_names_df(url=None):
 
 
 def parse_pathways(pathway_dataframe):
-    """ Parser the pathway table dataframe
+    """Parse the pathway table dataframe.
 
     :param pandas.DataFrame pathway_dataframe: Pathway hierarchy as dataframe
     :rtype: dict

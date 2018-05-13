@@ -39,7 +39,7 @@ class Manager(CompathManager):
         return Base
 
     def get_or_create_pathway(self, kegg_id, name=None):
-        """Gets an pathway from the database or creates it
+        """Get an pathway from the database or creates it.
 
         :param str kegg_id: kegg identifier
         :param Optional[str] name: name of the pathway
@@ -57,7 +57,7 @@ class Manager(CompathManager):
         return pathway
 
     def get_protein_by_kegg_id(self, kegg_id):
-        """Gets a protein by its kegg id
+        """Get a protein by its kegg id.
 
         :param kegg_id: kegg identifier
         :rtype: Optional[Protein]
@@ -65,7 +65,7 @@ class Manager(CompathManager):
         return self.session.query(Protein).filter(Protein.kegg_id == kegg_id).one_or_none()
 
     def get_protein_by_hgnc_id(self, hgnc_id):
-        """Gets a protein by its hgnc_id
+        """Get a protein by its hgnc_id.
 
         :param hgnc_id: hgnc_id
         :rtype: Optional[Protein]
@@ -73,7 +73,7 @@ class Manager(CompathManager):
         return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
 
     def get_protein_by_hgnc_symbol(self, hgnc_symbol):
-        """Gets a protein by its hgnc symbol
+        """Get a protein by its hgnc symbol.
 
         :param hgnc_id: hgnc identifier
         :rtype: Optional[Protein]
@@ -97,9 +97,10 @@ class Manager(CompathManager):
         self.session.commit()
 
     def _pathway_entity(self, url=None, metadata_existing=None):
-        """Populates Protein Tables
+        """Populate Protein Tables.
 
         :param Optional[str] url: url from protein to pathway file
+        :param Optional[bool] metadata_existing: metadata exists already
         """
         protein_df = get_entity_pathway_df(url=url)
 
@@ -170,7 +171,8 @@ class Manager(CompathManager):
         self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
     def get_pathway_graph(self, kegg_id):
-        """Returns a new graph corresponding to the pathway
+        """Return a new graph corresponding to the pathway.
+
         :param str kegg_id: kegg identifier
         :rtype: pybel.BELGraph
         :return: Graph
@@ -195,7 +197,7 @@ class Manager(CompathManager):
         return graph
 
     def enrich_kegg_pathway(self, graph):
-        """Enrich all proteins belonging to kegg pathway nodes in the graph
+        """Enrich all proteins belonging to kegg pathway nodes in the graph.
 
         :param pybel.BELGraph graph: A BEL Graph
         """
@@ -213,7 +215,7 @@ class Manager(CompathManager):
                     )
 
     def enrich_kegg_protein(self, graph):
-        """Enrich all kegg pathways associated with proteins in the graph
+        """Enrich all kegg pathways associated with proteins in the graph.
 
         :param pybel.BELGraph graph: A BEL Graph
         """

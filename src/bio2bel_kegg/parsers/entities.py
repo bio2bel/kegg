@@ -16,7 +16,7 @@ __all__ = [
 
 
 def get_entity_pathway_df(url=None):
-    """ Converts tab separated txt files to pandas Dataframe
+    """Convert tab separated txt files to pandas Dataframe.
 
     :param Optional[str] url: url from KEGG tab separated file
     :return: dataframe of the file
@@ -31,7 +31,7 @@ def get_entity_pathway_df(url=None):
 
 
 def parse_entity_pathway(pathway_dataframe):
-    """ Parser the pathway-entity table dataframe
+    """Parse the pathway-entity table dataframe.
 
     :param pandas.DataFrame pathway_dataframe: Pathway hierarchy as dataframe
     :rtype: list[tuple]
@@ -46,16 +46,16 @@ def parse_entity_pathway(pathway_dataframe):
     return pathways
 
 
-def create_entity_description_url(pathway_dataframe, baseurl):
-    """ Returns all entities in entity pathway dataframe
+def create_entity_description_url(pathway_dataframe, base_url):
+    """Return all entities in entity pathway dataframe.
 
     :param pandas.DataFrame pathway_dataframe: Pathway hierarchy as dataframe
     :param str baseurl: base url
-    :rtype: set
+    :rtype: base_url
     :return all entities
     """
 
     return {
-        baseurl.format(entity)
+        base_url.format(entity)
         for line, (entity, pathway) in pathway_dataframe.iterrows()
     }

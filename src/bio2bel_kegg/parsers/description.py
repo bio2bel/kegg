@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""
-This module parsers the description files -> http://rest.kegg.jp/get/ in KEGG RESTful API
-
-"""
+"""This module parsers the description files -> http://rest.kegg.jp/get/ in KEGG RESTful API."""
 
 import re
 
@@ -23,7 +20,7 @@ __all__ = [
 
 
 def parse_entry_line(line):
-    """ Parse entry line to tuple
+    """Parse entry line to tuple.
 
     :param line:
     :rtype tuple
@@ -37,7 +34,7 @@ def parse_entry_line(line):
 
 
 def remove_first_word(string):
-    """ Remove the first word of the line
+    """Remove the first word of the line.
 
     :param str string: string
     :rtype str
@@ -47,7 +44,7 @@ def remove_first_word(string):
 
 
 def get_first_word(string):
-    """ Get the first word of the line
+    """Get the first word of the line.
 
     :param str string: string
     :rtype str
@@ -57,7 +54,7 @@ def get_first_word(string):
 
 
 def parse_pathway_line(line):
-    """ Parse entry pathway line to tuple
+    """Parse entry pathway line to tuple.
 
     :param line:
     :rtype tuple
@@ -73,7 +70,7 @@ def parse_pathway_line(line):
 
 
 def parse_link_line(line):
-    """ Parse entry dblink line to tuple
+    """Parse entry dblink line to tuple.
 
     :param line:
     :rtype tuple
@@ -88,7 +85,7 @@ def parse_link_line(line):
 
 
 def parse_description(response):
-    """ Parse the several properties in the description file given an KEGG identifier using the KEGG API
+    """Parse the several properties in the description file given an KEGG identifier using the KEGG API.
     Properties parsed:
     - ENTRY
     - PATHWAY
@@ -128,7 +125,7 @@ def parse_description(response):
 
 
 def get_description_properties(description, description_property, columns):
-    """Gets specific description properties
+    """Get specific description properties.
 
     :param dict protein_description: id for the query
     :param str description_property: main property in the description
@@ -145,7 +142,7 @@ def get_description_properties(description, description_property, columns):
 
 
 def kegg_properties_to_models(kegg_attributes):
-    """Modifies the kegg attribute dictionary to match the db '{}_id' formatting
+    """Modify the kegg attribute dictionary to match the db '{}_id' formatting.
 
     :param dict kegg_attributes: kegg description dictionary
     :rtype: dict
@@ -159,7 +156,7 @@ def kegg_properties_to_models(kegg_attributes):
 
 
 def process_protein_info_to_model(response):
-    """Process description
+    """Process description.
 
     :param requests.Response response: response from KEGG API
     :type: dict
