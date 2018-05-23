@@ -4,16 +4,16 @@
 
 import json
 import logging
-from multiprocessing.pool import ThreadPool
-
+import os
 import requests
-from compath_utils import CompathManager
-from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
+from multiprocessing.pool import ThreadPool
 from tqdm import tqdm
 
 from bio2bel_hgnc.manager import Manager as HgncManager
+from compath_utils import CompathManager
+from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
-from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME
+from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein
 from .parsers import *
 
@@ -96,7 +96,7 @@ class Manager(CompathManager):
 
         self.session.commit()
 
-    def _pathway_entity(self, url=None, metadata_existing=None):
+    def _pathway_entity(self, url=None, metadata_existing=None, thead_pool_size=1):
         """Populate Protein Tables.
 
         :param Optional[str] url: url from protein to pathway file
@@ -104,11 +104,11 @@ class Manager(CompathManager):
         """
         protein_df = get_entity_pathway_df(url=url)
 
-        protein_description_urls = create_entity_description_url(protein_df, API_KEGG_GET)
-
-        hgnc_manager = HgncManager(connection=self.connection)
-
-        hgnc_id_to_symbol = hgnc_manager.build_hgnc_id_symbol_mapping()
+        log.debug('creating description URLs')
+        protein_description_entities = {
+            entity
+            for line, (entity, pathway) in protein_df.iterrows()
+        }
 
         if not metadata_existing:
             # KEGG protein ID to Protein model attributes dictionary
@@ -119,21 +119,10 @@ class Manager(CompathManager):
                      'However, the KEGG RESTful API might reject a big amount of requests.')
 
             # Multi-thread processing of protein description requests
-            results = ThreadPool(1).imap_unordered(requests.get, protein_description_urls)
-            for result in tqdm(results, desc='Fetching meta information'):
-                kegg_protein_id = result.url.rsplit('/', 1)[-1]
-
-                protein_dict = process_protein_info_to_model(result)
-
-                # Adds HGNC id information
-                if 'hgnc_id' in protein_dict:
-                    # Add extra fields to the protein dictionary
-                    protein_dict['hgnc_symbol'] = hgnc_id_to_symbol.get(protein_dict['hgnc_id'])
-
-                protein_dict['kegg_id'] = kegg_protein_id
-
-                # KEGG protein ID to Protein object already created
-                pid_attributes[kegg_protein_id] = protein_dict
+            results = ThreadPool(thead_pool_size).imap_unordered(self._process_kegg_api_get_entity,
+                                                                 protein_description_entities)
+            pid_attributes = dict(tqdm(results, desc='Fetching meta information'))
+            self._postprocess_pid(pid_attributes)
 
             with open(METADATA_FILE_PATH, 'w') as outfile:
                 json.dump(pid_attributes, outfile)
@@ -164,6 +153,44 @@ class Manager(CompathManager):
             pathway = self.get_pathway_by_id(kegg_pathway_id)
             protein.pathways.append(pathway)
         self.session.commit()
+
+    @staticmethod
+    def _process_kegg_api_get_entity(entity):
+        """Send a given entity to the KEGG API and process the results.
+
+        :param str entity: A KEGG identifier
+        :return: A 2-tuple of the input value and the JSON retrieved from the API
+        :rtype: tuple[str,dict]
+        """
+        _protein_path = os.path.join(PROTEIN_ENTRY_DIR, '{}.json'.format(entity))
+
+        if os.path.exists(_protein_path):
+            with open(_protein_path) as f:
+                return entity, json.load(f)
+
+        url = API_KEGG_GET.format(entity)
+        result = requests.get(url)
+
+        protein_dict = process_protein_info_to_model(result)
+        protein_dict['kegg_id'] = entity
+
+        with open(_protein_path, 'w') as f:
+            json.dump(protein_dict, f)
+
+        return entity, protein_dict
+
+    def _postprocess_pid(self, pid_attributes):
+        """Enrich the dictionary of KEGG API results with HGNC information."""
+        hgnc_manager = HgncManager(connection=self.connection)
+        if not hgnc_manager.is_populated():
+            hgnc_manager.populate()
+        hgnc_id_to_symbol = hgnc_manager.build_hgnc_id_symbol_mapping()
+
+        for kegg_protein_id in pid_attributes:
+
+            hgnc_id = pid_attributes[kegg_protein_id].get('hgnc_id')
+            if hgnc_id is not None:
+                pid_attributes[kegg_protein_id]['hgnc_symbol'] = hgnc_id_to_symbol.get(hgnc_id)
 
     def populate(self, pathways_url=None, protein_pathway_url=None, metadata_existing=False):
         """Populate all tables."""

@@ -4,14 +4,16 @@
 
 import os
 
-from bio2bel.utils import get_connection, get_data_dir
+from bio2bel import get_data_dir
 
 MODULE_NAME = 'kegg'
 DATA_DIR = get_data_dir(MODULE_NAME)
-DEFAULT_CACHE_CONNECTION = get_connection(MODULE_NAME)
 
 CONFIG_FILE_PATH = os.path.join(DATA_DIR, 'config.ini')
-METADATA_FILE_PATH = os.path.join(DATA_DIR, 'protein_metadata.json') # Metadata file generated for the parser
+METADATA_FILE_PATH = os.path.join(DATA_DIR, 'protein_metadata.json')  # Metadata file generated for the parser
+
+PROTEIN_ENTRY_DIR = os.path.join(DATA_DIR, 'proteins')
+os.makedirs(PROTEIN_ENTRY_DIR, exist_ok=True)
 
 # returns the list of human pathways
 KEGG_PATHWAYS_URL = 'http://rest.kegg.jp/list/pathway/hsa'
