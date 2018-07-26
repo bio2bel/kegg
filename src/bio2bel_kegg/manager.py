@@ -5,13 +5,14 @@
 import json
 import logging
 import os
-import requests
 from multiprocessing.pool import ThreadPool
-from tqdm import tqdm
 
 import bio2bel_hgnc
+import requests
 from compath_utils import CompathManager
-from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
+from tqdm import tqdm
+
+from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.struct.graph import BELGraph
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein
