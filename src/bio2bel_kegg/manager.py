@@ -210,11 +210,13 @@ class Manager(CompathManager):
     def get_pathway_graph(self, kegg_id):
         """Return a new graph corresponding to the pathway.
 
-        :param str kegg_id: kegg identifier
-        :rtype: pybel.BELGraph
-        :return: Graph
+        :param str kegg_id: A KEGG pathway identifier (prefixed by "path:")
+        :rtype: Optional[pybel.BELGraph]
         """
         pathway = self.get_pathway_by_id(kegg_id)
+
+        if pathway is None:
+            return
 
         graph = BELGraph(
             name='{} graph'.format(pathway.name),
