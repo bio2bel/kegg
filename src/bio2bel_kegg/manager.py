@@ -9,7 +9,7 @@ import requests
 from multiprocessing.pool import ThreadPool
 from tqdm import tqdm
 
-from bio2bel_hgnc.manager import Manager as HgncManager
+import bio2bel_hgnc
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PART_OF, PROTEIN
 from pybel.struct.graph import BELGraph
@@ -181,7 +181,7 @@ class Manager(CompathManager):
 
     def _postprocess_pid(self, pid_attributes):
         """Enrich the dictionary of KEGG API results with HGNC information."""
-        hgnc_manager = HgncManager(connection=self.connection)
+        hgnc_manager = bio2bel_hgnc.Manager(connection=self.connection)
         if not hgnc_manager.is_populated():
             hgnc_manager.populate()
         hgnc_id_to_symbol = hgnc_manager.build_hgnc_id_symbol_mapping()
