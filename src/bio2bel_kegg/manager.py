@@ -197,6 +197,16 @@ class Manager(CompathManager):
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
+    def summarize(self):
+        """Summarize the database.
+
+        :rtype: dict[str,int]
+        """
+        return dict(
+            pathways=self._count_model(Pathway),
+            proteins=self._count_model(Protein)
+        )
+
     def get_pathway_graph(self, kegg_id):
         """Return a new graph corresponding to the pathway.
 
