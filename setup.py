@@ -15,7 +15,7 @@ INSTALL_REQUIRES = [
     'bio2bel>=0.0.12',
     'compath_utils>=0.0.5',
     'bio2bel_hgnc>=0.0.7',
-    'pybel>=0.11.2',
+    'pybel>=0.11.10',
     'sqlalchemy',
     'pandas',
     'tqdm',
