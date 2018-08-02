@@ -1,13 +1,19 @@
 # -*- coding: utf-8 -*-
-""" This module contains all test constants"""
 
+"""Test constants for Bio2BEL KEGG."""
+
+import logging
 import os
-import tempfile
-import unittest
 
-from bio2bel_hgnc.manager import Manager as HgncManager
+from bio2bel.testing import TemporaryConnectionMixin
+import bio2bel_hgnc
 from bio2bel_kegg.constants import HGNC, KEGG
 from bio2bel_kegg.manager import Manager
+from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION
+from pybel.dsl import bioprocess, gene, protein
+from pybel.struct.graph import BELGraph
+
+log = logging.getLogger(__name__)
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 resources_path = os.path.join(dir_path, 'resources')
@@ -18,30 +24,20 @@ protein_pathway_url = os.path.join(resources_path, 'pathway_gene.txt')
 hgnc_test_path = os.path.join(resources_path, 'hgnc_test.json')
 hcop_test_path = os.path.join(resources_path, 'hcop_test.txt')
 
-from pybel.dsl import protein, gene, bioprocess
-from pybel.struct.graph import BELGraph
-from pybel.constants import *
 
+class DatabaseMixin(TemporaryConnectionMixin):
+    """A test case with a populated database."""
 
-class DatabaseMixin(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        """Create temporary file"""
-
-        cls.fd, cls.path = tempfile.mkstemp()
-        cls.connection = 'sqlite:///' + cls.path
-
-        log.info('Test generated connection string %s', cls.connection)
+        """Create a temporary database."""
+        super().setUpClass()
 
         # create temporary database
         cls.manager = Manager(cls.connection)
 
-        """HGNC Manager"""
-
-        cls.hgnc_manager = HgncManager(connection=cls.connection)
-
+        cls.hgnc_manager = bio2bel_hgnc.Manager(connection=cls.connection)
         cls.hgnc_manager.create_all()
-
         cls.hgnc_manager.populate(
             hgnc_file_path=hgnc_test_path,
             hcop_file_path=hcop_test_path,
@@ -55,13 +51,12 @@ class DatabaseMixin(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        """Closes the connection in the manager and deletes the temporary database"""
+        """Close the connection in the manager and deletes the temporary database."""
         cls.manager.drop_all()
         cls.hgnc_manager.drop_all()
         cls.manager.session.close()
         cls.hgnc_manager.session.close()
-        os.close(cls.fd)
-        os.remove(cls.path)
+        super().tearDownClass()
 
 
 protein_a = protein(namespace=HGNC, name='GPI')
@@ -71,8 +66,10 @@ pathway_a = bioprocess(namespace=KEGG, name='Pentose phosphate pathway - Homo sa
 
 
 def enrichment_graph():
-    """Simple test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC"""
+    """Build a test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC.
 
+    :rtype: BELGraph
+    """
     graph = BELGraph(
         name='My test graph for enrichment',
         version='0.0.1'

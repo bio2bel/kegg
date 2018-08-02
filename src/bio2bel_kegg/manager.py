@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module populates the tables of bio2bel_kegg"""
+"""Manager for Bio2BEL KEGG."""
 
 import json
 import logging
@@ -9,11 +9,15 @@ from multiprocessing.pool import ThreadPool
 
 import bio2bel_hgnc
 import requests
+from bio2bel.manager.bel_manager import BELManagerMixin
+from bio2bel.manager.flask_manager import FlaskMixin
+from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
 from compath_utils import CompathManager
+from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
+from pybel.manager.models import NamespaceEntry
+from pybel.struct.graph import BELGraph
 from tqdm import tqdm
 
-from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
-from pybel.struct.graph import BELGraph
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein
 from .parsers import *
@@ -26,12 +30,12 @@ log = logging.getLogger(__name__)
 logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
-class Manager(CompathManager):
-    """Database manager"""
+class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMixin, ):
+    """Manage the Bio2BEL KEGG database."""
 
     module_name = MODULE_NAME
     flask_admin_models = [Pathway, Protein]
-    pathway_model = Pathway
+    namespace_model = pathway_model = Pathway
     protein_model = Protein
     pathway_model_identifier_column = Pathway.kegg_id
 
@@ -83,8 +87,26 @@ class Manager(CompathManager):
 
     """Methods to populate the DB"""
 
+    @staticmethod
+    def _get_identifier(model):
+        return model.kegg_id
+
+    def _create_namespace_entry_from_model(self, model, namespace):
+        """Create a namespace entry from a KEGG pathway model.
+
+        :param Pathway model:
+        :param pybel.manager.models.Namespace namespace:
+        :rtype: NamespaceEntry
+        """
+        return NamespaceEntry(
+            name=model.name,
+            identifier=model.kegg_id,
+            namespace=namespace,
+            encoding='B',
+        )
+
     def _populate_pathways(self, url=None):
-        """Populate pathway table
+        """Populate pathways.
 
         :param Optional[str] url: url from pathway table file
         """
@@ -98,7 +120,7 @@ class Manager(CompathManager):
         self.session.commit()
 
     def _pathway_entity(self, url=None, metadata_existing=None, thead_pool_size=1):
-        """Populate Protein Tables.
+        """Populate proteins.
 
         :param Optional[str] url: url from protein to pathway file
         :param Optional[bool] metadata_existing: metadata exists already
@@ -198,15 +220,50 @@ class Manager(CompathManager):
         self._populate_pathways(url=pathways_url)
         self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
+    def count_pathways(self) -> int:
+        """Count the pathways in the database."""
+        return self._count_model(Pathway)
+
+    def list_pathways(self):
+        """List the pathways in the database.
+
+        :rtype: list[Pathway]
+        """
+        return self._list_model(Pathway)
+
+    def count_proteins(self) -> int:
+        """Count the pathways in the database."""
+        return self._count_model(Protein)
+
     def summarize(self):
         """Summarize the database.
 
         :rtype: dict[str,int]
         """
         return dict(
-            pathways=self._count_model(Pathway),
-            proteins=self._count_model(Protein)
+            pathways=self.count_pathways(),
+            proteins=self.count_proteins(),
         )
+
+    def to_bel(self):
+        """Serialize KEGG to BEL.
+
+        :rtype:
+        """
+        graph = BELGraph(
+            name='KEGG Pathway Definitions',
+            version='1.0.0',
+        )
+        for pathway in self.list_pathways():
+            self._add_pathway_to_graph(graph, pathway)
+        return graph
+
+    @staticmethod
+    def _add_pathway_to_graph(graph, pathway):
+        pathway_node = pathway.serialize_to_pathway_node()
+
+        for protein in pathway.proteins:
+            graph.add_part_of(protein.serialize_to_protein_node(), pathway_node)
 
     def get_pathway_graph(self, kegg_id):
         """Return a new graph corresponding to the pathway.
@@ -215,19 +272,13 @@ class Manager(CompathManager):
         :rtype: Optional[pybel.BELGraph]
         """
         pathway = self.get_pathway_by_id(kegg_id)
-
         if pathway is None:
             return
 
         graph = BELGraph(
             name='{} graph'.format(pathway.name),
         )
-
-        pathway_node = pathway.serialize_to_pathway_node()
-
-        for protein in pathway.proteins:
-            graph.add_part_of(protein.serialize_to_protein_node(), pathway_node)
-
+        self._add_pathway_to_graph(graph, pathway)
         return graph
 
     def enrich_kegg_pathway(self, graph):

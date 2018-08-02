@@ -1,14 +1,9 @@
 # -*- coding: utf-8 -*-
-""" This module contains tests for parsing KEGG files"""
 
-from unittest import TestCase
+"""Test for the parser and database."""
 
-import requests
-
-from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 from bio2bel_kegg.models import Pathway, Protein
-from bio2bel_kegg.parsers.description import parse_description, get_description_properties
-from tests.constants import DatabaseMixin
+from tests.constants import DatabaseMixin, enrichment_graph
 
 
 class TestParse(DatabaseMixin):
@@ -178,49 +173,25 @@ class TestParse(DatabaseMixin):
             enriched_pathways["path:hsa00030"]
         )
 
+    def test_get_pathway_graph(self):
+        graph = self.manager.get_pathway_graph('path:hsa00030')
 
-class TestDescriptionParse(TestCase):
-    """ Description parsing test"""
+        self.assertEqual(15, graph.number_of_nodes())  # 14 proteins + pathway node
+        self.assertEqual(14, graph.number_of_edges())  # 14 edges protein -- pathway
 
-    def test_description_protein(self):
-        # Dictionary of list of tuples
+    def test_enrich_kegg_pathway(self):
+        graph_example = enrichment_graph()
 
-        response = requests.get('http://rest.kegg.jp/get/hsa:5214')
+        self.manager.enrich_kegg_pathway(graph_example)
 
-        PFKP_protein = parse_description(response)
+        # 14 proteins in the pathway + gene of one of the proteins + pathway node
+        self.assertEqual(16, graph_example.number_of_nodes())
+        self.assertEqual(17, graph_example.number_of_edges())  # 14 edges protein -- pathway + 3 other relationships
 
-        self.assertEqual(
-            [('hsa00010', 'Glycolysis / Gluconeogenesis'),
-             ('hsa00030', 'Pentose phosphate pathway'),
-             ('hsa00051', 'Fructose and mannose metabolism'),
-             ('hsa00052', 'Galactose metabolism'),
-             ('hsa01100', 'Metabolic pathways'),
-             ('hsa01200', 'Carbon metabolism'),
-             ('hsa01230', 'Biosynthesis of amino acids'),
-             ('hsa03018', 'RNA degradation'),
-             ('hsa04152', 'AMPK signaling pathway'),
-             ('hsa04919', 'Thyroid hormone signaling pathway'),
-             ('hsa05230', 'Central carbon metabolism in cancer')
-             ],
-            PFKP_protein['PATHWAY']
-        )
+    def test_enrich_kegg_protein(self):
+        graph_example = enrichment_graph()
 
-        self.assertEqual(
-            [('NCBI-GeneID', '5214'),
-             ('NCBI-ProteinID', 'NP_002618'),
-             ('OMIM', '171840'),
-             ('HGNC', '8878'),
-             ('Ensembl', 'ENSG00000067057'),
-             ('Vega', 'OTTHUMG00000017556'),
-             ('Pharos', 'Q01813(Tbio)'),
-             ('UniProt', 'Q01813'),
-             ],
-            PFKP_protein[DBLINKS]
-        )
+        self.manager.enrich_kegg_protein(graph_example)
 
-        description_links = get_description_properties(PFKP_protein, DBLINKS, PROTEIN_RESOURCES)
-
-        self.assertDictEqual(
-            {'HGNC': '8878', 'UniProt': 'Q01813'},
-            description_links
-        )
+        self.assertEqual(5, graph_example.number_of_nodes())  # 2 proteins + gene + pathway + new pathway
+        self.assertEqual(6, graph_example.number_of_edges())  # 3 edges + new one

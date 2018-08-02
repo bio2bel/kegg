@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+"""Setup module for Bio2BEL KEGG."""
+
 import codecs
 import os
 import re
@@ -12,10 +14,10 @@ META_PATH = os.path.join('src', 'bio2bel_{}'.format(BIO2BEL_MODULE), '__init__.p
 INSTALL_REQUIRES = [
     'click',
     'requests',
-    'bio2bel>=0.0.12',
-    'compath_utils>=0.0.5',
-    'bio2bel_hgnc>=0.0.7',
-    'pybel>=0.11.10',
+    'bio2bel>=0.1.0',
+    'compath_utils>=0.1.0',
+    'bio2bel_hgnc>=0.1.0',
+    'pybel>=0.11.11',
     'sqlalchemy',
     'pandas',
     'tqdm',
@@ -48,7 +50,7 @@ META_FILE = read(META_PATH)
 
 
 def find_meta(meta):
-    """Extract __*meta*__ from META_FILE"""
+    """Extract __*meta*__ from META_FILE."""
     meta_match = re.search(
         r'^__{meta}__ = ["\']([^"\']*)["\']'.format(meta=meta),
         META_FILE, re.M
