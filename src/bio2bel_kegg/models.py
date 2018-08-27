@@ -45,7 +45,7 @@ class Pathway(Base):
         return self.name
     
     def __str__(self):
-        return self.name
+        return str(self.name)
 
     def serialize_to_pathway_node(self):
         """Function to serialize to PyBEL node data dictionary.
@@ -90,10 +90,10 @@ class Protein(Base):
     hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
 
     def __repr__(self):
-        return self.hgnc_id
+        return str(self.hgnc_symbol)
     
     def __str__(self):
-        return self.hgnc_id
+        return str(self.hgnc_symbol)
 
     def serialize_to_protein_node(self):
         """Function to serialize to PyBEL node data dictionary.
