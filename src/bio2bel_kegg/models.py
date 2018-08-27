@@ -93,7 +93,7 @@ class Protein(Base):
         return self.hgnc_id
     
     def __str__(self):
-        return self.name
+        return self.hgnc_id
 
     def serialize_to_protein_node(self):
         """Function to serialize to PyBEL node data dictionary.
