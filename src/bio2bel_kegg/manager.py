@@ -204,7 +204,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
     def _postprocess_pid(self, pid_attributes):
         """Enrich the dictionary of KEGG API results with HGNC information."""
-        hgnc_manager = bio2bel_hgnc.Manager(connection=self.connection)
+        hgnc_manager = bio2bel_hgnc.Manager(engine=self.engine, session=self.session)
         if not hgnc_manager.is_populated():
             hgnc_manager.populate()
         hgnc_id_to_symbol = hgnc_manager.build_hgnc_id_symbol_mapping()
