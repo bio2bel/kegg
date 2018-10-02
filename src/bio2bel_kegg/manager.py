@@ -6,24 +6,25 @@ import json
 import logging
 import os
 from multiprocessing.pool import ThreadPool
+from typing import List, Mapping, Optional
+
+import requests
+from tqdm import tqdm
 
 import bio2bel_hgnc
-import requests
 from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
-from pybel.manager.models import NamespaceEntry
+from pybel.manager.models import Namespace, NamespaceEntry
 from pybel.struct.graph import BELGraph
-from tqdm import tqdm
-
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein
 from .parsers import *
 
 __all__ = [
-    'Manager'
+    'Manager',
 ]
 
 log = logging.getLogger(__name__)
@@ -43,45 +44,41 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     def _base(self):
         return Base
 
-    def get_or_create_pathway(self, kegg_id, name=None):
+    def get_or_create_pathway(self, kegg_id: str, name: Optional[str] = None) -> Pathway:
         """Get an pathway from the database or creates it.
 
-        :param str kegg_id: kegg identifier
-        :param Optional[str] name: name of the pathway
-        :rtype: Pathway
+        :param kegg_id: A KEGG pathway identifier
+        :param name: name of the pathway
         """
         pathway = self.get_pathway_by_id(kegg_id)
 
         if pathway is None:
             pathway = Pathway(
                 kegg_id=kegg_id,
-                name=name
+                name=name,
             )
             self.session.add(pathway)
 
         return pathway
 
-    def get_protein_by_kegg_id(self, kegg_id):
+    def get_protein_by_kegg_id(self, kegg_id: str) -> Optional[Protein]:
         """Get a protein by its kegg id.
 
-        :param kegg_id: kegg identifier
-        :rtype: Optional[Protein]
+        :param kegg_id: A KEGG identifier
         """
         return self.session.query(Protein).filter(Protein.kegg_id == kegg_id).one_or_none()
 
-    def get_protein_by_hgnc_id(self, hgnc_id):
+    def get_protein_by_hgnc_id(self, hgnc_id: str) -> Optional[Protein]:
         """Get a protein by its hgnc_id.
 
         :param hgnc_id: hgnc_id
-        :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.hgnc_id == hgnc_id).one_or_none()
 
-    def get_protein_by_hgnc_symbol(self, hgnc_symbol):
+    def get_protein_by_hgnc_symbol(self, hgnc_symbol: str) -> Optional[Protein]:
         """Get a protein by its hgnc symbol.
 
         :param hgnc_id: hgnc identifier
-        :rtype: Optional[Protein]
         """
         return self.session.query(Protein).filter(Protein.hgnc_symbol == hgnc_symbol).one_or_none()
 
@@ -91,24 +88,19 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     def _get_identifier(model):
         return model.kegg_id
 
-    def _create_namespace_entry_from_model(self, model, namespace):
-        """Create a namespace entry from a KEGG pathway model.
-
-        :param Pathway model:
-        :param pybel.manager.models.Namespace namespace:
-        :rtype: NamespaceEntry
-        """
+    def _create_namespace_entry_from_model(self, pathway: Pathway, namespace: Namespace) -> NamespaceEntry:
+        """Create a namespace entry from a KEGG pathway model."""
         return NamespaceEntry(
-            name=model.name,
-            identifier=model.kegg_id,
+            name=pathway.name,
+            identifier=pathway.kegg_id,
             namespace=namespace,
             encoding='B',
         )
 
-    def _populate_pathways(self, url=None):
+    def _populate_pathways(self, url: Optional[str] = None):
         """Populate pathways.
 
-        :param Optional[str] url: url from pathway table file
+        :param url: url from pathway table file
         """
         df = get_pathway_names_df(url=url)
 
@@ -224,32 +216,23 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         """Count the pathways in the database."""
         return self._count_model(Pathway)
 
-    def list_pathways(self):
-        """List the pathways in the database.
-
-        :rtype: list[Pathway]
-        """
+    def list_pathways(self) -> List[Pathway]:
+        """List the pathways in the database."""
         return self._list_model(Pathway)
 
     def count_proteins(self) -> int:
         """Count the pathways in the database."""
         return self._count_model(Protein)
 
-    def summarize(self):
-        """Summarize the database.
-
-        :rtype: dict[str,int]
-        """
+    def summarize(self) -> Mapping[str, int]:
+        """Summarize the database."""
         return dict(
             pathways=self.count_pathways(),
             proteins=self.count_proteins(),
         )
 
-    def to_bel(self):
-        """Serialize KEGG to BEL.
-
-        :rtype:
-        """
+    def to_bel(self) -> BELGraph:
+        """Serialize KEGG to BEL."""
         graph = BELGraph(
             name='KEGG Pathway Definitions',
             version='1.0.0',
@@ -265,11 +248,10 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         for protein in pathway.proteins:
             graph.add_part_of(protein.serialize_to_protein_node(), pathway_node)
 
-    def get_pathway_graph(self, kegg_id):
+    def get_pathway_graph(self, kegg_id: str) -> Optional[BELGraph]:
         """Return a new graph corresponding to the pathway.
 
-        :param str kegg_id: A KEGG pathway identifier (prefixed by "path:")
-        :rtype: Optional[pybel.BELGraph]
+        :param kegg_id: A KEGG pathway identifier (prefixed by "path:")
         """
         pathway = self.get_pathway_by_id(kegg_id)
         if pathway is None:
@@ -281,27 +263,19 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         self._add_pathway_to_graph(graph, pathway)
         return graph
 
-    def enrich_kegg_pathway(self, graph):
-        """Enrich all proteins belonging to kegg pathway nodes in the graph.
-
-        :param pybel.BELGraph graph: A BEL Graph
-        """
-        for node, data in graph.nodes(data=True):
-            if data[FUNCTION] == BIOPROCESS and data[NAMESPACE] == KEGG and NAME in data:
-                pathway = self.get_pathway_by_name(data[NAME])
-
+    def enrich_kegg_pathway(self, graph: BELGraph) -> None:
+        """Enrich all proteins belonging to KEGG pathway nodes in the graph."""
+        for node in list(graph):
+            if node[FUNCTION] == BIOPROCESS and node[NAMESPACE] == KEGG and NAME in node:
+                pathway = self.get_pathway_by_name(node[NAME])
                 for protein in pathway.proteins:
                     graph.add_part_of(protein.serialize_to_protein_node(), node)
 
-    def enrich_kegg_protein(self, graph):
-        """Enrich all kegg pathways associated with proteins in the graph.
-
-        :param pybel.BELGraph graph: A BEL Graph
-        """
-        for node, data in graph.nodes(data=True):
-            if data[FUNCTION] == PROTEIN and data[NAMESPACE] == 'HGNC':
-                protein = self.get_protein_by_hgnc_symbol(data[NAME])
-
+    def enrich_kegg_protein(self, graph: BELGraph) -> None:
+        """Enrich all KEGG pathways associated with proteins in the graph."""
+        for node in list(graph):
+            if node[FUNCTION] == PROTEIN and node[NAMESPACE].lower() == 'hgnc':
+                protein = self.get_protein_by_hgnc_symbol(node[NAME])
                 for pathway in protein.pathways:
                     graph.add_part_of(node, pathway.serialize_to_pathway_node())
 
