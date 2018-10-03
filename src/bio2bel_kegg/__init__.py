@@ -13,7 +13,7 @@ Citation
 - Kanehisa, M. and Goto, S.; KEGG: Kyoto Encyclopedia of Genes and Genomes. Nucleic Acids Res. 28, 27-30 (2000).
 """
 
-__version__ = '0.1.1'
+__version__ = '0.1.2-dev'
 
 __title__ = 'bio2bel_kegg'
 __description__ = "A wraper around the KEGG RESTful API"
