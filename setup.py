@@ -11,6 +11,19 @@ import setuptools
 BIO2BEL_MODULE = 'kegg'
 PACKAGES = setuptools.find_packages(where='src')
 META_PATH = os.path.join('src', 'bio2bel_{}'.format(BIO2BEL_MODULE), '__init__.py')
+KEYWORDS = ['Biological Expression Language', 'BEL', 'KEGG', 'Systems Biology', 'Networks Biology']
+CLASSIFIERS = [
+    'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
+    'Intended Audience :: Science/Research',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3.6',
+    'Programming Language :: Python :: 3.7',
+    'Topic :: Scientific/Engineering :: Bio-Informatics'
+]
 INSTALL_REQUIRES = [
     'click',
     'requests',
@@ -88,8 +101,11 @@ if __name__ == '__main__':
         maintainer_email=find_meta('email'),
         license=find_meta('license'),
         packages=PACKAGES,
+        classifiers=CLASSIFIERS,
+        keywords=KEYWORDS,
         package_dir={'': 'src'},
         install_requires=INSTALL_REQUIRES,
         extras_require=EXTRAS_REQUIRE,
         entry_points=ENTRY_POINTS,
+        zip_safe=False,
     )
