@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-""" This module contains the flask application to visualize the db"""
+"""This module contains the flask application to visualize the db."""
 
 from .manager import Manager
 
