@@ -7,11 +7,14 @@ import logging
 import os
 from multiprocessing.pool import ThreadPool
 from typing import List, Mapping, Optional
+import requests
 
 import bio2bel_hgnc
-import requests
+
+from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
+
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import Namespace, NamespaceEntry
