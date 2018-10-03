@@ -22,12 +22,11 @@ def get_entity_pathway_df(url=None):
     :return: dataframe of the file
     :rtype: pandas.DataFrame
     """
-    df = pd.read_csv(
+    return pd.read_csv(
         url or PROTEIN_PATHWAY_URL,
         sep='\t',
         header=None
     )
-    return df
 
 
 def parse_entity_pathway(pathway_dataframe):
@@ -37,13 +36,10 @@ def parse_entity_pathway(pathway_dataframe):
     :rtype: list[tuple]
     :return association list [(entity, pathway)]
     """
-
-    pathways = [
+    return [
         (entity, pathway)
         for line, (entity, pathway) in pathway_dataframe.iterrows()
     ]
-
-    return pathways
 
 
 def create_entity_description_url(pathway_dataframe, base_url):
@@ -54,7 +50,6 @@ def create_entity_description_url(pathway_dataframe, base_url):
     :rtype: base_url
     :return all entities
     """
-
     return {
         base_url.format(entity)
         for line, (entity, pathway) in pathway_dataframe.iterrows()

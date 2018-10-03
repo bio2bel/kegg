@@ -8,17 +8,16 @@ import os
 from multiprocessing.pool import ThreadPool
 from typing import List, Mapping, Optional
 
-import requests
-from tqdm import tqdm
-
 import bio2bel_hgnc
-from bio2bel.manager.bel_manager import BELManagerMixin
+import requests
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import Namespace, NamespaceEntry
 from pybel.struct.graph import BELGraph
+from tqdm import tqdm
+
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein
 from .parsers import *
@@ -280,18 +279,19 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
                     graph.add_part_of(node, pathway.serialize_to_pathway_node())
 
     def _add_admin(self, app, **kwargs):
+        """Add admin methods."""
         from flask_admin import Admin
         from flask_admin.contrib.sqla import ModelView
 
         class PathwayView(ModelView):
-            """Pathway view in Flask-admin"""
+            """Pathway view in Flask-admin."""
             column_searchable_list = (
                 Pathway.kegg_id,
                 Pathway.name
             )
 
         class ProteinView(ModelView):
-            """Protein view in Flask-admin"""
+            """Protein view in Flask-admin."""
             column_searchable_list = (
                 Protein.kegg_id,
                 Protein.uniprot_id,

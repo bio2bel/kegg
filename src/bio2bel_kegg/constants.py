@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""This module contains all the constants used in bio2bel Kegg project"""
+"""This module contains all the constants used in Bio2bel Kegg project."""
 
 import os
 

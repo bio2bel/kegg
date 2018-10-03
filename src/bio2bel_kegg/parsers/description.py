@@ -60,7 +60,6 @@ def parse_pathway_line(line):
     :rtype tuple
     :return: tuple of entry
     """
-
     line = remove_first_word(line)
 
     return tuple(
@@ -76,7 +75,6 @@ def parse_link_line(line):
     :rtype tuple
     :return: tuple of entry
     """
-
     line = remove_first_word(line)
 
     column, link_id = line.split(":")
@@ -95,7 +93,6 @@ def parse_description(response):
     :rtype: dict
     :return: description dictionary
     """
-
     description = {}
 
     for line in response.iter_lines():
@@ -132,7 +129,6 @@ def get_description_properties(description, description_property, columns):
     :param list columns: columns to be filtered
     :rtype: dict
     :return: description dictionary
-
     """
     return {
         pair[0]: pair[1]
@@ -148,7 +144,6 @@ def kegg_properties_to_models(kegg_attributes):
     :rtype: dict
     :return: dictionary with bio2bel_kegg adapted keys
     """
-
     return {
         '{}_id'.format(key.lower()): value
         for key, value in kegg_attributes.items()
@@ -162,7 +157,6 @@ def process_protein_info_to_model(response):
     :type: dict
     :return: protein model attributes
     """
-
     # Get protein description from KEGG API
     description = parse_description(response)
     # Filters out db link columns

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+"""Command line interface."""
 
 from bio2bel_kegg.manager import Manager
 

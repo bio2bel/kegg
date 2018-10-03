@@ -3,6 +3,7 @@
 """KEGG database models"""
 
 from pybel.dsl import bioprocess, protein
+
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -26,7 +27,7 @@ protein_pathway = Table(
 
 
 class Pathway(Base):
-    """Pathway Table"""
+    """Pathway Table."""
 
     __tablename__ = PATHWAY_TABLE_NAME
 
@@ -43,12 +44,13 @@ class Pathway(Base):
 
     def __repr__(self):
         return self.name
-    
+
     def __str__(self):
         return str(self.name)
 
     def serialize_to_pathway_node(self):
-        """Function to serialize to PyBEL node data dictionary.
+        """Serialize to PyBEL node data dictionary.
+
         :rtype: pybel.dsl.bioprocess
         """
         return bioprocess(
@@ -78,7 +80,7 @@ class Pathway(Base):
 
 
 class Protein(Base):
-    """Genes Table"""
+    """Genes Table."""
 
     __tablename__ = PROTEIN_TABLE_NAME
 
@@ -91,7 +93,7 @@ class Protein(Base):
 
     def __repr__(self):
         return str(self.hgnc_symbol)
-    
+
     def __str__(self):
         return str(self.hgnc_symbol)
 

@@ -21,12 +21,11 @@ def get_pathway_names_df(url=None):
     :return: dataframe of the file
     :rtype: pandas.DataFrame
     """
-    df = pd.read_csv(
+    return pd.read_csv(
         url or KEGG_PATHWAYS_URL,
         sep='\t',
         header=None
     )
-    return df
 
 
 def parse_pathways(pathway_dataframe):
@@ -36,10 +35,7 @@ def parse_pathways(pathway_dataframe):
     :rtype: dict
     :return Object representation dictionary (kegg_id: name, species)
     """
-
-    pathways = {
+    return {
         kegg_id: name
         for line, (kegg_id, name) in pathway_dataframe.iterrows()
     }
-
-    return pathways
