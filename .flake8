@@ -6,6 +6,10 @@ ignore =
 	F405 # Stars import
 	F403 # imports not used in init
 	F401 # imports not used in init
+	I201
+	I202
+	D999
+	E126
 C901 # too complex methods
 exclude =
     .tox,

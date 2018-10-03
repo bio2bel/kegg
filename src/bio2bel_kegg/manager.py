@@ -288,6 +288,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         class PathwayView(ModelView):
             """Pathway view in Flask-admin."""
+
             column_searchable_list = (
                 Pathway.kegg_id,
                 Pathway.name
@@ -295,6 +296,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
 
         class ProteinView(ModelView):
             """Protein view in Flask-admin."""
+
             column_searchable_list = (
                 Protein.kegg_id,
                 Protein.uniprot_id,

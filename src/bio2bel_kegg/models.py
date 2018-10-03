@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""KEGG database models"""
+"""KEGG database models."""
 
 from pybel.dsl import bioprocess, protein
 
