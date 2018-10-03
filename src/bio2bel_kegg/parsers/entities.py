@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""
-This module parsers the KEGG pathway entities file
-
-"""
+"""This module parsers the KEGG pathway entities file."""
 import pandas as pd
 
 from bio2bel_kegg.constants import PROTEIN_PATHWAY_URL
