@@ -104,7 +104,8 @@ class Protein(Base):
         return str(self.hgnc_symbol)
 
     def serialize_to_protein_node(self):
-        """Function to serialize to PyBEL node data dictionary.
+        """Serialize to PyBEL node data dictionary.
+
         :rtype: pybel.dsl.protein
         """
         return protein(

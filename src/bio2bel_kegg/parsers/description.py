@@ -84,10 +84,6 @@ def parse_link_line(line):
 
 def parse_description(response):
     """Parse the several properties in the description file given an KEGG identifier using the KEGG API.
-    Properties parsed:
-    - ENTRY
-    - PATHWAY
-    - DBLINKS
 
     :param str identifier: id for the query
     :rtype: dict
