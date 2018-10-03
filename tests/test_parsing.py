@@ -7,7 +7,7 @@ from tests.constants import DatabaseMixin, enrichment_graph
 
 
 class TestParse(DatabaseMixin):
-    """Tests the parsing module"""
+    """Tests the parsing module."""
 
     def test_pathway_count(self):
         """Test number of pathways created."""
@@ -53,7 +53,7 @@ class TestParse(DatabaseMixin):
         )
 
     def test_gene_query_1(self):
-        """Single protein query. This protein is associated with 2 pathways"""
+        """Single protein query. This protein is associated with 2 pathways."""
         enriched_pathways = self.manager.query_gene_set(['PFKP'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
