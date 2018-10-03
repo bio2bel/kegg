@@ -4,9 +4,10 @@
 
 import unittest
 
+import requests
+
 from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 from bio2bel_kegg.parsers.description import get_description_properties, parse_description
-import requests
 
 
 class TestDescriptionParse(unittest.TestCase):

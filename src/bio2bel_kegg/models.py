@@ -2,13 +2,12 @@
 
 """KEGG database models."""
 
-from pybel.dsl import bioprocess, protein
-
 from sqlalchemy import Column, ForeignKey, Integer, String, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-from .constants import KEGG, HGNC
+from pybel.dsl import bioprocess, protein
+from .constants import HGNC, KEGG
 
 Base = declarative_base()
 
@@ -26,7 +25,7 @@ protein_pathway = Table(
 )
 
 
-class Pathway(Base):
+class Pathway(Base):  # type: ignore
     """Pathway Table."""
 
     __tablename__ = PATHWAY_TABLE_NAME
@@ -83,7 +82,7 @@ class Pathway(Base):
         return 'http://www.kegg.jp/dbget-bin/www_bget?pathway+map{}'.format(self.kegg_id.strip('path:hsa'))
 
 
-class Protein(Base):
+class Protein(Base):  # type: ignore
     """Genes Table."""
 
     __tablename__ = PROTEIN_TABLE_NAME

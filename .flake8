@@ -1,16 +1,7 @@
 [flake8]
 ignore =
-	E501
-	I100  # Import statements are in the wrong order
-	I101  # Imported names are in the wrong order
-	F405 # Stars import
-	F403 # imports not used in init
-	F401 # imports not used in init
-	I201
-	I202
-	D999
-	E126
-C901 # too complex methods
+	C901 # too complex methods
+max-line-length = 120
 exclude =
     .tox,
     .git,
@@ -29,6 +20,7 @@ application-import-names =
     bio2bel_kegg
     bio2bel_hgnc
     bio2bel
+	compath_utils
     pybel
     tests
 format = ${cyan}%(path)s${reset}:${yellow_bold}%(row)d${reset}:${green_bold}%(col)d${reset}: ${red_bold}%(code)s${reset} %(text)s

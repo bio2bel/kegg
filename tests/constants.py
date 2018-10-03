@@ -5,8 +5,8 @@
 import logging
 import os
 
-from bio2bel.testing import TemporaryConnectionMixin
 import bio2bel_hgnc
+from bio2bel.testing import TemporaryConnectionMixin
 from bio2bel_kegg.constants import HGNC, KEGG
 from bio2bel_kegg.manager import Manager
 from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION

@@ -7,23 +7,23 @@ import logging
 import os
 from multiprocessing.pool import ThreadPool
 from typing import List, Mapping, Optional
+
 import requests
+from tqdm import tqdm
 
 import bio2bel_hgnc
-
 from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
-
 from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import Namespace, NamespaceEntry
 from pybel.struct.graph import BELGraph
-from tqdm import tqdm
-
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein
-from .parsers import *
+from .parsers import (
+    get_entity_pathway_df, get_pathway_names_df, parse_entity_pathway, parse_pathways, process_protein_info_to_model,
+)
 
 __all__ = [
     'Manager',
@@ -257,7 +257,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         """
         pathway = self.get_pathway_by_id(kegg_id)
         if pathway is None:
-            return
+            return None
 
         graph = BELGraph(
             name='{} graph'.format(pathway.name),
@@ -278,6 +278,8 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         for node in list(graph):
             if node[FUNCTION] == PROTEIN and node[NAMESPACE].lower() == 'hgnc':
                 protein = self.get_protein_by_hgnc_symbol(node[NAME])
+                if protein is None:
+                    continue
                 for pathway in protein.pathways:
                     graph.add_part_of(node, pathway.serialize_to_pathway_node())
 

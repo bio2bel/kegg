@@ -4,6 +4,7 @@
 
 The "Complete list of pathways" file maps the KEGG identifiers to their corresponding pathway name .
 """
+
 import pandas as pd
 
 from bio2bel_kegg.constants import KEGG_PATHWAYS_URL

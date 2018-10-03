@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
 """This module parsers the KEGG pathway entities file."""
+
+from typing import List, Optional, Tuple
+
 import pandas as pd
 
 from bio2bel_kegg.constants import PROTEIN_PATHWAY_URL
@@ -11,12 +14,10 @@ __all__ = [
 ]
 
 
-def get_entity_pathway_df(url=None):
-    """Convert tab separated txt files to pandas Dataframe.
+def get_entity_pathway_df(url: Optional[str] = None) -> pd.DataFrame:
+    """Convert tab separated text files in to DataFrame.
 
-    :param Optional[str] url: url from KEGG tab separated file
-    :return: dataframe of the file
-    :rtype: pandas.DataFrame
+    :param url: An optional url from a KEGG TSV file
     """
     return pd.read_csv(
         url or PROTEIN_PATHWAY_URL,
@@ -25,11 +26,10 @@ def get_entity_pathway_df(url=None):
     )
 
 
-def parse_entity_pathway(pathway_dataframe):
+def parse_entity_pathway(pathway_dataframe: pd.DataFrame) -> List[Tuple[str, str]]:
     """Parse the pathway-entity table dataframe.
 
-    :param pandas.DataFrame pathway_dataframe: Pathway hierarchy as dataframe
-    :rtype: list[tuple]
+    :param pathway_dataframe: Pathway hierarchy as dataframe
     :return association list [(entity, pathway)]
     """
     return [

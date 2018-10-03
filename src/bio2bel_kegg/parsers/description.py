@@ -4,6 +4,8 @@
 
 import re
 
+from requests import Response
+
 from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
 
 __all__ = [
@@ -27,9 +29,8 @@ def parse_entry_line(line):
     :return: tuple of entry
     """
     return tuple(
-        [line.strip(' ')
-         for line in line.split()[1:]
-         ]
+        line.strip(' ')
+        for line in line.split()[1:]
     )
 
 
@@ -79,13 +80,12 @@ def parse_link_line(line):
 
     column, link_id = line.split(":")
 
-    return (column.strip(), link_id.strip())
+    return column.strip(), link_id.strip()
 
 
-def parse_description(response):
+def parse_description(response: Response):
     """Parse the several properties in the description file given an KEGG identifier using the KEGG API.
 
-    :param str identifier: id for the query
     :rtype: dict
     :return: description dictionary
     """
@@ -146,10 +146,10 @@ def kegg_properties_to_models(kegg_attributes):
     }
 
 
-def process_protein_info_to_model(response):
+def process_protein_info_to_model(response: Response):
     """Process description.
 
-    :param requests.Response response: response from KEGG API
+    :param response: response from KEGG API
     :type: dict
     :return: protein model attributes
     """
