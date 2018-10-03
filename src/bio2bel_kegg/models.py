@@ -43,9 +43,11 @@ class Pathway(Base):
     )
 
     def __repr__(self):
+        """Return name."""
         return self.name
 
     def __str__(self):
+        """Return name."""
         return str(self.name)
 
     def serialize_to_pathway_node(self):
@@ -72,10 +74,12 @@ class Pathway(Base):
 
     @property
     def resource_id(self):
+        """Return kegg identifier."""
         return self.kegg_id
 
     @property
     def url(self):
+        """Return url pointing to kegg pathway."""
         return 'http://www.kegg.jp/dbget-bin/www_bget?pathway+map{}'.format(self.kegg_id.strip('path:hsa'))
 
 
@@ -92,9 +96,11 @@ class Protein(Base):
     hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
 
     def __repr__(self):
+        """Return HGNC symbol."""
         return str(self.hgnc_symbol)
 
     def __str__(self):
+        """Return HGNC symbol."""
         return str(self.hgnc_symbol)
 
     def serialize_to_protein_node(self):
