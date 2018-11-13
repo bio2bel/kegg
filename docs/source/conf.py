@@ -20,7 +20,7 @@ project = 'Bio2BEL KEGG'
 copyright = '2018, Daniel Domingo-Fernández and Charles Tapley Hoyt'
 author = 'Daniel Domingo-Fernández and Charles Tapley Hoyt'
 
-release = '0.2.0'
+release = '0.2.1-dev'
 
 parsed_version = re.match(
     '(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)(?:-(?P<release>[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+(?P<build>[0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?',
