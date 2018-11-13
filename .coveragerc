@@ -1,0 +1,18 @@
+[run]
+branch = True
+source = bio2bel_kegg
+omit =
+    tests/*
+    docs/*
+    scripts/*
+
+[paths]
+source =
+    src/bio2bel_kegg
+    .tox/*/lib/python*/site-packages/bio2bel_kegg
+
+[report]
+show_missing = True
+exclude_lines =
+    def __str__
+    def __repr__
