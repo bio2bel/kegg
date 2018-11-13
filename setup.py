@@ -10,7 +10,7 @@ import setuptools
 
 BIO2BEL_MODULE = 'kegg'
 PACKAGES = setuptools.find_packages(where='src')
-META_PATH = os.path.join('src', 'bio2bel_{}'.format(BIO2BEL_MODULE), '__init__.py')
+META_PATH = os.path.join('src', f'bio2bel_{BIO2BEL_MODULE}', '__init__.py')
 KEYWORDS = ['Biological Expression Language', 'BEL', 'KEGG', 'Systems Biology', 'Networks Biology']
 CLASSIFIERS = [
     'Development Status :: 4 - Beta',
@@ -20,17 +20,18 @@ CLASSIFIERS = [
     'License :: OSI Approved :: MIT License',
     'Operating System :: OS Independent',
     'Programming Language :: Python',
+    'Programming Language :: Python :: 3 :: Only',
     'Programming Language :: Python :: 3.6',
     'Programming Language :: Python :: 3.7',
-    'Topic :: Scientific/Engineering :: Bio-Informatics'
+    'Topic :: Scientific/Engineering :: Bio-Informatics',
 ]
 INSTALL_REQUIRES = [
     'click',
     'requests',
-    'bio2bel>=0.1.0',
+    'bio2bel>=0.2.0,<0.3.0',
     'compath_utils>=0.1.0',
     'bio2bel_hgnc>=0.1.0',
-    'pybel>=0.12.1',
+    'pybel>=0.12.0,<0.13.0',
     'sqlalchemy',
     'pandas',
     'tqdm',
@@ -48,13 +49,13 @@ EXTRAS_REQUIRE = {
 }
 ENTRY_POINTS = {
     'bio2bel': [
-        '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE),
+        f'{BIO2BEL_MODULE} = bio2bel_{BIO2BEL_MODULE}',
     ],
     'compath': [
-        '{mname} = bio2bel_{mname}'.format(mname=BIO2BEL_MODULE)
+        f'{BIO2BEL_MODULE} = bio2bel_{BIO2BEL_MODULE}'
     ],
     'console_scripts': [
-        'bio2bel_{mname} = bio2bel_{mname}.cli:main'.format(mname=BIO2BEL_MODULE),
+        f'bio2bel_{BIO2BEL_MODULE} = bio2bel_{BIO2BEL_MODULE}.cli:main',
     ]
 }
 
