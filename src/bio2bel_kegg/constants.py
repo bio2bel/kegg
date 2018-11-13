@@ -33,8 +33,8 @@ PATHWAYS = 'PATHWAYS'
 
 # Namespace constants
 
-KEGG = 'KEGG'
-HGNC = 'HGNC'
+KEGG = 'kegg'
+HGNC = 'hgnc'
 PROTEIN_RESOURCES = [
     'HGNC',
     'UniProt',

@@ -248,7 +248,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
         pathway_node = pathway.serialize_to_pathway_node()
 
         for protein in pathway.proteins:
-            graph.add_part_of(protein.serialize_to_protein_node(), pathway_node)
+            graph.add_part_of(protein.to_pybel(), pathway_node)
 
     def get_pathway_graph(self, kegg_id: str) -> Optional[BELGraph]:
         """Return a new graph corresponding to the pathway.
@@ -271,7 +271,7 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
             if node[FUNCTION] == BIOPROCESS and node[NAMESPACE] == KEGG and NAME in node:
                 pathway = self.get_pathway_by_name(node[NAME])
                 for protein in pathway.proteins:
-                    graph.add_part_of(protein.serialize_to_protein_node(), node)
+                    graph.add_part_of(protein.to_pybel(), node)
 
     def enrich_kegg_protein(self, graph: BELGraph) -> None:
         """Enrich all KEGG pathways associated with proteins in the graph."""
