@@ -61,7 +61,8 @@ class Pathway(Base):  # type: ignore
     def get_gene_set(self) -> Set['Protein']:
         """Return the genes associated with the pathway (gene set).
 
-        Note this function restricts to HGNC symbols genes."""
+        Note this function restricts to HGNC symbols genes.
+        """
         return {
             protein.hgnc_symbol
             for protein in self.proteins
