@@ -42,6 +42,8 @@ class Pathway(Base):  # type: ignore
         backref='pathways'
     )
 
+    bel_encoding = 'B'
+
     def __repr__(self):
         """Return name."""
         return self.name
