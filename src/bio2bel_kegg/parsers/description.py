@@ -143,6 +143,7 @@ def kegg_properties_to_models(kegg_attributes):
     return {
         '{}_id'.format(key.lower()): value
         for key, value in kegg_attributes.items()
+        if len(value) < 255
     }
 
 

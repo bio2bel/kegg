@@ -90,7 +90,7 @@ class Protein(Base):  # type: ignore
     id = Column(Integer, primary_key=True)
 
     kegg_id = Column(String(255), nullable=False, index=True, doc='KEGG id of the protein')
-    uniprot_id = Column(String(255), doc='uniprot id of the protein')
+    uniprot_id = Column(String(255), doc='uniprot id of the protein (there could be more than one)')
     hgnc_id = Column(String(255), doc='hgnc id of the protein')
     hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
 
