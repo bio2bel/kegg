@@ -20,7 +20,7 @@ from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import Namespace, NamespaceEntry
 from pybel.struct.graph import BELGraph
 from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
-from .models import Base, Pathway, Protein
+from .models import Base, Pathway, Protein, protein_pathway
 from .parsers import (
     get_entity_pathway_df, get_pathway_names_df, parse_entity_pathway, parse_pathways, process_protein_info_to_model,
 )
@@ -34,11 +34,12 @@ logging.getLogger("urllib3").setLevel(logging.WARNING)
 
 
 class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMixin):
-    """Manage the Bio2BEL KEGG database."""
+    """Protein-pathway memberships."""
 
     module_name = MODULE_NAME
     flask_admin_models = [Pathway, Protein]
     namespace_model = pathway_model = Pathway
+    edge_model = protein_pathway
     protein_model = Protein
     pathway_model_identifier_column = Pathway.kegg_id
 
