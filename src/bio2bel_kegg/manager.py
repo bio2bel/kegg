@@ -37,15 +37,12 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
     """Protein-pathway memberships."""
 
     module_name = MODULE_NAME
+    _base = Base
     flask_admin_models = [Pathway, Protein]
     namespace_model = pathway_model = Pathway
     edge_model = protein_pathway
     protein_model = Protein
     pathway_model_identifier_column = Pathway.kegg_id
-
-    @property
-    def _base(self):
-        return Base
 
     def get_or_create_pathway(self, kegg_id: str, name: Optional[str] = None) -> Pathway:
         """Get an pathway from the database or creates it.
