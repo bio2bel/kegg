@@ -29,3 +29,8 @@ __email__ = 'daniel.domingo.fernandez@scai.fraunhofer.de'
 
 __license__ = 'MIT License'
 __copyright__ = 'Copyright (c) 2017-2018 Daniel Domingo-Fernández and Charles Tapley Hoyt'
+
+
+def get_version() -> str:
+    """Get the software version of ``bio2bel_kegg``."""
+    return __version__
