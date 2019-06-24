@@ -46,7 +46,7 @@ class Pathway(Base):  # type: ignore
 
     def __repr__(self):
         """Return name."""
-        return self.name
+        return f'Pathway(kegg_id={self.kegg_id}, name="{self.name}")'
 
     def __str__(self):
         """Return name."""
@@ -96,7 +96,8 @@ class Protein(Base):  # type: ignore
 
     def __repr__(self):
         """Return HGNC symbol."""
-        return str(self.hgnc_symbol)
+        return f'Protein(kegg_id={self.kegg_id}, ' \
+            f'uniprot_id={self.uniprot_id}, hgnc_id={self.hgnc_id}, hgnc_symbol={self.hgnc_symbol})'
 
     def __str__(self):
         """Return HGNC symbol."""
