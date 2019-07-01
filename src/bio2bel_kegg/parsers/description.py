@@ -100,6 +100,13 @@ def parse_description(response: Response):
         if keyword == 'ENTRY':
             description['ENTRY'] = parse_entry_line(line)
 
+        elif keyword == 'NAME':
+            entry_name = parse_entry_line(line)
+            if entry_name:
+                # If there is a name, take the first element of the tuple and strip semi colon
+                # in case there are multiple names
+                description['ENTRY_NAME'] = entry_name[0].strip(';')
+
         elif keyword == 'PATHWAY':
 
             if 'PATHWAY' not in description:
