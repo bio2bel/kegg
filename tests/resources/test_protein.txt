@@ -1,0 +1,49 @@
+ENTRY       112268384         CDS       T01001
+DEFINITION  (RefSeq) olfactory receptor 2A1/2A42-like
+ORTHOLOGY   K04257  olfactory receptor
+ORGANISM    hsa  Homo sapiens (human)
+PATHWAY     hsa04740  Olfactory transduction
+BRITE       KEGG Orthology (KO) [BR:hsa00001]
+             09150 Organismal Systems
+              09157 Sensory system
+               04740 Olfactory transduction
+                112268384
+             09180 Brite Hierarchies
+              09183 Protein families: signaling and cellular processes
+               04030 G protein-coupled receptors [BR:hsa04030]
+                112268384
+            G protein-coupled receptors [BR:hsa04030]
+             Others
+              Chemoreception
+               Olfactory
+                112268384
+POSITION    7
+MOTIF       Pfam: 7tm_4 7tm_1 7TM_GPCR_Srsx
+DBLINKS     NCBI-GeneID: 112268384
+            NCBI-ProteinID: XP_024308429
+AASEQ       310
+            MGENQTMVTEFLLLGFLLGPRIQMLLFGLFSLFYIFTLLGNGAILGLISLDSRLHTPMYF
+            FLSHLAVVDIAYACNTVPQMLANLLHPAKPISFAGCMTQTFLCLSFGHSECLLLVLMSYD
+            RYVAICHPLRYSVIMTWRVCITLAVTSWTCGSLLALVHVVLILRLPFCGPHEINHFFCEI
+            LSVLRLACADTWLNQVVIFAACVFFLVGPPSLVLVSYSHILAAILRIQSGEGRRKAFSTC
+            SSHLCVVGLFFGSAIIMYMAPKSRHPEEQQKVFFLFYSFFNPTLNPLIYSLRNGEVKGAL
+            RRALGKESHS
+NTSEQ       933
+            atgggggaaaatcagacaatggtcacagagttcctcctactgggatttctcctgggccca
+            aggattcagatgctcctctttgggctcttctccctgttctatatcttcaccctgctgggg
+            aacggggccatcctggggctcatctcactggactccagactccacacccccatgtacttc
+            ttcctctcacacctggctgtcgtcgacatcgcctacgcctgcaacacggtgccccagatg
+            ctggcgaacctcctgcatccagccaagcccatctcctttgctggctgcatgacgcagacc
+            tttctctgtttgagttttggacacagcgaatgtctcctgctggtgctgatgtcctacgat
+            cgttacgtggccatctgccaccctctccgatactccgtcatcatgacctggagagtctgc
+            atcaccctggccgtcacttcttggacgtgtggctccctcctggctctggtccatgtggtt
+            ctcatcctaagactgcccttctgtgggcctcatgaaatcaaccacttcttctgtgaaatc
+            ctgtctgtcctcaggctggcctgtgctgacacctggctcaaccaggtggtcatctttgca
+            gcctgcgtgttcttcctggtggggccacccagcctggtgcttgtctcctactcgcacatc
+            ctggcggccatcctgaggatccagtctggggagggccgcagaaaggccttctccacctgc
+            tcctcccacctctgcgtggtgggactcttctttggcagtgccatcatcatgtacatggcc
+            cccaagtcccgccatcctgaggagcagcaaaaggtcttttttctattttacagttttttc
+            aacccaacacttaaccccctgatttacagcctgaggaacggagaggtcaagggtgccctg
+            aggagagcactgggcaaggaaagtcattcctaa
+///
+

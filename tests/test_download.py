@@ -3,21 +3,33 @@
 """Test parsing of descriptions."""
 
 import unittest
+from pprint import pprint
 
 import requests
 
+from bio2bel_kegg.client import parse_pathway_lines, parse_protein_lines
 from bio2bel_kegg.constants import DBLINKS, PROTEIN_RESOURCES
-from bio2bel_kegg.parsers.description import get_description_properties, parse_description
+from tests.constants import test_pathway_path, test_protein_path
 
 
 class TestDescriptionParse(unittest.TestCase):
     """Test parsing of description."""
 
+    def test_pathway_parser(self):
+        with open(test_pathway_path) as file:
+            d = parse_pathway_lines(file)
+            pprint(d)
+
+    def test_protein_parser(self):
+        with open(test_protein_path) as file:
+            d = parse_protein_lines(file)
+            pprint(d)
+
     def test_description_protein(self):
         """Test parsing description of a protein."""
         response = requests.get('http://rest.kegg.jp/get/hsa:5214')
 
-        pfkp_protein = parse_description(response)
+        pfkp_protein = parse_description(response.text.split('\n'))
 
         self.assertEqual(
             [

@@ -1,0 +1,163 @@
+ENTRY       hsa00010                    Pathway
+NAME        Glycolysis / Gluconeogenesis - Homo sapiens (human)
+DESCRIPTION Glycolysis is the process of converting glucose into pyruvate and generating small amounts of ATP (energy) and NADH (reducing power). It is a central pathway that produces important precursor metabolites: six-carbon compounds of glucose-6P and fructose-6P and three-carbon compounds of glycerone-P, glyceraldehyde-3P, glycerate-3P, phosphoenolpyruvate, and pyruvate [MD:M00001]. Acetyl-CoA, another important precursor metabolite, is produced by oxidative decarboxylation of pyruvate [MD:M00307]. When the enzyme genes of this pathway are examined in completely sequenced genomes, the reaction steps of three-carbon compounds from glycerone-P to pyruvate form a conserved core module [MD:M00002], which is found in almost all organisms and which sometimes contains operon structures in bacterial genomes. Gluconeogenesis is a synthesis pathway of glucose from noncarbohydrate precursors. It is essentially a reversal of glycolysis with minor variations of alternative paths [MD:M00003].
+CLASS       Metabolism; Carbohydrate metabolism
+PATHWAY_MAP hsa00010  Glycolysis / Gluconeogenesis
+MODULE      hsa_M00001  Glycolysis (Embden-Meyerhof pathway), glucose => pyruvate [PATH:hsa00010]
+            hsa_M00002  Glycolysis, core module involving three-carbon compounds [PATH:hsa00010]
+            hsa_M00003  Gluconeogenesis, oxaloacetate => fructose-6P [PATH:hsa00010]
+            hsa_M00307  Pyruvate oxidation, pyruvate => acetyl-CoA [PATH:hsa00010]
+NETWORK     nt06017  Glycogen metabolism
+  ELEMENT   N00731  Glycolysis
+            N00733  LDHA deficiency in glycolysis
+            N00735  ENO3 deficiency in glycolysis
+            N00737  PGAM2 deficiency in glycolysis
+            N00739  ALDOA deficiency in glycolysis
+            N00740  PFKM deficiency in glycolysis
+DISEASE     H00069  Glycogen storage disease
+            H00071  Hereditary fructose intolerance
+            H00072  Pyruvate dehydrogenase complex deficiency
+            H00114  Fructose-1,6-bisphosphatase deficiency
+            H00664  Anemia due to disorders of glycolytic enzymes
+            H01071  Acute alcohol sensitivity
+            H01096  Pyruvate kinase deficiency
+            H01267  Familial hyperinsulinemic hypoglycemia
+            H01760  Hepatic glycogen storage disease
+            H01762  Muscle glycogen storage disease
+            H01939  Glycogen storage disease type I
+            H01945  Glycogen storage disease type VII
+            H01946  Glycogen storage disease type XI
+            H01951  Glycogen storage disease type X
+            H01952  Glycogen storage disease type XII
+            H01953  Glycogen storage disease type XIII
+            H01954  Glycogen storage disease type XIV
+            H01997  Pyruvate dehydrogenase E1-alpha deficiency
+            H01998  Pyruvate dehydrogenase E1-beta deficiency
+            H01999  Pyruvate dehydrogenase E2 deficiency
+            H02000  Dihydrolipoamide dehydrogenase deficiency
+DRUG        D00123  Cyanamide (JP17)
+            D00131  Disulfiram (JP17/USP/INN)
+            D07257  Lonidamine (INN)
+            D08970  Piragliatin (USAN)
+            D11342  Dorzagliatin (USAN)
+            D11408  Mitapivat sulfate (USAN)
+DBLINKS     GO: 0006096 0006094
+ORGANISM    Homo sapiens (human) [GN:hsa]
+GENE        3101  HK3; hexokinase 3 [KO:K00844] [EC:2.7.1.1]
+            3098  HK1; hexokinase 1 [KO:K00844] [EC:2.7.1.1]
+            3099  HK2; hexokinase 2 [KO:K00844] [EC:2.7.1.1]
+            80201  HKDC1; hexokinase domain containing 1 [KO:K00844] [EC:2.7.1.1]
+            2645  GCK; glucokinase [KO:K12407] [EC:2.7.1.2]
+            2821  GPI; glucose-6-phosphate isomerase [KO:K01810] [EC:5.3.1.9]
+            5213  PFKM; phosphofructokinase, muscle [KO:K00850] [EC:2.7.1.11]
+            5214  PFKP; phosphofructokinase, platelet [KO:K00850] [EC:2.7.1.11]
+            5211  PFKL; phosphofructokinase, liver type [KO:K00850] [EC:2.7.1.11]
+            2203  FBP1; fructose-bisphosphatase 1 [KO:K03841] [EC:3.1.3.11]
+            8789  FBP2; fructose-bisphosphatase 2 [KO:K03841] [EC:3.1.3.11]
+            230  ALDOC; aldolase, fructose-bisphosphate C [KO:K01623] [EC:4.1.2.13]
+            226  ALDOA; aldolase, fructose-bisphosphate A [KO:K01623] [EC:4.1.2.13]
+            229  ALDOB; aldolase, fructose-bisphosphate B [KO:K01623] [EC:4.1.2.13]
+            7167  TPI1; triosephosphate isomerase 1 [KO:K01803] [EC:5.3.1.1]
+            2597  GAPDH; glyceraldehyde-3-phosphate dehydrogenase [KO:K00134] [EC:1.2.1.12]
+            26330  GAPDHS; glyceraldehyde-3-phosphate dehydrogenase, spermatogenic [KO:K10705] [EC:1.2.1.12]
+            5232  PGK2; phosphoglycerate kinase 2 [KO:K00927] [EC:2.7.2.3]
+            5230  PGK1; phosphoglycerate kinase 1 [KO:K00927] [EC:2.7.2.3]
+            5223  PGAM1; phosphoglycerate mutase 1 [KO:K01834] [EC:5.4.2.11]
+            5224  PGAM2; phosphoglycerate mutase 2 [KO:K01834] [EC:5.4.2.11]
+            441531  PGAM4; phosphoglycerate mutase family member 4 [KO:K01834] [EC:5.4.2.11]
+            2027  ENO3; enolase 3 [KO:K01689] [EC:4.2.1.11]
+            2026  ENO2; enolase 2 [KO:K01689] [EC:4.2.1.11]
+            2023  ENO1; enolase 1 [KO:K01689] [EC:4.2.1.11]
+            387712  ENO4; enolase 4 [KO:K01689] [EC:4.2.1.11]
+            5315  PKM; pyruvate kinase M1/2 [KO:K00873] [EC:2.7.1.40]
+            5313  PKLR; pyruvate kinase L/R [KO:K12406] [EC:2.7.1.40]
+            5161  PDHA2; pyruvate dehydrogenase E1 subunit alpha 2 [KO:K00161] [EC:1.2.4.1]
+            5160  PDHA1; pyruvate dehydrogenase E1 subunit alpha 1 [KO:K00161] [EC:1.2.4.1]
+            5162  PDHB; pyruvate dehydrogenase E1 subunit beta [KO:K00162] [EC:1.2.4.1]
+            1737  DLAT; dihydrolipoamide S-acetyltransferase [KO:K00627] [EC:2.3.1.12]
+            1738  DLD; dihydrolipoamide dehydrogenase [KO:K00382] [EC:1.8.1.4]
+            160287  LDHAL6A; lactate dehydrogenase A like 6A [KO:K00016] [EC:1.1.1.27]
+            92483  LDHAL6B; lactate dehydrogenase A like 6B [KO:K00016] [EC:1.1.1.27]
+            3939  LDHA; lactate dehydrogenase A [KO:K00016] [EC:1.1.1.27]
+            3945  LDHB; lactate dehydrogenase B [KO:K00016] [EC:1.1.1.27]
+            3948  LDHC; lactate dehydrogenase C [KO:K00016] [EC:1.1.1.27]
+            124  ADH1A; alcohol dehydrogenase 1A (class I), alpha polypeptide [KO:K13951] [EC:1.1.1.1]
+            125  ADH1B; alcohol dehydrogenase 1B (class I), beta polypeptide [KO:K13951] [EC:1.1.1.1]
+            126  ADH1C; alcohol dehydrogenase 1C (class I), gamma polypeptide [KO:K13951] [EC:1.1.1.1]
+            131  ADH7; alcohol dehydrogenase 7 (class IV), mu or sigma polypeptide [KO:K13951] [EC:1.1.1.1]
+            127  ADH4; alcohol dehydrogenase 4 (class II), pi polypeptide [KO:K13980] [EC:1.1.1.1]
+            128  ADH5; alcohol dehydrogenase 5 (class III), chi polypeptide [KO:K00121] [EC:1.1.1.284 1.1.1.1]
+            130  ADH6; alcohol dehydrogenase 6 (class V) [KO:K13952] [EC:1.1.1.1]
+            10327  AKR1A1; aldo-keto reductase family 1 member A1 [KO:K00002] [EC:1.1.1.2]
+            217  ALDH2; aldehyde dehydrogenase 2 family member [KO:K00128] [EC:1.2.1.3]
+            224  ALDH3A2; aldehyde dehydrogenase 3 family member A2 [KO:K00128] [EC:1.2.1.3]
+            219  ALDH1B1; aldehyde dehydrogenase 1 family member B1 [KO:K00128] [EC:1.2.1.3]
+            501  ALDH7A1; aldehyde dehydrogenase 7 family member A1 [KO:K14085] [EC:1.2.1.31 1.2.1.8 1.2.1.3]
+            223  ALDH9A1; aldehyde dehydrogenase 9 family member A1 [KO:K00149] [EC:1.2.1.47 1.2.1.3]
+            221  ALDH3B1; aldehyde dehydrogenase 3 family member B1 [KO:K00129] [EC:1.2.1.5]
+            222  ALDH3B2; aldehyde dehydrogenase 3 family member B2 [KO:K00129] [EC:1.2.1.5]
+            220  ALDH1A3; aldehyde dehydrogenase 1 family member A3 [KO:K00129] [EC:1.2.1.5]
+            218  ALDH3A1; aldehyde dehydrogenase 3 family member A1 [KO:K00129] [EC:1.2.1.5]
+            84532  ACSS1; acyl-CoA synthetase short chain family member 1 [KO:K01895] [EC:6.2.1.1]
+            55902  ACSS2; acyl-CoA synthetase short chain family member 2 [KO:K01895] [EC:6.2.1.1]
+            130589  GALM; galactose mutarotase [KO:K01785] [EC:5.1.3.3]
+            5236  PGM1; phosphoglucomutase 1 [KO:K01835] [EC:5.4.2.2]
+            55276  PGM2; phosphoglucomutase 2 [KO:K15779] [EC:5.4.2.2 5.4.2.7]
+            2538  G6PC; glucose-6-phosphatase catalytic subunit [KO:K01084] [EC:3.1.3.9]
+            57818  G6PC2; glucose-6-phosphatase catalytic subunit 2 [KO:K01084] [EC:3.1.3.9]
+            92579  G6PC3; glucose-6-phosphatase catalytic subunit 3 [KO:K01084] [EC:3.1.3.9]
+            83440  ADPGK; ADP dependent glucokinase [KO:K08074] [EC:2.7.1.147]
+            669  BPGM; bisphosphoglycerate mutase [KO:K01837] [EC:5.4.2.4 5.4.2.11]
+            9562  MINPP1; multiple inositol-polyphosphate phosphatase 1 [KO:K03103] [EC:3.1.3.62 3.1.3.80]
+            5105  PCK1; phosphoenolpyruvate carboxykinase 1 [KO:K01596] [EC:4.1.1.32]
+            5106  PCK2; phosphoenolpyruvate carboxykinase 2, mitochondrial [KO:K01596] [EC:4.1.1.32]
+COMPOUND    C00022  Pyruvate
+            C00024  Acetyl-CoA
+            C00031  D-Glucose
+            C00033  Acetate
+            C00036  Oxaloacetate
+            C00068  Thiamin diphosphate
+            C00074  Phosphoenolpyruvate
+            C00084  Acetaldehyde
+            C00103  D-Glucose 1-phosphate
+            C00111  Glycerone phosphate
+            C00118  D-Glyceraldehyde 3-phosphate
+            C00186  (S)-Lactate
+            C00197  3-Phospho-D-glycerate
+            C00221  beta-D-Glucose
+            C00236  3-Phospho-D-glyceroyl phosphate
+            C00267  alpha-D-Glucose
+            C00469  Ethanol
+            C00631  2-Phospho-D-glycerate
+            C00668  alpha-D-Glucose 6-phosphate
+            C01159  2,3-Bisphospho-D-glycerate
+            C01172  beta-D-Glucose 6-phosphate
+            C01451  Salicin
+            C05125  2-(alpha-Hydroxyethyl)thiamine diphosphate
+            C05345  beta-D-Fructose 6-phosphate
+            C05378  beta-D-Fructose 1,6-bisphosphate
+            C06186  Arbutin
+            C06187  Arbutin 6-phosphate
+            C06188  Salicin 6-phosphate
+            C15972  Enzyme N6-(lipoyl)lysine
+            C15973  Enzyme N6-(dihydrolipoyl)lysine
+            C16255  [Dihydrolipoyllysine-residue acetyltransferase] S-acetyldihydrolipoyllysine
+REFERENCE   (map 1)
+  AUTHORS   Nishizuka Y (ed).
+  TITLE     [Metabolic Maps] (In Japanese)
+  JOURNAL   Tokyo Kagaku Dojin (1980)
+REFERENCE   (map 1)
+  AUTHORS   Nishizuka Y, Seyama Y, Ikai A, Ishimura Y, Kawaguchi A (eds).
+  TITLE     [Cellular Functions and Metabolic Maps] (In Japanese)
+  JOURNAL   Tokyo Kagaku Dojin (1997)
+REFERENCE
+  AUTHORS   Michal G.
+  TITLE     Biochemical Pathways
+  JOURNAL   Wiley (1999)
+REL_PATHWAY hsa00020  Citrate cycle (TCA cycle)
+            hsa00030  Pentose phosphate pathway
+            hsa00500  Starch and sucrose metabolism
+            hsa00620  Pyruvate metabolism
+            hsa00640  Propanoate metabolism
+KO_PATHWAY  ko00010
+///

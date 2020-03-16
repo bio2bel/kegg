@@ -39,7 +39,7 @@ class TestParse(DatabaseMixin):
         self.assertEqual(
             {'path:hsa00030', 'path:hsa00010'},
             {
-                pathway.kegg_id
+                pathway.identifier
                 for pathway in protein.pathways
             }
         )

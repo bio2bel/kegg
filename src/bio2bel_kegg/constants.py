@@ -12,8 +12,8 @@ DATA_DIR = get_data_dir(MODULE_NAME)
 CONFIG_FILE_PATH = os.path.join(DATA_DIR, 'config.ini')
 METADATA_FILE_PATH = os.path.join(DATA_DIR, 'protein_metadata.json')  # Metadata file generated for the parser
 
-PROTEIN_ENTRY_DIR = os.path.join(DATA_DIR, 'proteins')
-os.makedirs(PROTEIN_ENTRY_DIR, exist_ok=True)
+ENTITY_DIRECTORY = os.path.join(DATA_DIR, 'entities')
+os.makedirs(ENTITY_DIRECTORY, exist_ok=True)
 
 # returns the list of human pathways
 KEGG_PATHWAYS_URL = 'http://rest.kegg.jp/list/pathway/hsa'
@@ -23,9 +23,6 @@ PROTEIN_PATHWAY_URL = 'http://rest.kegg.jp/link/pathway/hsa'
 
 # KEGG stats
 KEGG_STATISTICS_URL = 'http://rest.kegg.jp/info/kegg'
-
-# Description KEGG endpoint
-API_KEGG_GET = 'http://rest.kegg.jp/get/{}'
 
 # Description properties
 DBLINKS = 'DBLINKS'
@@ -39,3 +36,15 @@ PROTEIN_RESOURCES = [
     'HGNC',
     'UniProt',
 ]
+
+XREF_MAPPING = {
+    'NCBI-GeneID': 'ncbigene',
+    'NCBI-ProteinID': 'ncbiprotein',
+    'OMIM': 'mim',
+    'HGNC': 'hgnc',
+    'Ensembl': 'ensembl',
+    'Vega': 'vega',
+    'Pharos': 'pharos',
+    'UniProt': 'uniprot',
+    'Pfam': 'pfam',
+}
