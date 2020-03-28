@@ -13,7 +13,7 @@ import requests
 from protmapper.api import hgnc_name_to_id
 from tqdm import tqdm
 
-from pyobo import get_xrefs
+from pyobo import get_filtered_xrefs
 from .constants import ENTITY_DIRECTORY, XREF_MAPPING
 
 __all__ = [
@@ -24,7 +24,7 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-HGNC_ID_TO_ENTREZ_ID = get_xrefs('hgnc', 'ncbigene')
+HGNC_ID_TO_ENTREZ_ID = get_filtered_xrefs('hgnc', 'ncbigene')
 ENTREZ_ID_TO_HGNC_ID = {v: k for k, v in HGNC_ID_TO_ENTREZ_ID.items()}
 HGNC_ID_TO_SYMBOL = {v: k for k, v in hgnc_name_to_id.items()}
 

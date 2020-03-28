@@ -11,7 +11,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 import pybel.dsl
-from bio2bel.manager.compath import CompathPathwayMixin, CompathProteinMixin
+from bio2bel.compath import CompathPathwayMixin, CompathProteinMixin
 from bio2bel.manager.models import SpeciesMixin
 from .constants import HGNC, KEGG, MODULE_NAME
 

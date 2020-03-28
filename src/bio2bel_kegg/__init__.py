@@ -17,20 +17,3 @@ Citation
 """
 
 from .manager import Manager  # noqa: F401
-
-__version__ = '0.2.6-dev'
-
-__title__ = 'bio2bel_kegg'
-__description__ = "A wraper around the KEGG RESTful API"
-__url__ = 'https://github.com/bio2bel/kegg'
-
-__author__ = 'Daniel Domingo-Fernández and Charles Tapley Hoyt'
-__email__ = 'daniel.domingo.fernandez@scai.fraunhofer.de'
-
-__license__ = 'MIT License'
-__copyright__ = 'Copyright (c) 2017-2018 Daniel Domingo-Fernández and Charles Tapley Hoyt'
-
-
-def get_version() -> str:
-    """Get the software version of ``bio2bel_kegg``."""
-    return __version__

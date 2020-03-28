@@ -8,7 +8,7 @@ from typing import List, Mapping, Optional
 from tqdm import tqdm
 
 import pybel.dsl
-from bio2bel.manager.compath import CompathManager
+from bio2bel.compath import CompathManager
 from pybel import BELGraph
 from .client import (
     ENTREZ_ID_TO_HGNC_ID, HGNC_ID_TO_SYMBOL, get_entities_lines, parse_pathway_lines,

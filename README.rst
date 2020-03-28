@@ -16,7 +16,7 @@ or from the latest code on `GitHub <https://github.com/bio2bel/kegg>`_ with:
 
 .. code-block:: sh
 
-    $ python3 -m pip install git+https://github.com/bio2bel/kegg.git@master
+    $ python3 -m pip install git+https://github.com/bio2bel/kegg.git
 
 Setup
 -----
@@ -43,7 +43,8 @@ Command Line Utility
 
 Other Command Line Utilities
 ----------------------------
-- Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_kegg web` (http://localhost:5000/admin/)
+- Run an admin site for simple querying and exploration :code:`python3 -m bio2bel_kegg web`
+  (http://localhost:5000/admin/)
 - Export gene sets for programmatic use :code:`python3 -m bio2bel_kegg export`
 
 Citation
