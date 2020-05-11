@@ -15,13 +15,7 @@ from .constants import KEGG_PATHWAYS_URL, MODULE_NAME, PROTEIN_PATHWAY_URL
 __all__ = [
     'get_pathway_df',
     'get_entity_pathway_df',
-    'remove_path_prefix',
 ]
-
-
-def remove_path_prefix(x: str) -> str:
-    """Remove the path prefix."""
-    return x[len('path:'):]
 
 
 def get_pathway_df(url: Optional[str] = None) -> pd.DataFrame:

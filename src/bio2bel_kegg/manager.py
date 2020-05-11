@@ -16,7 +16,7 @@ from .client import (
 )
 from .constants import KEGG, MODULE_NAME
 from .models import Base, Pathway, Protein, Species, protein_pathway
-from .parsers import get_entity_pathway_df, get_pathway_df, remove_path_prefix
+from .parsers import get_entity_pathway_df, get_pathway_df
 
 __all__ = [
     'Manager',
@@ -38,23 +38,23 @@ class Manager(CompathManager):
 
     def get_or_create_pathway(
         self,
-        kegg_id: str,
+        kegg_pathway_id: str,
         species: Species,
         name: Optional[str] = None,
         definition: Optional[str] = None,
     ) -> Pathway:
         """Get an pathway from the database or creates it.
 
-        :param kegg_id: A KEGG pathway identifier
+        :param kegg_pathway_id: A KEGG pathway identifier
         :param name: name of the pathway
         """
-        if kegg_id.startswith('path:'):
-            kegg_id = remove_path_prefix(kegg_id)
-        pathway = self.get_pathway_by_id(kegg_id)
+        if kegg_pathway_id.startswith('path:'):
+            kegg_pathway_id = kegg_pathway_id[len('path:'):]
 
+        pathway = self.get_pathway_by_id(kegg_pathway_id)
         if pathway is None:
             pathway = Pathway(
-                identifier=kegg_id,
+                identifier=kegg_pathway_id,
                 name=name,
                 definition=definition,
                 species=species,
@@ -90,14 +90,10 @@ class Manager(CompathManager):
 
         pathways_df = get_pathway_df(url=url)
         pathways_lines = get_entities_lines(pathways_df['kegg_pathway_id'])
-        entities = (
-            (kegg_pathway_id, parse_pathway_lines(pathway_lines) )
-            for kegg_pathway_id, pathway_lines in pathways_lines
-        )
-        pathways = tqdm(entities, desc='loading pathways')
-        for kegg_pathway_id, pathway in pathways:
+        for kegg_pathway_id, pathway_lines in tqdm(pathways_lines, desc='loading pathways'):
+            pathway = parse_pathway_lines(pathway_lines)
             self.get_or_create_pathway(
-                kegg_id=kegg_pathway_id,
+                kegg_pathway_id=kegg_pathway_id,
                 name=pathway['name'],
                 definition=pathway.get('definition'),
                 species=species,
@@ -117,10 +113,12 @@ class Manager(CompathManager):
         entity_pathway_df = get_entity_pathway_df(url=url)
 
         logger.debug('creating description URLs')
-        kegg_protein_ids = set(entity_pathway_df['kegg_protein_id'].unique())
+        kegg_protein_ids = list(entity_pathway_df['kegg_protein_id'].unique())
+
+        logger.debug('protein id from index 0: %s', kegg_protein_ids[0])
 
         # KEGG protein ID to Protein model attributes dictionary
-        logger.info(
+        logger.debug(
             'Fetching all protein meta-information. You can modify the numbers of request by modifying ThreadPool'
             ' to make this faster. However, the KEGG RESTful API might reject a big amount of requests.',
         )
@@ -130,17 +128,19 @@ class Manager(CompathManager):
             for entity_id, entity_lines in tqdm(entities_lines, desc='Parsing protein information')
         ]
 
+        # namespace is actually kegg.genes
         kegg_protein_id_to_protein = {}
-        for kegg_id, protein_info in tqdm(proteins, desc='Loading proteins'):
+        for kegg_protein_id, protein_info in tqdm(proteins, desc='Loading proteins'):
             entrez_id = protein_info['identifier']
             hgnc_id = ENTREZ_ID_TO_HGNC_ID.get(entrez_id)
             if hgnc_id:
                 hgnc_symbol = HGNC_ID_TO_SYMBOL.get(hgnc_id)
             else:
+                logger.warning('no hgnc id for kegg.protein:%s', kegg_protein_id)
                 hgnc_symbol = None  # FIXME can this even happen?
 
-            kegg_protein_id_to_protein[kegg_id] = protein = Protein(
-                kegg_id=kegg_id,
+            kegg_protein_id_to_protein[kegg_protein_id] = protein = Protein(
+                kegg_id=kegg_protein_id,
                 entrez_id=entrez_id,
                 hgnc_id=hgnc_id,
                 hgnc_symbol=hgnc_symbol,
@@ -148,7 +148,12 @@ class Manager(CompathManager):
             self.session.add(protein)
 
         for kegg_protein_id, kegg_pathway_id in entity_pathway_df.values:
-            pathway = self.get_pathway_by_id(remove_path_prefix(kegg_pathway_id))
+            if kegg_pathway_id.startswith('path:'):
+                kegg_pathway_id = kegg_pathway_id[len('path:'):]
+            pathway = self.get_pathway_by_id(kegg_pathway_id)
+            if pathway is None:
+                logger.warning('could not find pathway for kegg.pathway:%s', kegg_pathway_id)
+                continue
             protein = kegg_protein_id_to_protein[kegg_protein_id]
             protein.pathways.append(pathway)
         self.session.commit()
@@ -237,7 +242,7 @@ class Manager(CompathManager):
 
             column_searchable_list = (
                 Pathway.identifier,
-                Pathway.name
+                Pathway.name,
             )
 
         class ProteinView(ModelView):

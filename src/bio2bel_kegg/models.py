@@ -32,7 +32,7 @@ protein_pathway = Table(
 
 
 class Species(Base, SpeciesMixin):
-    """Species table"""
+    """Species table."""
 
     __tablename__ = SPECIES_TABLE_NAME
 

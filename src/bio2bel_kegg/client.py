@@ -2,13 +2,13 @@
 
 """This module parsers the description files -> http://rest.kegg.jp/get/ in KEGG RESTful API."""
 
+import itertools as itt
 import logging
 import os
 from multiprocessing.pool import ThreadPool
 from operator import itemgetter
 from typing import Any, Collection, Iterable, List, Mapping, Optional, Tuple
 
-import itertools as itt
 import requests
 from protmapper.api import hgnc_name_to_id
 from tqdm import tqdm

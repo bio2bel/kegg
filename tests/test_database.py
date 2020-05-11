@@ -37,11 +37,11 @@ class TestParse(DatabaseMixin):
         self.assertIsNotNone(protein, msg='Unable to find pathway')
         self.assertEqual(2, len(protein.pathways))
         self.assertEqual(
-            {'path:hsa00030', 'path:hsa00010'},
+            {'hsa00030', 'hsa00010'},
             {
                 pathway.identifier
                 for pathway in protein.pathways
-            }
+            },
         )
 
         self.assertEqual(
@@ -49,7 +49,7 @@ class TestParse(DatabaseMixin):
             {
                 pathway.name
                 for pathway in protein.pathways
-            }
+            },
         )
 
     def test_gene_query_1(self):
@@ -57,9 +57,10 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['PFKP'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
+        self.assertIn("hsa00030", enriched_pathways)
         self.assertEqual(
             {
-                "pathway_id": "path:hsa00030",
+                "pathway_id": "hsa00030",
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 14,
@@ -77,21 +78,24 @@ class TestParse(DatabaseMixin):
                     'PGD',
                     'PGLS',
                     'PGM1',
-                    'RPIA'
-                }
+                    'RPIA',
+                },
             },
-            enriched_pathways["path:hsa00030"]
+            enriched_pathways["hsa00030"]
         )
 
+        self.assertIn("hsa00010", enriched_pathways)
         self.assertEqual(
             {
-                "pathway_id": "path:hsa00010",
+                "pathway_id": "hsa00010",
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
-                "pathway_gene_set": {'PFKP'}
+                "pathway_gene_set": {
+                    'PFKP',
+                },
             },
-            enriched_pathways["path:hsa00010"]
+            enriched_pathways["hsa00010"],
         )
 
     def test_gene_query_2(self):
@@ -99,15 +103,18 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['PFKP', 'GPI'])  # hsa:5214 and hsa:2821
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
+        self.assertIn("hsa00010", enriched_pathways)
         self.assertEqual(
             {
-                "pathway_id": "path:hsa00010",
+                "pathway_id": "hsa00010",
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
-                "pathway_gene_set": {'PFKP'}
+                "pathway_gene_set": {
+                    'PFKP',
+                },
             },
-            enriched_pathways["path:hsa00010"]
+            enriched_pathways["hsa00010"],
         )
 
         self.assertEqual(
@@ -130,8 +137,8 @@ class TestParse(DatabaseMixin):
                     'PGD',
                     'PGLS',
                     'PGM1',
-                    'RPIA'
-                }
+                    'RPIA',
+                },
             },
             enriched_pathways["path:hsa00030"]
         )
@@ -141,20 +148,24 @@ class TestParse(DatabaseMixin):
         enriched_pathways = self.manager.query_gene_set(['PFKP', 'PGD'])  # hsa:5214 and hsa:5226
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
+        self.assertIn("hsa00010", enriched_pathways)
         self.assertEqual(
             {
-                "pathway_id": "path:hsa00010",
+                "pathway_id": "hsa00010",
                 "pathway_name": "Glycolysis / Gluconeogenesis - Homo sapiens (human)",
                 "mapped_proteins": 1,
                 "pathway_size": 1,
-                "pathway_gene_set": {'PFKP'}
+                "pathway_gene_set": {
+                    'PFKP',
+                },
             },
-            enriched_pathways["path:hsa00010"]
+            enriched_pathways["hsa00010"]
         )
 
+        self.assertIn("hsa00030", enriched_pathways)
         self.assertEqual(
             {
-                "pathway_id": "path:hsa00030",
+                "pathway_id": "hsa00030",
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 2,
                 "pathway_size": 14,
@@ -172,10 +183,10 @@ class TestParse(DatabaseMixin):
                     'PGD',
                     'PGLS',
                     'PGM1',
-                    'RPIA'
+                    'RPIA',
                 },
             },
-            enriched_pathways["path:hsa00030"]
+            enriched_pathways["hsa00030"]
         )
 
     def test_get_pathway_graph(self):
