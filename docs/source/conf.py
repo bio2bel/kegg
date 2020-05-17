@@ -17,7 +17,7 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 project = 'Bio2BEL KEGG'
-copyright = '2018, Daniel Domingo-Fernández and Charles Tapley Hoyt'
+copyright = '2017-2020, Daniel Domingo-Fernández and Charles Tapley Hoyt'
 author = 'Daniel Domingo-Fernández and Charles Tapley Hoyt'
 
 release = '0.2.6-dev'
