@@ -9,6 +9,10 @@ If you find this package useful, please consider citing [domingofernandez2018]_:
    and curating mappings across pathway databases <https://doi.org/10.1038/s41540-018-0078-8>`_.
    *Npj Systems Biology and Applications*, **5**(1), 3.
 
+**Warning** This package creates ``partOf`` relationships in BEL, but does not convert KEGG mechanistic
+relationships to BEL. That functionality is implemented in the
+`PathMe project <https://github.com/pathwaymerger/pathme>`_.
+
 Installation |pypi_version| |python_versions| |pypi_license|
 ------------------------------------------------------------
 ``bio2bel_kegg`` can be installed easily from `PyPI <https://pypi.python.org/pypi/bio2bel_kegg>`_ with the
@@ -16,13 +20,15 @@ following code in your favorite terminal:
 
 .. code-block:: sh
 
-    $ python3 -m pip install bio2bel_kegg
+    $ pip install bio2bel_kegg
 
-or from the latest code on `GitHub <https://github.com/bio2bel/kegg>`_ with:
+or from the latest code on `GitHub <https://github.com/bio2bel/kegg>`_ in development mode with:
 
 .. code-block:: sh
 
-    $ python3 -m pip install git+https://github.com/bio2bel/kegg.git
+    $ git clone https://github.com/bio2bel/kegg.git
+    $ cd kegg
+    $ pip install -e .
 
 Setup
 -----
