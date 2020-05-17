@@ -3,6 +3,12 @@ Bio2BEL KEGG |build| |coverage| |documentation| |zenodo|
 This package allows the enrichment of BEL networks with KEGG information by wrapping its RESTful API.
 Furthermore, it is integrated in the `ComPath environment <https://github.com/ComPath>`_ for pathway database comparison.
 
+If you find this package useful, please consider citing [domingofernandez2018]_:
+
+.. [domingofernandez2018] Domingo-Fernandez, D., *et al* (2018). `ComPath: an ecosystem for exploring, analyzing,
+   and curating mappings across pathway databases <https://doi.org/10.1038/s41540-018-0078-8>`_.
+   *Npj Systems Biology and Applications*, **5**(1), 3.
+
 Installation |pypi_version| |python_versions| |pypi_license|
 ------------------------------------------------------------
 ``bio2bel_kegg`` can be installed easily from `PyPI <https://pypi.python.org/pypi/bio2bel_kegg>`_ with the
@@ -21,11 +27,6 @@ or from the latest code on `GitHub <https://github.com/bio2bel/kegg>`_ with:
 Setup
 -----
 KEGG can be downloaded and populated from either the Python REPL or the automatically installed command line utility.
-
-The following resources will be automatically installed and loaded in order to fully populate the tables of the
-database:
-
-- `Bio2BEL HGNC <https://github.com/bio2bel/hgnc>`_
 
 Python REPL
 ~~~~~~~~~~~
