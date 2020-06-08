@@ -7,14 +7,12 @@ from typing import List, Mapping, Optional
 
 from tqdm import tqdm
 
-import pybel.dsl
 from bio2bel.compath import CompathManager
-from pybel import BELGraph
 from .client import (
     ENTREZ_ID_TO_HGNC_ID, HGNC_ID_TO_SYMBOL, get_entities_lines, parse_pathway_lines,
     parse_protein_lines,
 )
-from .constants import KEGG, MODULE_NAME
+from .constants import MODULE_NAME
 from .models import Base, Pathway, Protein, Species, protein_pathway
 from .parsers import get_entity_pathway_df, get_pathway_df
 
@@ -182,56 +180,6 @@ class Manager(CompathManager):
             proteins=self.count_proteins(),
         )
 
-    def to_bel(self) -> BELGraph:
-        """Serialize KEGG to BEL."""
-        graph = BELGraph(
-            name='KEGG Pathway Definitions',
-            version='1.0.0',
-        )
-        for pathway in self.list_pathways():
-            pathway.add_to_bel_graph(graph)
-        return graph
-
-    def get_pathway_graph(self, kegg_id: str) -> Optional[BELGraph]:
-        """Return a new graph corresponding to the pathway.
-
-        :param kegg_id: A KEGG pathway identifier (prefixed by "path:")
-        """
-        pathway = self.get_pathway_by_id(kegg_id)
-        if pathway is None:
-            return None
-
-        graph = BELGraph(
-            name=f'Graph for kegg:{pathway.identifier} ! {pathway.name}',
-        )
-        pathway.add_to_bel_graph(graph)
-        return graph
-
-    def enrich_kegg_pathway(self, graph: BELGraph) -> None:
-        """Enrich all proteins belonging to KEGG pathway nodes in the graph."""
-        for node in list(graph):
-            if isinstance(node, pybel.dsl.BiologicalProcess) and node.namespace.lower() == KEGG:
-                if node.identifier:
-                    pathway = self.get_pathway_by_id(node.identifier)
-                else:
-                    pathway = self.get_pathway_by_name(node.name)
-                if pathway is None:
-                    continue
-                pathway.add_to_bel_graph(graph)
-
-    def enrich_kegg_protein(self, graph: BELGraph) -> None:
-        """Enrich all KEGG pathways associated with proteins in the graph."""
-        for node in list(graph):
-            if isinstance(node, pybel.dsl.Protein) and node.namespace.lower() == 'hgnc':
-                if node.identifier:
-                    protein = self.get_protein_by_hgnc_id(node.identifier)
-                else:
-                    protein = self.get_protein_by_hgnc_symbol(node.name)
-                if protein is None:
-                    continue
-                for pathway in protein.pathways:
-                    graph.add_part_of(node, pathway.to_pybel())
-
     def _add_admin(self, app, **kwargs):
         """Add admin methods."""
         from flask_admin import Admin
@@ -258,4 +206,5 @@ class Manager(CompathManager):
         admin = Admin(app, **kwargs)
         admin.add_view(PathwayView(Pathway, self.session))
         admin.add_view(ProteinView(Protein, self.session))
+        admin.add_view(ModelView(Species, self.session))
         return admin

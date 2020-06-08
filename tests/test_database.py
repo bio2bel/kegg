@@ -54,7 +54,7 @@ class TestParse(DatabaseMixin):
 
     def test_gene_query_1(self):
         """Single protein query. This protein is associated with 2 pathways."""
-        enriched_pathways = self.manager.query_gene_set(['PFKP'])
+        enriched_pathways = self.manager.query_hgnc_symbols(['PFKP'])
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
         self.assertIn("hsa00030", enriched_pathways)
@@ -100,7 +100,7 @@ class TestParse(DatabaseMixin):
 
     def test_gene_query_2(self):
         """Multiple protein query."""
-        enriched_pathways = self.manager.query_gene_set(['PFKP', 'GPI'])  # hsa:5214 and hsa:2821
+        enriched_pathways = self.manager.query_hgnc_symbols(['PFKP', 'GPI'])  # hsa:5214 and hsa:2821
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
         self.assertIn("hsa00010", enriched_pathways)
@@ -145,7 +145,7 @@ class TestParse(DatabaseMixin):
 
     def test_gene_query_3(self):
         """Multiple protein query."""
-        enriched_pathways = self.manager.query_gene_set(['PFKP', 'PGD'])  # hsa:5214 and hsa:5226
+        enriched_pathways = self.manager.query_hgnc_symbols(['PFKP', 'PGD'])  # hsa:5214 and hsa:5226
         self.assertIsNotNone(enriched_pathways, msg='Enriching function is not working')
 
         self.assertIn("hsa00010", enriched_pathways)
