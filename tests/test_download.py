@@ -3,7 +3,6 @@
 """Test parsing of descriptions."""
 
 import unittest
-from pprint import pprint
 
 from bio2bel_kegg.client import parse_pathway_lines, parse_protein_lines
 from tests.constants import test_pathway_path, test_protein_path
@@ -15,14 +14,12 @@ class TestDescriptionParse(unittest.TestCase):
     def test_pathway_parser(self):
         """Test the pathway parser."""
         with open(test_pathway_path) as file:
-            d = parse_pathway_lines(file)
-            pprint(d)
+            parse_pathway_lines(file)
 
     def test_protein_parser(self):
         """Test the protein parser."""
         with open(test_protein_path) as file:
-            d = parse_protein_lines(file)
-            pprint(d)
+            parse_protein_lines(file)
 
     # def test_description_protein(self):
     #     """Test parsing description of a protein."""

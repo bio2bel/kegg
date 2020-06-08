@@ -21,13 +21,13 @@ class TestParse(DatabaseMixin):
 
     def test_pathway_protein_1(self):
         """Test number of pathways in pathway."""
-        pathway = self.manager.get_pathway_by_id('path:hsa00030')
+        pathway = self.manager.get_pathway_by_id('hsa00030')
         self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(14, len(pathway.proteins))
 
     def test_pathway_protein_2(self):
         """Test number of pathways in pathway."""
-        pathway = self.manager.get_pathway_by_id('path:hsa00010')
+        pathway = self.manager.get_pathway_by_id('hsa00010')
         self.assertIsNotNone(pathway, msg='Unable to find pathway')
         self.assertEqual(16, len(pathway.proteins))
 
@@ -81,7 +81,7 @@ class TestParse(DatabaseMixin):
                     'RPIA',
                 },
             },
-            enriched_pathways["hsa00030"]
+            enriched_pathways["hsa00030"],
         )
 
         self.assertIn("hsa00010", enriched_pathways)
@@ -119,7 +119,7 @@ class TestParse(DatabaseMixin):
 
         self.assertEqual(
             {
-                "pathway_id": "path:hsa00030",
+                "pathway_id": "hsa00030",
                 "pathway_name": "Pentose phosphate pathway - Homo sapiens (human)",
                 "mapped_proteins": 2,
                 "pathway_size": 14,
@@ -140,7 +140,7 @@ class TestParse(DatabaseMixin):
                     'RPIA',
                 },
             },
-            enriched_pathways["path:hsa00030"]
+            enriched_pathways["hsa00030"],
         )
 
     def test_gene_query_3(self):
@@ -159,7 +159,7 @@ class TestParse(DatabaseMixin):
                     'PFKP',
                 },
             },
-            enriched_pathways["hsa00010"]
+            enriched_pathways["hsa00010"],
         )
 
         self.assertIn("hsa00030", enriched_pathways)
@@ -186,12 +186,12 @@ class TestParse(DatabaseMixin):
                     'RPIA',
                 },
             },
-            enriched_pathways["hsa00030"]
+            enriched_pathways["hsa00030"],
         )
 
     def test_get_pathway_graph(self):
         """Test pathway creation."""
-        graph = self.manager.get_pathway_graph('path:hsa00030')
+        graph = self.manager.get_pathway_graph('hsa00030')
 
         self.assertEqual(15, graph.number_of_nodes())  # 14 proteins + pathway node
         self.assertEqual(14, graph.number_of_edges())  # 14 edges protein -- pathway
@@ -200,7 +200,7 @@ class TestParse(DatabaseMixin):
         """Test graph enrichment."""
         graph_example = enrichment_graph()
 
-        self.manager.enrich_kegg_pathway(graph_example)
+        self.manager.enrich_pathways(graph_example)
 
         # 14 proteins in the pathway + gene of one of the proteins + pathway node
         self.assertEqual(16, graph_example.number_of_nodes())
@@ -210,7 +210,7 @@ class TestParse(DatabaseMixin):
         """Test pathway protein enrichmnent."""
         graph_example = enrichment_graph()
 
-        self.manager.enrich_kegg_protein(graph_example)
+        self.manager.enrich_proteins(graph_example)
 
         self.assertEqual(5, graph_example.number_of_nodes())  # 2 proteins + gene + pathway + new pathway
         self.assertEqual(6, graph_example.number_of_edges())  # 3 edges + new one

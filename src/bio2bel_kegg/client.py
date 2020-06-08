@@ -7,10 +7,9 @@ import logging
 import os
 from multiprocessing.pool import ThreadPool
 from operator import itemgetter
-from urllib.request import urlretrieve
 from typing import Any, Collection, Iterable, List, Mapping, Optional, Tuple
+from urllib.request import urlretrieve
 
-import requests
 from protmapper.api import hgnc_name_to_id
 from tqdm import tqdm
 
@@ -64,7 +63,7 @@ def ensure_kegg_entity(entity_id: str) -> Tuple[str, List[str]]:
     entity_text_path = os.path.join(entity_type_directory, f'{identifier}.txt')
 
     if not os.path.exists(entity_text_path):
-        urlretrieve(f'http://rest.kegg.jp/get/{entity_id}', entity_text_path)
+        urlretrieve(f'http://rest.kegg.jp/get/{entity_id}', entity_text_path)  # noqa:S310
 
     with open(entity_text_path) as file:
         lines = [line.strip() for line in file]

@@ -27,7 +27,7 @@ protein_pathway = Table(
     PROTEIN_PATHWAY_TABLE,
     Base.metadata,
     Column('protein_id', Integer, ForeignKey(f'{PROTEIN_TABLE_NAME}.id'), primary_key=True),
-    Column('pathway_id', Integer, ForeignKey(f'{PATHWAY_TABLE_NAME}.id'), primary_key=True)
+    Column('pathway_id', Integer, ForeignKey(f'{PATHWAY_TABLE_NAME}.id'), primary_key=True),
 )
 
 
@@ -41,7 +41,7 @@ class Pathway(Base, CompathPathwayMixin):
     """Pathway Table."""
 
     __tablename__ = PATHWAY_TABLE_NAME
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # noqa:A003
 
     bel_encoding = 'B'
     prefix = KEGG
@@ -55,7 +55,7 @@ class Pathway(Base, CompathPathwayMixin):
     proteins = relationship(
         'Protein',
         secondary=protein_pathway,
-        backref='pathways'
+        backref='pathways',
     )
 
 
@@ -64,7 +64,7 @@ class Protein(Base, CompathProteinMixin):
 
     __tablename__ = PROTEIN_TABLE_NAME
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # noqa:A003
 
     kegg_id = Column(String(255), nullable=False, index=True, doc='KEGG id of the protein')
     entrez_id = Column(String(255), nullable=False, index=True, doc='Entrez identifier')

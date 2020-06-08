@@ -38,7 +38,7 @@ class DatabaseMixin(TemporaryConnectionMixin):
         # fill temporary database with test data
         cls.manager.populate(
             pathways_url=test_pathways_path,
-            protein_pathway_url=test_proteins_path
+            protein_pathway_url=test_proteins_path,
         )
 
     @classmethod
@@ -59,7 +59,7 @@ def enrichment_graph() -> BELGraph:
     """Build a test graph with 2 proteins, one gene, and one kegg pathway all contained in HGNC."""
     graph = BELGraph(
         name='My test graph for enrichment',
-        version='0.0.1'
+        version='0.0.1',
     )
     graph.add_edge(protein_a, protein_b, attr_dict={
         RELATION: INCREASES,
