@@ -11,9 +11,9 @@ from typing import Any, Collection, Iterable, List, Mapping, Optional, Tuple
 from urllib.request import urlretrieve
 
 from protmapper.api import hgnc_name_to_id
+from protmapper.uniprot_client import get_entrez_id, um
 from tqdm import tqdm
 
-from pyobo import get_filtered_xrefs
 from .constants import ENTITY_DIRECTORY, XREF_MAPPING
 
 __all__ = [
@@ -24,7 +24,10 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
-HGNC_ID_TO_ENTREZ_ID = get_filtered_xrefs('hgnc', 'ncbigene')
+HGNC_ID_TO_ENTREZ_ID = {
+    hgnc: get_entrez_id(uniprot)
+    for uniprot, hgnc in um.uniprot_hgnc.items()
+}
 ENTREZ_ID_TO_HGNC_ID = {v: k for k, v in HGNC_ID_TO_ENTREZ_ID.items()}
 HGNC_ID_TO_SYMBOL = {v: k for k, v in hgnc_name_to_id.items()}
 
