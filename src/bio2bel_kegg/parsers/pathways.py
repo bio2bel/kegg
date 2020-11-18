@@ -7,7 +7,7 @@ The "Complete list of pathways" file maps the KEGG identifiers to their correspo
 
 import pandas as pd
 
-from bio2bel_kegg.constants import KEGG_PATHWAYS_URL
+from bio2bel_kegg.constants import KEGG_PATHWAYS_URL, KEGG_ORGANISM_URL
 
 __all__ = [
     'get_pathway_names_df',
@@ -39,4 +39,31 @@ def parse_pathways(pathway_dataframe):
     return {
         kegg_id: name
         for line, (kegg_id, name) in pathway_dataframe.iterrows()
+    }
+
+
+def get_pathway_species_df(url=None):
+    """Convert tab separated txt files to pandas Dataframe.
+
+    :param Optional[str] url: url from KEGG tab separated file
+    :return: dataframe of the file
+    :rtype: pandas.DataFrame
+    """
+    return pd.read_csv(
+        url or KEGG_ORGANISM_URL,
+        sep='\t',
+        header=None
+    )
+
+
+def parse_species(org_dataframe):
+    """Parse the pathway table dataframe.
+
+    :param pandas.DataFrame pathway_dataframe: Pathway hierarchy as dataframe
+    :rtype: dict
+    :return Object representation dictionary (kegg_id: name, species)
+    """
+    return {
+        org_id: org_name.replace(')', '').split(' (')
+        for line, (kegg_id, org_id, org_name, desc) in org_dataframe.iterrows()
     }
