@@ -6,10 +6,12 @@ import json
 import logging
 import os
 from multiprocessing.pool import ThreadPool
-from typing import List, Mapping, Optional, Union
+from typing import List, Mapping, Optional
+
+import requests
+from tqdm import tqdm
 
 import bio2bel_hgnc
-import requests
 from bio2bel.manager.bel_manager import BELManagerMixin
 from bio2bel.manager.flask_manager import FlaskMixin
 from bio2bel.manager.namespace_manager import BELNamespaceManagerMixin
@@ -17,25 +19,10 @@ from compath_utils import CompathManager
 from pybel.constants import BIOPROCESS, FUNCTION, NAME, NAMESPACE, PROTEIN
 from pybel.manager.models import Namespace, NamespaceEntry
 from pybel.struct.graph import BELGraph
-from tqdm import tqdm
-
-from .constants import (
-    API_KEGG_GET, KEGG,
-    METADATA_FILE_PATH,
-    MODULE_NAME,
-    PROTEIN_ENTRY_DIR,
-    KEGG_PATHWAYS_URL,
-    PROTEIN_PATHWAY_URL,
-)
+from .constants import API_KEGG_GET, KEGG, METADATA_FILE_PATH, MODULE_NAME, PROTEIN_ENTRY_DIR
 from .models import Base, Pathway, Protein, protein_pathway
 from .parsers import (
-    get_entity_pathway_df,
-    get_pathway_names_df,
-    parse_entity_pathway,
-    parse_pathways,
-    process_protein_info_to_model,
-    get_pathway_species_df,
-    parse_species,
+    get_entity_pathway_df, get_pathway_names_df, parse_entity_pathway, parse_pathways, process_protein_info_to_model,
 )
 
 __all__ = [
@@ -123,48 +110,6 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
             self.get_or_create_pathway(kegg_id=kegg_id, name=name)
 
         self.session.commit()
-
-    def _populate_pathways_specie(self, specie_id: Optional[str] = None, metadata_existing=None):
-        """Populate pathways for A SINGLE specie.
-
-        :param specie_id: name or id of the specie to populate
-        :param metadata_existing: metadata exists already
-        """
-        df_pathway_species = get_pathway_species_df()
-        pathways_species_dict = parse_species(df_pathway_species)
-
-        url_pathways = os.path.join(KEGG_PATHWAYS_URL, specie_id)
-        url_proteins = os.path.join(PROTEIN_PATHWAY_URL, specie_id)
-
-        if specie_id in list(pathways_species_dict.keys()):
-            self._populate_pathways(url_pathways)
-            self._pathway_entity(url=url_proteins, metadata_existing=metadata_existing)
-        elif specie_id in [i[0] for i in pathways_species_dict.values()]:
-            url = os.path.join(KEGG_PATHWAYS_URL, specie_id)
-            self._populate_pathways(url_pathways)
-            self._pathway_entity(url=url_proteins, metadata_existing=metadata_existing)
-        else:
-            raise Warning(f'Organism id {specie_id} not found in KEGG.')
-
-    def _populate_pathways_species(self, species_id: Optional[Union[str, List]] = None, metadata_existing=None):
-        """Populate pathways for A OR MANY species.
-
-        :param species_id: name or id of the specie or species (if list) to populate
-        :param metadata_existing: metadata exists already
-        """
-        if isinstance(species_id, str):
-            self._populate_pathways_specie(species_id, metadata_existing)
-
-        elif isinstance(species_id, list):
-            for specie_id in species_id:
-                self._populate_pathways_specie(specie_id, metadata_existing)
-        else:
-            # If none specified, populate ALL species in KEGG
-            df_pathway_species = get_pathway_species_df()
-            pathways_species_dict = parse_species(df_pathway_species)
-
-            for specie_id in pathways_species_dict.keys():
-                self._populate_pathways(os.path.join(KEGG_PATHWAYS_URL, specie_id))
 
     def _pathway_entity(self, url=None, metadata_existing=None, thead_pool_size=1):
         """Populate proteins.
@@ -262,13 +207,10 @@ class Manager(CompathManager, BELNamespaceManagerMixin, BELManagerMixin, FlaskMi
             if hgnc_id is not None:
                 pid_attributes[kegg_protein_id]['hgnc_symbol'] = hgnc_id_to_symbol.get(hgnc_id)
 
-    def populate(self, pathways_url=None, protein_pathway_url=None, species=None, metadata_existing=False):
+    def populate(self, pathways_url=None, protein_pathway_url=None, metadata_existing=False):
         """Populate all tables."""
-        if species:
-            self._populate_pathways_species(species, metadata_existing)
-        else:
-            self._populate_pathways(url=pathways_url)
-            self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
+        self._populate_pathways(url=pathways_url)
+        self._pathway_entity(url=protein_pathway_url, metadata_existing=metadata_existing)
 
     def count_pathways(self) -> int:
         """Count the pathways in the database."""

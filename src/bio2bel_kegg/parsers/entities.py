@@ -6,7 +6,7 @@ from typing import List, Optional, Tuple
 
 import pandas as pd
 
-from bio2bel_kegg.constants import PROTEIN_PATHWAY_HUMAN_URL
+from bio2bel_kegg.constants import PROTEIN_PATHWAY_URL
 
 __all__ = [
     'get_entity_pathway_df',
@@ -20,7 +20,7 @@ def get_entity_pathway_df(url: Optional[str] = None) -> pd.DataFrame:
     :param url: An optional url from a KEGG TSV file
     """
     return pd.read_csv(
-        url or PROTEIN_PATHWAY_HUMAN_URL,
+        url or PROTEIN_PATHWAY_URL,
         sep='\t',
         header=None
     )
