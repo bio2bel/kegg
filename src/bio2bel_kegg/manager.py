@@ -14,7 +14,7 @@ from .client import (
 )
 from .constants import MODULE_NAME
 from .models import Base, Pathway, Protein, Species, protein_pathway
-from .parsers import get_entity_pathway_df, get_pathway_df
+from .parsers import get_entity_pathway_df, get_organisms_df, get_pathway_df
 
 __all__ = [
     'Manager',
@@ -78,6 +78,11 @@ class Manager(CompathManager):
 
     """Methods to populate the DB"""
 
+    def _populate_organisms(self, url: Optional[str] = None):
+        organisms_df = get_organisms_df(url=url)
+        logger.debug('got %d organisms', len(organisms_df.index))
+        # TODO implement
+
     def _populate_pathways(self, url: Optional[str] = None):
         """Populate pathways.
 
@@ -99,7 +104,7 @@ class Manager(CompathManager):
 
         self.session.commit()
 
-    def _pathway_protein(
+    def _populate_pathway_protein(
         self,
         url: Optional[str] = None,
         thread_pool_size: Optional[int] = None,
@@ -156,10 +161,16 @@ class Manager(CompathManager):
             protein.pathways.append(pathway)
         self.session.commit()
 
-    def populate(self, pathways_url=None, protein_pathway_url=None):
+    def populate(
+        self,
+        organism_url: Optional[str] = None,
+        pathways_url: Optional[str] = None,
+        protein_pathway_url: Optional[str] = None,
+    ):
         """Populate all tables."""
+        self._populate_organisms(url=organism_url)
         self._populate_pathways(url=pathways_url)
-        self._pathway_protein(url=protein_pathway_url)
+        self._populate_pathway_protein(url=protein_pathway_url)
 
     def count_pathways(self) -> int:
         """Count the pathways in the database."""
@@ -175,10 +186,10 @@ class Manager(CompathManager):
 
     def summarize(self) -> Mapping[str, int]:
         """Summarize the database."""
-        return dict(
-            pathways=self.count_pathways(),
-            proteins=self.count_proteins(),
-        )
+        return {
+            'pathways': self.count_pathways(),
+            'proteins': self.count_proteins(),
+        }
 
     def _add_admin(self, app, **kwargs):
         """Add admin methods."""

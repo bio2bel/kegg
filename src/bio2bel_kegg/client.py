@@ -111,7 +111,7 @@ def parse_protein_lines(lines: Iterable[str]) -> Mapping[str, Any]:
         elif group == 'ORGANISM':
             line: str = get_line(group_lines)
             p_index = line.index('(')
-            rv['species'] = dict(name=line[:p_index].rstrip())
+            rv['species'] = {'name': line[:p_index].rstrip()}
         elif group == 'PATHWAY':
             rv['pathway'] = _get_xref_names(group_lines, prefix='kegg.pathway')
         elif group == 'BRITE':
@@ -158,7 +158,7 @@ def parse_pathway_lines(lines: Iterable[str]) -> Mapping[str, Any]:
                     logger.warning(f'could not parse line: {line}')
                     continue
                 name, note = name[:p_index - 1], name[1 + p_index:].rstrip().rstrip(')')
-                drugs.append(dict(identifier=xref, name=name, note=note.split('/')))
+                drugs.append({'identifier': xref, 'name': name, 'note': note.split('/')})
             rv['drugs'] = drugs
         elif group == 'DISEASE':
             rv['diseases'] = _get_xref_names(group_lines, prefix='kegg.disease')
@@ -167,11 +167,11 @@ def parse_pathway_lines(lines: Iterable[str]) -> Mapping[str, Any]:
         elif group == 'ORGANISM':
             line: str = get_line(group_lines)
             p_index = line.index('(')
-            rv['species'] = dict(name=line[:p_index].rstrip())
+            rv['species'] = {'name': line[:p_index].rstrip()}
         elif group == 'GENE':
             genes = []
             for line in group_lines:
-                xref, info = line.split('  ')
+                xref, info = line.split('  ', 1)
                 symbol, info = info.split(';')
                 name, info = info.lstrip().split(' [', 1)
                 orthology, ec = info.split(']', 1)
@@ -182,20 +182,23 @@ def parse_pathway_lines(lines: Iterable[str]) -> Mapping[str, Any]:
                 else:
                     ec_codes = []
 
-                genes.append(dict(
-                    prefix='ncbigene',
-                    identifier=xref,
-                    name=symbol,
-                    definition=name,
-                    orthologies=[
-                        dict(prefix='kegg.orthology', identifier=orthology_code)
+                genes.append({
+                    'prefix': 'ncbigene',
+                    'identifier': xref,
+                    'name': symbol,
+                    'definition': name,
+                    'orthologies': [
+                        {
+                            'prefix': 'kegg.orthology',
+                            'identifier': orthology_code,
+                        }
                         for orthology_code in orthology_codes
                     ],
-                    enzyme_classes=[
-                        dict(prefix='ec-code', identifier=ec_code)
+                    'enzyme_classes': [
+                        {'prefix': 'ec-code', 'identifier': ec_code}
                         for ec_code in ec_codes
                     ],
-                ))
+                })
             rv['genes'] = genes
         elif group == 'COMPOUND':
             rv['compounds'] = _get_xref_names(group_lines, prefix='kegg.compound')
@@ -203,7 +206,7 @@ def parse_pathway_lines(lines: Iterable[str]) -> Mapping[str, Any]:
             line = get_line(group_lines)
             if line.startswith('PMID'):
                 pubmed_id = line[len('PMID:'):]
-                rv['reference'] = dict(pubmed_id=pubmed_id)
+                rv['reference'] = {'pubmed_id': pubmed_id}
             else:
                 continue
         elif group == 'REL_PATHWAY':
@@ -222,7 +225,7 @@ def _get_xrefs(group_lines: Iterable[str]) -> List[Mapping[str, Any]]:
         prefix, xrefs = line.strip().split(':')
         prefix = XREF_MAPPING.get(prefix, prefix)
         for xref in xrefs.strip().split(' '):
-            xrefs_list.append(dict(prefix=prefix, identifier=xref))
+            xrefs_list.append({'prefix': prefix, 'identifier': xref})
     return xrefs_list
 
 
@@ -234,5 +237,5 @@ def _get_xref_names(group_lines, prefix):
         except ValueError:
             logger.warning(f'Could not split line: {line}')
             continue
-        rv.append(dict(prefix=prefix, identifier=xref, name=name))
+        rv.append({'prefix': prefix, 'identifier': xref, 'name': name})
     return rv

@@ -8,7 +8,6 @@ import os
 from bio2bel.testing import TemporaryConnectionMixin
 from bio2bel_kegg.constants import HGNC, KEGG
 from bio2bel_kegg.manager import Manager
-from pybel.constants import DECREASES, INCREASES, PART_OF, RELATION
 from pybel.dsl import bioprocess, gene, protein
 from pybel.struct.graph import BELGraph
 
@@ -49,10 +48,10 @@ class DatabaseMixin(TemporaryConnectionMixin):
         super().tearDownClass()
 
 
-protein_a = protein(namespace=HGNC, name='GPI')
-protein_b = protein(namespace=HGNC, name='PFKP')
-gene_c = gene(namespace=HGNC, name='PGLS')
-pathway_a = bioprocess(namespace=KEGG, name='Pentose phosphate pathway - Homo sapiens (human)')
+protein_a = protein(namespace=HGNC, identifier='4458', name='GPI')
+protein_b = protein(namespace=HGNC, identifier='8878', name='PFKP')
+gene_c = gene(namespace=HGNC, identifier='8903', name='PGLS')
+pathway_a = bioprocess(namespace=KEGG, identifier='hsa00030', name='Pentose phosphate pathway - Homo sapiens (human)')
 
 
 def enrichment_graph() -> BELGraph:
@@ -61,14 +60,7 @@ def enrichment_graph() -> BELGraph:
         name='My test graph for enrichment',
         version='0.0.1',
     )
-    graph.add_edge(protein_a, protein_b, attr_dict={
-        RELATION: INCREASES,
-    })
-
-    graph.add_edge(protein_b, gene_c, attr_dict={
-        RELATION: DECREASES,
-    })
-    graph.add_edge(gene_c, pathway_a, attr_dict={
-        RELATION: PART_OF,
-    })
+    graph.add_directly_increases(protein_a, protein_b, citation='1234', evidence='asgag')
+    graph.add_decreases(protein_b, gene_c, citation='1234', evidence='asgag')
+    graph.add_part_of(gene_c, pathway_a)
     return graph
