@@ -17,7 +17,7 @@ templates_path = ['_templates']
 source_suffix = '.rst'
 master_doc = 'index'
 project = 'Bio2BEL KEGG'
-copyright = '2018, Daniel Domingo-Fernández and Charles Tapley Hoyt'
+copyright = '2017-2020, Daniel Domingo-Fernández and Charles Tapley Hoyt'
 author = 'Daniel Domingo-Fernández and Charles Tapley Hoyt'
 
 release = '0.2.6-dev'
@@ -52,7 +52,7 @@ texinfo_documents = [
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3', None),
-    'networkx': ('https://networkx.github.io/', None),
+    'networkx': ('https://networkx.github.io/documentation/latest/', None),
     'sqlalchemy': ('https://docs.sqlalchemy.org/en/latest', None),
     'pybel': ('https://pybel.readthedocs.io/en/latest/', None),
 }

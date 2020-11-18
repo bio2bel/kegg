@@ -2,94 +2,72 @@
 
 """KEGG database models."""
 
-from typing import List, Optional, Set
+from __future__ import annotations
 
-from sqlalchemy import Column, ForeignKey, Integer, String, Table
+from typing import List, Optional
+
+from sqlalchemy import Column, ForeignKey, Integer, String, Table, Text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 import pybel.dsl
-from .constants import HGNC, KEGG
+from bio2bel.compath import CompathPathwayMixin, CompathProteinMixin
+from bio2bel.manager.models import SpeciesMixin
+from .constants import HGNC, KEGG, MODULE_NAME
 
 Base = declarative_base()
 
-TABLE_PREFIX = 'kegg'
-PATHWAY_TABLE_NAME = f'{TABLE_PREFIX}_pathway'
-PATHWAY_TABLE_HIERARCHY = f'{TABLE_PREFIX}_pathway_hierarchy'
-PROTEIN_TABLE_NAME = f'{TABLE_PREFIX}_protein'
-PROTEIN_PATHWAY_TABLE = f'{TABLE_PREFIX}_protein_pathway'
+SPECIES_TABLE_NAME = f'{MODULE_NAME}_species'
+PATHWAY_TABLE_NAME = f'{MODULE_NAME}_pathway'
+PATHWAY_TABLE_HIERARCHY = f'{MODULE_NAME}_pathway_hierarchy'
+PROTEIN_TABLE_NAME = f'{MODULE_NAME}_protein'
+PROTEIN_PATHWAY_TABLE = f'{MODULE_NAME}_protein_pathway'
 
 protein_pathway = Table(
     PROTEIN_PATHWAY_TABLE,
     Base.metadata,
     Column('protein_id', Integer, ForeignKey(f'{PROTEIN_TABLE_NAME}.id'), primary_key=True),
-    Column('pathway_id', Integer, ForeignKey(f'{PATHWAY_TABLE_NAME}.id'), primary_key=True)
+    Column('pathway_id', Integer, ForeignKey(f'{PATHWAY_TABLE_NAME}.id'), primary_key=True),
 )
 
 
-class Pathway(Base):  # type: ignore
+class Species(Base, SpeciesMixin):
+    """Species table."""
+
+    __tablename__ = SPECIES_TABLE_NAME
+
+
+class Pathway(Base, CompathPathwayMixin):
     """Pathway Table."""
 
     __tablename__ = PATHWAY_TABLE_NAME
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # noqa:A003
 
-    kegg_id = Column(String(255), unique=True, nullable=False, index=True, doc='KEGG id of the pathway')
-    name = Column(String(255), doc='pathway name')
+    bel_encoding = 'B'
+    prefix = KEGG
+    identifier = Column(String(255), unique=True, nullable=False, index=True, doc='KEGG id of the pathway')
+    name = Column(String(255), nullable=False, doc='pathway name')
+    definition = Column(Text, nullable=True, doc='pathway description')
+
+    species = relationship(Species, backref='pathways')
+    species_id = Column(Integer, ForeignKey(f'{Species.__tablename__}.id'))
 
     proteins = relationship(
         'Protein',
         secondary=protein_pathway,
-        backref='pathways'
+        backref='pathways',
     )
 
-    bel_encoding = 'B'
 
-    def __repr__(self):
-        """Return name."""
-        return f'Pathway(kegg_id={self.kegg_id}, name="{self.name}")'
-
-    def __str__(self):
-        """Return name."""
-        return str(self.name)
-
-    def serialize_to_pathway_node(self) -> pybel.dsl.BiologicalProcess:
-        """Serialize to PyBEL node data dictionary."""
-        return pybel.dsl.BiologicalProcess(
-            namespace=KEGG,
-            name=str(self.name),
-            identifier=str(self.kegg_id)
-        )
-
-    def get_gene_set(self) -> Set['Protein']:
-        """Return the genes associated with the pathway (gene set).
-
-        Note this function restricts to HGNC symbols genes.
-        """
-        return {
-            protein.hgnc_symbol
-            for protein in self.proteins
-            if protein.hgnc_symbol
-        }
-
-    @property
-    def resource_id(self) -> str:
-        """Return kegg identifier."""
-        return self.kegg_id
-
-    @property
-    def url(self) -> str:
-        """Return url pointing to kegg pathway."""
-        return 'http://www.kegg.jp/dbget-bin/www_bget?pathway+map{}'.format(self.kegg_id.strip('path:hsa'))
-
-
-class Protein(Base):  # type: ignore
+class Protein(Base, CompathProteinMixin):
     """Genes Table."""
 
     __tablename__ = PROTEIN_TABLE_NAME
 
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, primary_key=True)  # noqa:A003
 
     kegg_id = Column(String(255), nullable=False, index=True, doc='KEGG id of the protein')
+    entrez_id = Column(String(255), nullable=False, index=True, doc='Entrez identifier')
     uniprot_id = Column(String(255), doc='uniprot id of the protein (there could be more than one)')
     hgnc_id = Column(String(255), doc='hgnc id of the protein')
     hgnc_symbol = Column(String(255), doc='hgnc symbol of the protein')
@@ -97,7 +75,7 @@ class Protein(Base):  # type: ignore
     def __repr__(self):
         """Return HGNC symbol."""
         return f'Protein(kegg_id={self.kegg_id}, ' \
-            f'uniprot_id={self.uniprot_id}, hgnc_id={self.hgnc_id}, hgnc_symbol={self.hgnc_symbol})'
+               f'uniprot_id={self.uniprot_id}, hgnc_id={self.hgnc_id}, hgnc_symbol={self.hgnc_symbol})'
 
     def __str__(self):
         """Return HGNC symbol."""
@@ -107,8 +85,8 @@ class Protein(Base):  # type: ignore
         """Serialize to PyBEL node data dictionary."""
         return pybel.dsl.Protein(
             namespace=HGNC,
+            identifier=self.hgnc_id,
             name=self.hgnc_symbol,
-            identifier=str(self.hgnc_id)
         )
 
     def get_uniprot_ids(self) -> Optional[List[str]]:
@@ -117,10 +95,3 @@ class Protein(Base):  # type: ignore
             return None
 
         return self.uniprot_id.split(" ")
-
-    def get_pathways_ids(self) -> Set[str]:
-        """Return the pathways associated with the protein."""
-        return {
-            pathway.kegg_id
-            for pathway in self.pathways
-        }
