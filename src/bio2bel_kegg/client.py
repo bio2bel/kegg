@@ -66,7 +66,10 @@ def ensure_kegg_entity(entity_id: str) -> Tuple[str, List[str]]:
     entity_text_path = os.path.join(entity_type_directory, f'{identifier}.txt')
 
     if not os.path.exists(entity_text_path):
-        urlretrieve(f'http://rest.kegg.jp/get/{entity_id}', entity_text_path)  # noqa:S310
+        try:
+            urlretrieve(f'http://rest.kegg.jp/get/{entity_id}', entity_text_path)  # noqa:S310
+        except Exception:
+            return None, None
 
     with open(entity_text_path) as file:
         lines = [line.strip() for line in file]
