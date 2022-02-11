@@ -52,7 +52,7 @@ def get_entities_lines(
             total=len(entity_ids),
             desc=f'Fetching protein information ({thread_pool_size} threads)',
         )
-        return list(results)
+        return [(x, y) for x,y in results if x]
 
 
 def ensure_kegg_entity(entity_id: str) -> Tuple[str, List[str]]:
