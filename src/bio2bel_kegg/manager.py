@@ -157,7 +157,11 @@ class Manager(CompathManager):
             if pathway is None:
                 logger.warning('could not find pathway for kegg.pathway:%s', kegg_pathway_id)
                 continue
-            protein = kegg_protein_id_to_protein[kegg_protein_id]
+            protein = kegg_protein_id_to_protein.get(kegg_protein_id)
+            
+            if not protein:
+                continue
+                
             protein.pathways.append(pathway)
         self.session.commit()
 
